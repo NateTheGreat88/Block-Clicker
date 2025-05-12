@@ -1,0 +1,421 @@
+:root {
+    --primary-color: #ff3e3e;
+    --secondary-color: #3a0ca3;
+    --background-color: #111;
+    --text-color: #fff;
+    --glow-color: #ff0055;
+    --accent-color: #00eeff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #0f0f0f 0%, #171717 100%);
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, transparent 0%, #000 70%);
+    opacity: 0.7;
+    z-index: -1;
+}
+
+/* Cool cyberpunk grid background */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(rgba(17, 17, 17, 0.8) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(17, 17, 17, 0.8) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -2;
+    opacity: 0.2;
+    animation: grid-shift 30s linear infinite;
+}
+
+@keyframes grid-shift {
+    0% { background-position: 0 0; }
+    100% { background-position: 40px 40px; }
+}
+
+#game-container {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(20, 20, 20, 0.7);
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6),
+                0 0 30px rgba(255, 62, 62, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 5;
+    transition: all 0.3s ease;
+    max-width: 500px;
+    width: 90%;
+}
+
+#game-container:hover {
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6),
+                0 0 40px rgba(255, 62, 62, 0.2);
+    transform: translateY(-5px);
+}
+
+#game-container::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color), var(--primary-color));
+    z-index: -1;
+    border-radius: 22px;
+    filter: blur(14px);
+    opacity: 0.5;
+    animation: border-glow 4s linear infinite;
+}
+
+@keyframes border-glow {
+    0% { opacity: 0.3; filter: blur(14px); }
+    50% { opacity: 0.7; filter: blur(10px); }
+    100% { opacity: 0.3; filter: blur(14px); }
+}
+
+#score-display {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-shadow: 0 0 10px var(--glow-color);
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+    animation: text-pulse 2s ease-in-out infinite;
+}
+
+@keyframes text-pulse {
+    0% { text-shadow: 0 0 10px var(--glow-color); }
+    50% { text-shadow: 0 0 20px var(--glow-color), 0 0 30px var(--glow-color); }
+    100% { text-shadow: 0 0 10px var(--glow-color); }
+}
+
+#score {
+    color: var(--primary-color);
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+#score::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--glow-color);
+    box-shadow: 0 0 10px var(--glow-color);
+}
+
+#clicker {
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle at 30% 30%, var(--primary-color) 0%, #a10000 100%);
+    margin: 0 auto;
+    cursor: pointer;
+    border-radius: 20px;
+    box-shadow: 0 0 20px var(--glow-color),
+                inset 0 0 10px rgba(255, 255, 255, 0.5);
+    position: relative;
+    transform-style: preserve-3d;
+    transform: perspective(800px) rotateX(10deg);
+    transition: transform 0.2s, box-shadow 0.3s;
+    animation: float 3s ease-in-out infinite;
+}
+
+#clicker::before {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    top: 20%;
+    left: 20%;
+    filter: blur(2px);
+}
+
+/* Holographic inner pattern for the clicker */
+#clicker::after {
+    content: '';
+    position: absolute;
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    background: 
+        linear-gradient(45deg, transparent 48%, rgba(255, 255, 255, 0.3) 50%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(255, 255, 255, 0.3) 50%, transparent 52%);
+    background-size: 20px 20px;
+    border-radius: 15px;
+    opacity: 0.3;
+    animation: holographic 3s linear infinite;
+}
+
+@keyframes holographic {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 20px; }
+}
+
+#clicker:hover {
+    box-shadow: 0 0 30px var(--glow-color),
+                inset 0 0 15px rgba(255, 255, 255, 0.7);
+    transform: perspective(800px) rotateX(15deg) scale(1.05);
+}
+
+#clicker:active {
+    transform: perspective(800px) rotateX(5deg) scale(0.95);
+    box-shadow: 0 0 40px var(--glow-color),
+                inset 0 0 20px rgba(255, 255, 255, 0.7);
+}
+
+.click-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    transform: scale(0);
+    animation: ripple 0.8s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+    0% { transform: perspective(800px) rotateX(10deg) translateY(0px); }
+    50% { transform: perspective(800px) rotateX(10deg) translateY(-10px); }
+    100% { transform: perspective(800px) rotateX(10deg) translateY(0px); }
+}
+
+.ad-container {
+    width: 100%;
+    max-width: 728px;
+    margin: 2rem auto;
+    padding: 1rem;
+    border-radius: 15px;
+    background: rgba(30, 30, 30, 0.6);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ad-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.ad-container::before {
+    content: 'SPONSOR';
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Glowing particles with different colors */
+.particle:nth-child(3n) {
+    background: rgba(255, 62, 62, 0.6);
+    box-shadow: 0 0 5px rgba(255, 62, 62, 0.8);
+    animation: particle-float-1 15s linear infinite !important;
+}
+
+.particle:nth-child(3n+1) {
+    background: rgba(0, 238, 255, 0.6);
+    box-shadow: 0 0 5px rgba(0, 238, 255, 0.8);
+    animation: particle-float-2 18s linear infinite !important;
+}
+
+.particle:nth-child(3n+2) {
+    background: rgba(255, 0, 85, 0.6);
+    box-shadow: 0 0 5px rgba(255, 0, 85, 0.8);
+    animation: particle-float-3 20s linear infinite !important;
+}
+
+@keyframes particle-float-1 {
+    0% { transform: translateY(0) translateX(0); }
+    25% { transform: translateY(-20vh) translateX(10vw); }
+    50% { transform: translateY(-40vh) translateX(0); }
+    75% { transform: translateY(-20vh) translateX(-10vw); }
+    100% { transform: translateY(0) translateX(0); }
+}
+
+@keyframes particle-float-2 {
+    0% { transform: translateY(0) translateX(0); }
+    33% { transform: translateY(-30vh) translateX(15vw); }
+    66% { transform: translateY(-15vh) translateX(-15vw); }
+    100% { transform: translateY(0) translateX(0); }
+}
+
+@keyframes particle-float-3 {
+    0% { transform: translateY(0) translateX(0); }
+    50% { transform: translateY(-25vh) translateX(20vw); }
+    100% { transform: translateY(0) translateX(0); }
+}
+
+/* Cool neon title effect */
+.game-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255, 255, 255, 0.5);
+}
+
+.game-title span {
+    position: relative;
+}
+
+.game-title span::before,
+.game-title span::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.game-title span::before {
+    color: var(--primary-color);
+    z-index: 1;
+    animation: glitch-1 2s infinite linear alternate-reverse;
+}
+
+.game-title span::after {
+    color: var(--accent-color);
+    z-index: 2;
+    animation: glitch-2 3s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-1 {
+    0%, 100% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+}
+
+@keyframes glitch-2 {
+    0%, 100% { transform: translate(0); }
+    25% { transform: translate(2px, -2px); }
+    50% { transform: translate(-2px, 2px); }
+    75% { transform: translate(-2px, -2px); }
+}
+
+/* Stats container */
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 1rem 0;
+}
+
+.stat {
+    padding: 0.5rem 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.9rem;
+}
+
+.stat-value {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #game-container {
+        padding: 1.5rem;
+    }
+    
+    #score-display {
+        font-size: 2rem;
+    }
+    
+    .game-title {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #game-container {
+        padding: 1rem;
+    }
+    
+    #score-display {
+        font-size: 1.7rem;
+    }
+    
+    #clicker {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .game-title {
+        font-size: 1.8rem;
+    }
+} 

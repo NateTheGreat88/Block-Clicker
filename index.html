@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Block Clicker Game</title>
+    <!-- Google AdSense code - Replace with your actual AdSense code after approval -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3727712535529004" crossorigin="anonymous"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <!-- External CSS file -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+    
+    <div id="game-container">
+        <h1 class="game-title"><span data-text="Block Clicker">Block Clicker</span></h1>
+        
+        <div id="score-display">Score: <span id="score">0</span></div>
+        
+        <div class="stats-container">
+            <div class="stat">CPS: <span class="stat-value" id="clicks-per-second">0.0</span></div>
+            <div class="stat">Best CPS: <span class="stat-value" id="best-cps">0.0</span></div>
+        </div>
+        
+        <div id="clicker"></div>
+    </div>
+
+    <!-- Ad container above -->
+    <div class="ad-container">
+        <!-- Google AdSense Ad Unit -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3727712535529004"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Ad container below -->
+    <div class="ad-container">
+        <!-- Google AdSense Ad Unit -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3727712535529004"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const clicker = document.getElementById('clicker');
+            const scoreElement = document.getElementById('score');
+            const cpsElement = document.getElementById('clicks-per-second');
+            const bestCpsElement = document.getElementById('best-cps');
+            const particles = document.getElementById('particles');
+            
+            let score = 0;
+            let clicks = 0;
+            let lastClick = Date.now();
+            let clickTimes = [];
+            let bestCps = 0;
+
+            // Create background particles
+            for (let i = 0; i < 50; i++) {
+                createParticle();
+            }
+
+            function createParticle() {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 2 and 5px
+                const size = Math.random() * 3 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}vw`;
+                particle.style.top = `${Math.random() * 100}vh`;
+                
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                particles.appendChild(particle);
+            }
+
+            // Calculate CPS (Clicks Per Second)
+            function calculateCPS() {
+                const now = Date.now();
+                // Keep only clicks from the last 5 seconds
+                clickTimes = clickTimes.filter(time => now - time < 5000);
+                
+                if (clickTimes.length > 0) {
+                    const timeSpan = (now - clickTimes[0]) / 1000; // in seconds
+                    const cps = timeSpan > 0 ? clickTimes.length / timeSpan : 0;
+                    
+                    // Update CPS display
+                    cpsElement.textContent = cps.toFixed(1);
+                    
+                    // Update best CPS if current is better
+                    if (cps > bestCps && clickTimes.length >= 5) { // Only count if we have at least 5 clicks
+                        bestCps = cps;
+                        bestCpsElement.textContent = bestCps.toFixed(1);
+                    }
+                } else {
+                    cpsElement.textContent = '0.0';
+                }
+                
+                // Schedule the next update
+                setTimeout(calculateCPS, 200);
+            }
+
+            // Start CPS calculation
+            calculateCPS();
+
+            // Add click effect
+            clicker.addEventListener('click', function(e) {
+                score++;
+                scoreElement.textContent = score;
+                
+                // Record click time for CPS calculation
+                const now = Date.now();
+                clickTimes.push(now);
+                
+                // Visual feedback - scale animation
+                scoreElement.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    scoreElement.style.transform = 'scale(1)';
+                }, 100);
+                
+                // Create ripple effect
+                const ripple = document.createElement('div');
+                ripple.classList.add('click-ripple');
+                
+                const rect = clicker.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+                
+                clicker.appendChild(ripple);
+                
+                // Remove ripple after animation completes
+                setTimeout(() => {
+                    ripple.remove();
+                }, 800);
+                
+                // Show an interstitial ad every 10 clicks
+                if (score % 10 === 0) {
+                    alert("You've reached " + score + " clicks! In a real implementation, this could trigger a full-screen ad.");
+                }
+            });
+        });
+    </script>
+</body>
+</html> 
