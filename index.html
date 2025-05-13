@@ -360,6 +360,73 @@
             --accent-color: #ff6347;
         }
 
+        /* Apply theme variables to the actual elements */
+        body {
+            --default-bg-color: #1a1a2e;
+            --default-text-color: #ffffff;
+            --default-accent-color: #4682ff;
+            
+            background-color: var(--bg-color, var(--default-bg-color));
+            color: var(--text-color, var(--default-text-color));
+        }
+
+        .sidebar, .settings-group, .builder-controls,
+        .build-slots, .inventory, .shop-item {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .theme-dark .sidebar, .theme-dark .settings-group,
+        .theme-dark .builder-controls, .theme-dark .build-slots,
+        .theme-dark .inventory, .theme-dark .shop-item {
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .theme-neon .sidebar, .theme-neon .settings-group,
+        .theme-neon .builder-controls, .theme-neon .build-slots,
+        .theme-neon .inventory, .theme-neon .shop-item {
+            background-color: rgba(0, 0, 30, 0.4);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+        }
+
+        .theme-retro .sidebar, .theme-retro .settings-group,
+        .theme-retro .builder-controls, .theme-retro .build-slots,
+        .theme-retro .inventory, .theme-retro .shop-item {
+            background-color: #333;
+            border: 2px solid var(--accent-color);
+        }
+
+        h1, h2, h3, .section-title {
+            color: var(--text-color, var(--default-text-color));
+        }
+
+        .theme-neon h1, .theme-neon h2, .theme-neon h3, 
+        .theme-neon .section-title, .theme-neon .menu-item.active {
+            color: var(--accent-color);
+            text-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color);
+        }
+
+        .theme-retro h1, .theme-retro h2, .theme-retro h3, 
+        .theme-retro .section-title {
+            color: var(--accent-color);
+            font-family: 'Courier New', monospace;
+        }
+
+        .settings-btn-primary, input:checked + .toggle-slider,
+        .settings-slider::-webkit-slider-thumb {
+            background-color: var(--accent-color, var(--default-accent-color));
+        }
+
+        .menu-item.active {
+            background-color: var(--accent-color, var(--default-accent-color));
+        }
+
+        .theme-neon .particle {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 5px var(--accent-color), 0 0 10px var(--accent-color);
+        }
+
         /* Accessibility Styles */
         .text-large {
             font-size: 1.2em;
@@ -368,16 +435,107 @@
         .text-xl {
             font-size: 1.4em;
         }
+        
+        /* Make text size apply to all relevant elements */
+        .text-large p, .text-large button, .text-large label, 
+        .text-large .setting-item, .text-large .build-slot,
+        .text-large .menu-item, .text-large .inventory-block,
+        .text-large .shop-item-info {
+            font-size: 1.1em;
+        }
+        
+        .text-large h1 {
+            font-size: 2.2em;
+        }
+        
+        .text-large h2 {
+            font-size: 1.8em;
+        }
+        
+        .text-large h3 {
+            font-size: 1.4em;
+        }
+        
+        .text-xl p, .text-xl button, .text-xl label, 
+        .text-xl .setting-item, .text-xl .build-slot,
+        .text-xl .menu-item, .text-xl .inventory-block,
+        .text-xl .shop-item-info {
+            font-size: 1.3em;
+        }
+        
+        .text-xl h1 {
+            font-size: 2.6em;
+        }
+        
+        .text-xl h2 {
+            font-size: 2.2em;
+        }
+        
+        .text-xl h3 {
+            font-size: 1.8em;
+        }
 
         .high-contrast {
             --bg-color: #000000;
             --text-color: #ffffff;
             --accent-color: #ffff00;
         }
+        
+        /* High Contrast specific overrides */
+        .high-contrast .sidebar,
+        .high-contrast .settings-group,
+        .high-contrast .builder-controls,
+        .high-contrast .build-slots,
+        .high-contrast .inventory,
+        .high-contrast .shop-item,
+        .high-contrast .build-slot {
+            background-color: black;
+            border: 2px solid white;
+        }
+        
+        .high-contrast .menu-item.active {
+            background-color: yellow;
+            color: black;
+        }
+        
+        .high-contrast .grid-cell {
+            border-color: white;
+        }
+        
+        .high-contrast .build-slot.active {
+            background-color: yellow;
+            color: black;
+        }
+        
+        .high-contrast .toggle-slider {
+            background-color: #333;
+        }
+        
+        .high-contrast input:checked + .toggle-slider {
+            background-color: yellow;
+        }
+        
+        .high-contrast .setting-item label {
+            color: white;
+        }
 
         .reduce-motion * {
             transition: none !important;
             animation: none !important;
+        }
+        
+        .reduce-motion .auto-save-indicator,
+        .reduce-motion .settings-confirmation,
+        .reduce-motion .block-effect,
+        .reduce-motion .score-effect,
+        .reduce-motion .coin-effect {
+            animation: none !important;
+            transition: none !important;
+            opacity: 1;
+        }
+        
+        .reduce-motion .click-ripple {
+            display: none;
         }
 
         /* Auto-save indicator */
@@ -784,6 +942,31 @@
             let autoClickerInterval;
             let selectedBlockType = null;
             
+            // Sound system
+            const sounds = {
+                click: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'), // Empty placeholder
+                place: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'),
+                remove: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'),
+                bonus: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU')
+            };
+            
+            // Function to play sounds
+            function playSound(soundName) {
+                if (gameSettings.sound.enabled) {
+                    // If there's a real sound, we would set the volume
+                    const sound = sounds[soundName];
+                    if (sound) {
+                        sound.volume = gameSettings.sound.volume / 100;
+                        
+                        // Reset and play
+                        sound.currentTime = 0;
+                        sound.play().catch(e => {
+                            // Ignore autoplay errors - browsers require user interaction
+                        });
+                    }
+                }
+            }
+            
             // Build slots variables
             let currentBuildSlot = 1;
             let maxBuildSlots = 5;
@@ -1040,6 +1223,9 @@
 
             // Check if a block can be placed at a specific location
             function canPlaceBlockAt(row, col) {
+                // Get current physics setting
+                const physics = gameSettings.gameplay.physics;
+                
                 // Already has a block
                 const cell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`);
                 if (cell.classList.contains('has-block')) {
@@ -1056,13 +1242,43 @@
                 if (cellBelow && cellBelow.classList.contains('has-block')) {
                     // If it's a black block (reinforced), it can support more blocks
                     if (cellBelow.getAttribute('data-block-type') === 'black-block') {
-                        // Count how many blocks are already supported by this black block
-                        const supportedBlocks = document.querySelectorAll(`.grid-cell[data-row="${row}"]`).length;
-                        const maxSupport = blockProperties['black-block'].factor; // Default blocks supported * factor
-                        // Check column to left and right - if they're supported by normal blocks, allow extra stacking
-                        return true; // Simplified for demo, just always allow
+                        return true; // Black blocks always support blocks above
                     }
-                    return true;
+                    
+                    return true; // Regular blocks support one block above
+                }
+                
+                // If physics is relaxed, also allow placing if there are blocks to the left or right
+                if (physics === 'relaxed') {
+                    // Check left
+                    const cellLeft = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col - 1}"]`);
+                    if (cellLeft && cellLeft.classList.contains('has-block')) {
+                        return true;
+                    }
+                    
+                    // Check right
+                    const cellRight = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col + 1}"]`);
+                    if (cellRight && cellRight.classList.contains('has-block')) {
+                        return true;
+                    }
+                }
+                
+                // If physics is strict, require 2 blocks below for support (except for black blocks)
+                if (physics === 'strict') {
+                    // If the cell below doesn't have a block or is a black block, standard rules apply
+                    if (!cellBelow || !cellBelow.classList.contains('has-block') || 
+                        cellBelow.getAttribute('data-block-type') === 'black-block') {
+                        return cellBelow && cellBelow.classList.contains('has-block');
+                    }
+                    
+                    // For strict mode, also require at least one diagonal support
+                    const cellBelowLeft = document.querySelector(`.grid-cell[data-row="${row + 1}"][data-col="${col - 1}"]`);
+                    const hasBelowLeft = cellBelowLeft && cellBelowLeft.classList.contains('has-block');
+                    
+                    const cellBelowRight = document.querySelector(`.grid-cell[data-row="${row + 1}"][data-col="${col + 1}"]`);
+                    const hasBelowRight = cellBelowRight && cellBelowRight.classList.contains('has-block');
+                    
+                    return hasBelowLeft || hasBelowRight;
                 }
                 
                 return false;
@@ -1081,6 +1297,9 @@
                 if (!canPlaceBlockAt(row, col)) {
                     return;
                 }
+                
+                // Play place sound
+                playSound('place');
                 
                 // Decrement block count in inventory (unless regenerating)
                 if (!isRegenerating) {
@@ -1900,6 +2119,9 @@
                     const bonus = Math.ceil(amount * 2); // Double the click value as bonus
                     score += bonus;
                     
+                    // Play bonus sound
+                    playSound('bonus');
+                    
                     // Visual feedback for bonus
                     const bonusIndicator = document.createElement('div');
                     bonusIndicator.className = 'bonus-indicator';
@@ -1921,6 +2143,9 @@
 
             // Add click effect
             clicker.addEventListener('click', function(e) {
+                // Play click sound
+                playSound('click');
+                
                 // Increment score by click multiplier
                 incrementScore(clickMultiplier);
                 
@@ -2020,6 +2245,9 @@
             // Remove a block
             function removeBlock(cell) {
                 const blockType = cell.getAttribute('data-block-type');
+                
+                // Play remove sound
+                playSound('remove');
                 
                 // Return the block to inventory
                 blockInventory[blockType].count++;
@@ -2147,8 +2375,35 @@
                 if (savedSettings) {
                     try {
                         const parsedSettings = JSON.parse(savedSettings);
-                        // Update our settings object with saved values
-                        gameSettings = { ...gameSettings, ...parsedSettings };
+                        
+                        // Deep merge with default settings to ensure all properties exist
+                        if (parsedSettings.visual) {
+                            gameSettings.visual = {
+                                ...gameSettings.visual,
+                                ...parsedSettings.visual
+                            };
+                        }
+                        
+                        if (parsedSettings.sound) {
+                            gameSettings.sound = {
+                                ...gameSettings.sound,
+                                ...parsedSettings.sound
+                            };
+                        }
+                        
+                        if (parsedSettings.gameplay) {
+                            gameSettings.gameplay = {
+                                ...gameSettings.gameplay,
+                                ...parsedSettings.gameplay
+                            };
+                        }
+                        
+                        if (parsedSettings.accessibility) {
+                            gameSettings.accessibility = {
+                                ...gameSettings.accessibility,
+                                ...parsedSettings.accessibility
+                            };
+                        }
                     } catch (e) {
                         console.error('Error parsing saved settings:', e);
                     }
@@ -2162,6 +2417,11 @@
                 
                 // Apply accessibility settings
                 applyAccessibilitySettings();
+                
+                // Start auto-save timer with new settings
+                startAutoSave();
+                
+                console.log('Settings loaded:', gameSettings);
             }
             
             // Apply settings values to UI controls
@@ -2200,6 +2460,19 @@
                 document.body.className = ''; // Reset theme classes
                 if (gameSettings.visual.theme !== 'default') {
                     document.body.classList.add('theme-' + gameSettings.visual.theme);
+                }
+                
+                // If accessibility settings are also applied, re-apply them
+                if (gameSettings.accessibility.textSize !== 'normal') {
+                    document.body.classList.add('text-' + (gameSettings.accessibility.textSize === 'extra-large' ? 'xl' : 'large'));
+                }
+                
+                if (gameSettings.accessibility.highContrast) {
+                    document.body.classList.add('high-contrast');
+                }
+                
+                if (gameSettings.accessibility.reduceMotion) {
+                    document.body.classList.add('reduce-motion');
                 }
             }
             
