@@ -371,9 +371,18 @@
                     ripple.remove();
                 }, 800);
                 
-                // Show an interstitial ad every 10 clicks
-                if (score % 10 === 0) {
-                    alert("You've reached " + score + " clicks! In a real implementation, this could trigger a full-screen ad.");
+                // Show an interstitial ad less frequently with a time-based cooldown
+                if (score % 100 === 0 && score > 0) {
+                    // Check if at least 5 minutes have passed since the last ad
+                    const currentTime = Date.now();
+                    const lastAdTime = localStorage.getItem('lastAdTime') || 0;
+                    const timeSinceLastAd = currentTime - lastAdTime;
+                    
+                    // 5 minutes = 300000 milliseconds
+                    if (timeSinceLastAd >= 300000) {
+                        localStorage.setItem('lastAdTime', currentTime);
+                        alert("You've reached " + score + " clicks! In a real implementation, this could trigger a full-screen ad.");
+                    }
                 }
             });
             
