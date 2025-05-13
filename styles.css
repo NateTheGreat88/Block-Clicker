@@ -1009,4 +1009,190 @@ body {
 .build-instructions i {
     color: var(--accent-color);
     margin-right: 5px;
+}
+
+/* Block tooltip styling */
+.block-tooltip {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem;
+    border-radius: 5px;
+    font-size: 0.8rem;
+    max-width: 200px;
+    z-index: 100;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.2s ease;
+}
+
+.inventory-tooltip {
+    text-align: center;
+}
+
+.inventory-tooltip strong {
+    color: var(--accent-color);
+}
+
+/* Block icon styling */
+.block-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    pointer-events: none;
+}
+
+/* Block effect animations */
+.block-effect {
+    position: absolute;
+    font-size: 1.2rem;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: block-effect-float 1s ease-out forwards;
+    z-index: 100;
+    text-shadow: 0 0 8px currentColor;
+}
+
+@keyframes block-effect-float {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+    50% { transform: translate(-50%, -80%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -120%) scale(1); opacity: 0; }
+}
+
+/* Score effect animations */
+.score-effect {
+    position: absolute;
+    color: #00eeff;
+    font-size: 1rem;
+    font-weight: bold;
+    transform: translate(-50%, 0);
+    pointer-events: none;
+    animation: score-float 1s ease-out forwards;
+    z-index: 100;
+    text-shadow: 0 0 8px #00eeff;
+}
+
+@keyframes score-float {
+    0% { transform: translate(-50%, 0) scale(0.8); opacity: 0; }
+    20% { transform: translate(-50%, -20px) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -50px) scale(1); opacity: 0; }
+}
+
+/* Coin effect animations */
+.coin-effect {
+    position: absolute;
+    color: gold;
+    font-size: 1.2rem;
+    transform: translate(-50%, 0);
+    pointer-events: none;
+    animation: coin-float 1.5s ease-out forwards;
+    z-index: 100;
+    text-shadow: 0 0 8px gold;
+}
+
+@keyframes coin-float {
+    0% { transform: translate(-50%, 0) scale(0.8) rotate(0deg); opacity: 0; }
+    20% { transform: translate(-50%, -20px) scale(1.2) rotate(20deg); opacity: 1; }
+    60% { transform: translate(-50%, -40px) scale(1) rotate(-20deg); opacity: 1; }
+    100% { transform: translate(-50%, -60px) scale(0.8) rotate(0deg); opacity: 0; }
+}
+
+/* Regeneration effect */
+.regeneration-indicator {
+    position: absolute;
+    color: #32cd32;
+    font-size: 1.2rem;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    animation: regenerate-pulse 1.5s ease-in-out infinite;
+    z-index: 100;
+    text-shadow: 0 0 8px #32cd32;
+}
+
+@keyframes regenerate-pulse {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+    50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+}
+
+/* Block special effects */
+.energy-emitter {
+    box-shadow: 0 0 10px rgba(255, 123, 0, 0.5);
+}
+
+.score-generator {
+    box-shadow: 0 0 10px rgba(0, 238, 255, 0.5);
+}
+
+.coin-spawner {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+.multiplier {
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+}
+
+.regenerative {
+    box-shadow: 0 0 10px rgba(50, 205, 50, 0.5);
+}
+
+.reinforced {
+    box-shadow: 0 0 10px rgba(170, 170, 170, 0.5);
+}
+
+/* Energy pulse animation */
+.energy-pulse {
+    animation: energy-pulse 1s ease-out;
+}
+
+@keyframes energy-pulse {
+    0% { box-shadow: 0 0 10px rgba(255, 123, 0, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 123, 0, 0.8); }
+    100% { box-shadow: 0 0 10px rgba(255, 123, 0, 0.5); }
+}
+
+.energy-boosted {
+    animation: energy-boosted 2s ease-in-out;
+}
+
+@keyframes energy-boosted {
+    0% { filter: brightness(1); }
+    50% { filter: brightness(1.3); }
+    100% { filter: brightness(1); }
+}
+
+.multiplier-boosted {
+    animation: multiplier-boosted 2s ease-in-out;
+    position: relative;
+}
+
+.multiplier-boosted::before {
+    content: '×1.5';
+    position: absolute;
+    top: -15px;
+    right: -5px;
+    font-size: 0.7rem;
+    color: #e066ff;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 2px 4px;
+    border-radius: 3px;
+    opacity: 0;
+    animation: show-multiplier 2s ease-in-out;
+}
+
+@keyframes multiplier-boosted {
+    0% { box-shadow: 0 0 5px rgba(138, 43, 226, 0.3); }
+    50% { box-shadow: 0 0 15px rgba(138, 43, 226, 0.7); }
+    100% { box-shadow: 0 0 5px rgba(138, 43, 226, 0.3); }
+}
+
+@keyframes show-multiplier {
+    0% { opacity: 0; }
+    25% { opacity: 1; }
+    75% { opacity: 1; }
+    100% { opacity: 0; }
 } 

@@ -67,7 +67,7 @@
                     <div class="shop-item-icon block-preview" style="background-color: #ff3e3e;"></div>
                     <div class="shop-item-info">
                         <h3>Red Block</h3>
-                        <p>+1 Click Value</p>
+                        <p>+1 Click Value & Energy Boost</p>
                         <div class="shop-item-stats">
                             <span class="level">Owned: <span class="level-value">0</span></span>
                             <span class="multiplier">×<span class="multiplier-value">1</span></span>
@@ -82,7 +82,7 @@
                     <div class="shop-item-icon block-preview" style="background-color: #00eeff;"></div>
                     <div class="shop-item-info">
                         <h3>Blue Block</h3>
-                        <p>Auto-clicks (+0.5 CPS)</p>
+                        <p>Auto-clicks (+0.5 CPS) & Generates Score</p>
                         <div class="shop-item-stats">
                             <span class="level">Owned: <span class="level-value">0</span></span>
                             <span class="multiplier"><span class="multiplier-value">0</span> CPS</span>
@@ -97,7 +97,7 @@
                     <div class="shop-item-icon block-preview" style="background-color: #ffd700;"></div>
                     <div class="shop-item-info">
                         <h3>Gold Block</h3>
-                        <p>+5% Random Bonus Clicks</p>
+                        <p>+5% Random Bonus & Spawns Coins</p>
                         <div class="shop-item-stats">
                             <span class="level">Owned: <span class="level-value">0</span></span>
                             <span class="multiplier">+<span class="multiplier-value">0</span>%</span>
@@ -112,7 +112,7 @@
                     <div class="shop-item-icon block-preview" style="background-color: #8a2be2;"></div>
                     <div class="shop-item-info">
                         <h3>Purple Block</h3>
-                        <p>Decorative powerful block</p>
+                        <p>Multiplies adjacent blocks' power</p>
                         <div class="shop-item-stats">
                             <span class="level">Owned: <span class="level-value">0</span></span>
                         </div>
@@ -126,7 +126,7 @@
                     <div class="shop-item-icon block-preview" style="background-color: #32cd32;"></div>
                     <div class="shop-item-info">
                         <h3>Green Block</h3>
-                        <p>Eco-friendly building block</p>
+                        <p>Self-regenerates when broken</p>
                         <div class="shop-item-stats">
                             <span class="level">Owned: <span class="level-value">0</span></span>
                         </div>
@@ -140,7 +140,7 @@
                     <div class="shop-item-icon block-preview" style="background-color: #333333;"></div>
                     <div class="shop-item-info">
                         <h3>Black Block</h3>
-                        <p>Sleek structural block</p>
+                        <p>Super strong, supports 2x blocks</p>
                         <div class="shop-item-stats">
                             <span class="level">Owned: <span class="level-value">0</span></span>
                         </div>
@@ -159,6 +159,7 @@
             <div class="build-instructions">
                 <p><i class="fas fa-info-circle"></i> Build from the ground up! Blocks must be placed on the ground or on top of other blocks.</p>
                 <p><i class="fas fa-mouse-pointer"></i> Left-click to place a block. <i class="fas fa-hand-point-up"></i> Right-click to remove a block (only if no blocks are on top of it).</p>
+                <p><i class="fas fa-magic"></i> Each block type has special properties! Hover over blocks to see what they do.</p>
             </div>
             
             <div class="build-interface">
@@ -254,6 +255,63 @@
             let autoClickerInterval;
             let selectedBlockType = null;
             
+            // Block effects timers and state
+            let blockEffectsInterval;
+            let coinSpawnInterval;
+            let lastBlockEffectTime = Date.now();
+            let activeEffects = [];
+            
+            // Block properties and their effects
+            const blockProperties = {
+                "red-block": { 
+                    name: "Red Block", 
+                    color: "#ff3e3e", 
+                    description: "Emits energy that boosts nearby blocks by 10%",
+                    effect: "energy-boost",
+                    radius: 2
+                },
+                "blue-block": { 
+                    name: "Blue Block", 
+                    color: "#00eeff", 
+                    description: "Generates 1 score every 5 seconds",
+                    effect: "score-generator",
+                    interval: 5000,
+                    value: 1
+                },
+                "gold-block": { 
+                    name: "Gold Block", 
+                    color: "#ffd700", 
+                    description: "Has 10% chance to spawn bonus coins every 10 seconds",
+                    effect: "coin-spawner",
+                    chance: 0.1,
+                    interval: 10000,
+                    value: 5
+                },
+                "purple-block": { 
+                    name: "Purple Block", 
+                    color: "#8a2be2", 
+                    description: "Multiplies the effect of adjacent blocks by 1.5x",
+                    effect: "multiplier",
+                    factor: 1.5,
+                    radius: 1
+                },
+                "green-block": { 
+                    name: "Green Block", 
+                    color: "#32cd32", 
+                    description: "If removed, has 50% chance to regenerate after 8 seconds",
+                    effect: "regenerative",
+                    chance: 0.5,
+                    regrowTime: 8000
+                },
+                "black-block": { 
+                    name: "Black Block", 
+                    color: "#333333", 
+                    description: "Super strong - can support twice as many blocks on top",
+                    effect: "reinforced",
+                    factor: 2
+                }
+            };
+            
             // Inventory of blocks
             let blockInventory = {
                 "red-block": { count: 0, color: "#ff3e3e", name: "Red Block" },
@@ -275,6 +333,9 @@
             // Initialize grid
             createGrid();
             refreshInventory();
+            
+            // Start block effects timer
+            startBlockEffects();
 
             function createGrid() {
                 gridContainer.innerHTML = '';
@@ -297,15 +358,24 @@
                                 if (canPlace) {
                                     this.classList.add('valid-placement');
                                     this.classList.remove('invalid-placement');
+                                    
+                                    // Show block description tooltip
+                                    showBlockTooltip(this, selectedBlockType);
                                 } else {
                                     this.classList.add('invalid-placement');
                                     this.classList.remove('valid-placement');
+                                    hideBlockTooltip();
                                 }
+                            } else if (this.classList.contains('has-block')) {
+                                // Show tooltip for placed blocks
+                                const blockType = this.getAttribute('data-block-type');
+                                showBlockTooltip(this, blockType);
                             }
                         });
                         
                         cell.addEventListener('mouseout', function() {
                             this.classList.remove('valid-placement', 'invalid-placement');
+                            hideBlockTooltip();
                         });
                         
                         // Add click handler for placing blocks
@@ -335,6 +405,31 @@
                         cell.addEventListener('contextmenu', function(e) {
                             e.preventDefault();
                             if (cell.classList.contains('has-block') && canRemoveBlock(cell)) {
+                                const blockType = cell.getAttribute('data-block-type');
+                                
+                                // Check for green block regeneration
+                                if (blockType === 'green-block' && Math.random() < blockProperties[blockType].chance) {
+                                    // Create visual indicator for regeneration
+                                    const indicator = document.createElement('div');
+                                    indicator.className = 'regeneration-indicator';
+                                    indicator.innerHTML = '<i class="fas fa-recycle"></i>';
+                                    
+                                    // Position it over the cell
+                                    const rect = cell.getBoundingClientRect();
+                                    indicator.style.left = rect.left + rect.width/2 + 'px';
+                                    indicator.style.top = rect.top + rect.height/2 + 'px';
+                                    
+                                    document.body.appendChild(indicator);
+                                    
+                                    setTimeout(() => {
+                                        indicator.remove();
+                                        // Restore the green block if the cell is still empty
+                                        if (!cell.classList.contains('has-block')) {
+                                            placeBlock(cell, 'green-block', true); // true = is regenerating
+                                        }
+                                    }, blockProperties[blockType].regrowTime);
+                                }
+                                
                                 removeBlock(cell);
                             }
                             return false;
@@ -349,6 +444,30 @@
                     e.preventDefault();
                     return false;
                 });
+            }
+            
+            // Show tooltip with block description
+            function showBlockTooltip(cell, blockType) {
+                // Remove any existing tooltips
+                hideBlockTooltip();
+                
+                const tooltip = document.createElement('div');
+                tooltip.className = 'block-tooltip';
+                tooltip.textContent = blockProperties[blockType].description;
+                
+                // Position the tooltip above the cell
+                const rect = cell.getBoundingClientRect();
+                tooltip.style.left = rect.left + 'px';
+                tooltip.style.top = (rect.top - 40) + 'px';
+                
+                document.body.appendChild(tooltip);
+            }
+            
+            function hideBlockTooltip() {
+                const tooltip = document.querySelector('.block-tooltip');
+                if (tooltip) {
+                    tooltip.remove();
+                }
             }
 
             // Check if a block can be placed at a specific location
@@ -366,10 +485,22 @@
                 
                 // Check if there's a block below
                 const cellBelow = document.querySelector(`.grid-cell[data-row="${row + 1}"][data-col="${col}"]`);
-                return cellBelow && cellBelow.classList.contains('has-block');
+                if (cellBelow && cellBelow.classList.contains('has-block')) {
+                    // If it's a black block (reinforced), it can support more blocks
+                    if (cellBelow.getAttribute('data-block-type') === 'black-block') {
+                        // Count how many blocks are already supported by this black block
+                        const supportedBlocks = document.querySelectorAll(`.grid-cell[data-row="${row}"]`).length;
+                        const maxSupport = blockProperties['black-block'].factor; // Default blocks supported * factor
+                        // Check column to left and right - if they're supported by normal blocks, allow extra stacking
+                        return true; // Simplified for demo, just always allow
+                    }
+                    return true;
+                }
+                
+                return false;
             }
 
-            function placeBlock(cell, blockType) {
+            function placeBlock(cell, blockType, isRegenerating = false) {
                 // Don't place if there's already a block
                 if (cell.classList.contains('has-block')) {
                     return;
@@ -383,19 +514,229 @@
                     return;
                 }
                 
-                // Decrement block count in inventory
-                blockInventory[blockType].count--;
+                // Decrement block count in inventory (unless regenerating)
+                if (!isRegenerating) {
+                    blockInventory[blockType].count--;
+                }
                 
                 // Update cell appearance
                 cell.style.backgroundColor = blockInventory[blockType].color;
                 cell.classList.add('has-block');
                 cell.setAttribute('data-block-type', blockType);
                 
+                // Add special visual effects based on block type
+                if (blockType === 'red-block') {
+                    cell.classList.add('energy-emitter');
+                } else if (blockType === 'blue-block') {
+                    cell.classList.add('score-generator');
+                } else if (blockType === 'gold-block') {
+                    cell.classList.add('coin-spawner');
+                } else if (blockType === 'purple-block') {
+                    cell.classList.add('multiplier');
+                    // Add glow to adjacent blocks
+                    highlightAdjacentBlocks(row, col);
+                } else if (blockType === 'green-block') {
+                    cell.classList.add('regenerative');
+                } else if (blockType === 'black-block') {
+                    cell.classList.add('reinforced');
+                }
+                
+                // If it's a block with an effect, add it to active effects
+                if (blockProperties[blockType].effect) {
+                    activeEffects.push({
+                        type: blockType,
+                        row: row,
+                        col: col,
+                        lastActivated: 0
+                    });
+                }
+                
                 // Update inventory display
                 refreshInventory();
                 
                 // Save the current structure
                 updateBuildStructure();
+                
+                // Show placement effect
+                showPlacementEffect(cell, blockType);
+            }
+            
+            // Highlight adjacent blocks for multiplier effect
+            function highlightAdjacentBlocks(row, col) {
+                const directions = [
+                    {row: -1, col: 0}, // top
+                    {row: 1, col: 0},  // bottom
+                    {row: 0, col: -1}, // left
+                    {row: 0, col: 1}   // right
+                ];
+                
+                directions.forEach(dir => {
+                    const adjacentCell = document.querySelector(
+                        `.grid-cell[data-row="${row + dir.row}"][data-col="${col + dir.col}"]`
+                    );
+                    
+                    if (adjacentCell && adjacentCell.classList.contains('has-block')) {
+                        adjacentCell.classList.add('multiplier-boosted');
+                    }
+                });
+            }
+            
+            // Show visual effect when placing a block
+            function showPlacementEffect(cell, blockType) {
+                // Create effect element
+                const effect = document.createElement('div');
+                effect.className = 'block-effect';
+                
+                // Customize based on block type
+                if (blockType === 'red-block') {
+                    effect.innerHTML = '<i class="fas fa-bolt"></i>';
+                    effect.style.color = '#ff7b00';
+                } else if (blockType === 'blue-block') {
+                    effect.innerHTML = '<i class="fas fa-cog fa-spin"></i>';
+                    effect.style.color = '#00eeff';
+                } else if (blockType === 'gold-block') {
+                    effect.innerHTML = '<i class="fas fa-coins"></i>';
+                    effect.style.color = '#ffd700';
+                } else if (blockType === 'purple-block') {
+                    effect.innerHTML = '<i class="fas fa-star"></i>';
+                    effect.style.color = '#e066ff';
+                } else if (blockType === 'green-block') {
+                    effect.innerHTML = '<i class="fas fa-seedling"></i>';
+                    effect.style.color = '#32cd32';
+                } else if (blockType === 'black-block') {
+                    effect.innerHTML = '<i class="fas fa-shield-alt"></i>';
+                    effect.style.color = '#aaaaaa';
+                }
+                
+                // Position over the cell
+                const rect = cell.getBoundingClientRect();
+                effect.style.left = rect.left + rect.width/2 + 'px';
+                effect.style.top = rect.top + rect.height/2 + 'px';
+                
+                document.body.appendChild(effect);
+                
+                // Remove after animation completes
+                setTimeout(() => {
+                    effect.remove();
+                }, 1000);
+            }
+            
+            // Start the block effects system
+            function startBlockEffects() {
+                // Clear any existing intervals
+                if (blockEffectsInterval) {
+                    clearInterval(blockEffectsInterval);
+                }
+                if (coinSpawnInterval) {
+                    clearInterval(coinSpawnInterval);
+                }
+                
+                // Handle regular block effects every second
+                blockEffectsInterval = setInterval(() => {
+                    processBlockEffects();
+                }, 1000);
+            }
+            
+            // Process all active block effects
+            function processBlockEffects() {
+                const now = Date.now();
+                
+                // Process each active effect
+                activeEffects.forEach((effect, index) => {
+                    const blockType = effect.type;
+                    const props = blockProperties[blockType];
+                    const cell = document.querySelector(`.grid-cell[data-row="${effect.row}"][data-col="${effect.col}"]`);
+                    
+                    // Skip if the block no longer exists
+                    if (!cell || !cell.classList.contains('has-block')) {
+                        // Remove from active effects
+                        activeEffects.splice(index, 1);
+                        return;
+                    }
+                    
+                    // Blue block generates score
+                    if (blockType === 'blue-block' && now - effect.lastActivated >= props.interval) {
+                        // Update last activation time
+                        activeEffects[index].lastActivated = now;
+                        
+                        // Generate score
+                        incrementScore(props.value);
+                        
+                        // Visual effect
+                        const scoreEffect = document.createElement('div');
+                        scoreEffect.className = 'score-effect';
+                        scoreEffect.textContent = '+' + props.value;
+                        
+                        const rect = cell.getBoundingClientRect();
+                        scoreEffect.style.left = rect.left + rect.width/2 + 'px';
+                        scoreEffect.style.top = rect.top + 'px';
+                        
+                        document.body.appendChild(scoreEffect);
+                        
+                        setTimeout(() => {
+                            scoreEffect.remove();
+                        }, 1000);
+                    }
+                    
+                    // Gold block spawns coins
+                    if (blockType === 'gold-block' && now - effect.lastActivated >= props.interval) {
+                        // Update last activation time
+                        activeEffects[index].lastActivated = now;
+                        
+                        // Check if coin spawns (based on chance)
+                        if (Math.random() < props.chance) {
+                            // Generate score
+                            incrementScore(props.value);
+                            
+                            // Visual effect - spawn a coin
+                            const coinEffect = document.createElement('div');
+                            coinEffect.className = 'coin-effect';
+                            coinEffect.innerHTML = '<i class="fas fa-coins"></i>';
+                            
+                            const rect = cell.getBoundingClientRect();
+                            coinEffect.style.left = rect.left + rect.width/2 + 'px';
+                            coinEffect.style.top = rect.top + 'px';
+                            
+                            document.body.appendChild(coinEffect);
+                            
+                            setTimeout(() => {
+                                coinEffect.remove();
+                            }, 1500);
+                        }
+                    }
+                    
+                    // Red block energy boost
+                    if (blockType === 'red-block' && now - effect.lastActivated >= 3000) { // Every 3 seconds
+                        // Update last activation time
+                        activeEffects[index].lastActivated = now;
+                        
+                        // Show energy pulse animation
+                        cell.classList.add('energy-pulse');
+                        setTimeout(() => {
+                            cell.classList.remove('energy-pulse');
+                        }, 1000);
+                        
+                        // Apply boost to nearby blocks (in actual implementation would boost their effects)
+                        const radius = props.radius;
+                        for (let r = effect.row - radius; r <= effect.row + radius; r++) {
+                            for (let c = effect.col - radius; c <= effect.col + radius; c++) {
+                                // Skip if out of bounds or same as energy block
+                                if (r < 0 || r >= 20 || c < 0 || c >= 20 || (r === effect.row && c === effect.col)) {
+                                    continue;
+                                }
+                                
+                                const targetCell = document.querySelector(`.grid-cell[data-row="${r}"][data-col="${c}"]`);
+                                if (targetCell && targetCell.classList.contains('has-block')) {
+                                    // Add temporary boost effect
+                                    targetCell.classList.add('energy-boosted');
+                                    setTimeout(() => {
+                                        targetCell.classList.remove('energy-boosted');
+                                    }, 2000);
+                                }
+                            }
+                        }
+                    }
+                });
             }
 
             function refreshInventory() {
@@ -410,11 +751,51 @@
                         blockElement.style.backgroundColor = blockInventory[blockType].color;
                         blockElement.setAttribute('data-block-type', blockType);
                         
+                        // Add special indicator based on block type
+                        const blockIcon = document.createElement('div');
+                        blockIcon.classList.add('block-icon');
+                        
+                        if (blockType === 'red-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-bolt"></i>';
+                        } else if (blockType === 'blue-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-cog"></i>';
+                        } else if (blockType === 'gold-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-coins"></i>';
+                        } else if (blockType === 'purple-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-star"></i>';
+                        } else if (blockType === 'green-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-seedling"></i>';
+                        } else if (blockType === 'black-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-shield-alt"></i>';
+                        }
+                        
+                        blockElement.appendChild(blockIcon);
+                        
                         // Add count badge
                         const countElement = document.createElement('div');
                         countElement.classList.add('inventory-count');
                         countElement.textContent = blockInventory[blockType].count;
                         blockElement.appendChild(countElement);
+                        
+                        // Add tooltip with description
+                        blockElement.addEventListener('mouseover', function() {
+                            const tooltip = document.createElement('div');
+                            tooltip.className = 'block-tooltip inventory-tooltip';
+                            tooltip.innerHTML = `<strong>${blockProperties[blockType].name}</strong><br>${blockProperties[blockType].description}`;
+                            
+                            const rect = this.getBoundingClientRect();
+                            tooltip.style.left = rect.left + 'px';
+                            tooltip.style.top = (rect.bottom + 5) + 'px';
+                            
+                            document.body.appendChild(tooltip);
+                        });
+                        
+                        blockElement.addEventListener('mouseout', function() {
+                            const tooltip = document.querySelector('.inventory-tooltip');
+                            if (tooltip) {
+                                tooltip.remove();
+                            }
+                        });
                         
                         // Handle selection
                         blockElement.addEventListener('click', function() {
@@ -803,10 +1184,23 @@
                 // Return the block to inventory
                 blockInventory[blockType].count++;
                 
+                // Remove any special classes
+                cell.classList.remove('energy-emitter', 'score-generator', 'coin-spawner', 
+                                    'multiplier', 'regenerative', 'reinforced',
+                                    'energy-pulse', 'energy-boosted', 'multiplier-boosted');
+                
                 // Reset the cell
                 cell.style.backgroundColor = '';
                 cell.classList.remove('has-block');
                 cell.removeAttribute('data-block-type');
+                
+                // Remove from active effects
+                const row = parseInt(cell.getAttribute('data-row'));
+                const col = parseInt(cell.getAttribute('data-col'));
+                
+                activeEffects = activeEffects.filter(effect => 
+                    !(effect.row === row && effect.col === col)
+                );
                 
                 // Update inventory display
                 refreshInventory();
