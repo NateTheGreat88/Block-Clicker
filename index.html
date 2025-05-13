@@ -563,6 +563,80 @@
             margin-right: 15px;
         }
 
+        /* Data Management Styles */
+        .data-management-info p {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin: 0;
+            font-style: italic;
+        }
+
+        .import-export-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .import-export-content {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .import-export-content h3 {
+            margin-top: 0;
+            color: #eee;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .import-export-content textarea {
+            width: 100%;
+            height: 120px;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #222;
+            border: 1px solid #444;
+            color: #eee;
+            border-radius: 4px;
+            font-family: monospace;
+            resize: none;
+        }
+
+        .import-export-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .copy-hint {
+            display: none;
+            font-size: 0.8rem;
+            color: #4682ff;
+            margin-top: 5px;
+        }
+
+        .import-alert {
+            background-color: rgba(255, 100, 100, 0.2);
+            border-radius: 4px;
+            padding: 8px 10px;
+            color: #ff6464;
+            margin: 10px 0;
+            display: none;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -885,6 +959,25 @@
                             <input type="checkbox" id="reduce-motion">
                             <span class="toggle-slider"></span>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h3><i class="fas fa-database"></i> Data Management</h3>
+                    <div class="setting-item">
+                        <label>Export Game Data</label>
+                        <button id="export-game" class="settings-btn">
+                            <i class="fas fa-file-export"></i> Export
+                        </button>
+                    </div>
+                    <div class="setting-item">
+                        <label>Import Game Data</label>
+                        <button id="import-game" class="settings-btn">
+                            <i class="fas fa-file-import"></i> Import
+                        </button>
+                    </div>
+                    <div class="setting-item data-management-info">
+                        <p>Export your game progress to transfer to another device or to keep as a backup.</p>
                     </div>
                 </div>
             </div>
@@ -2202,6 +2295,8 @@
             // Settings buttons
             document.getElementById('save-settings').addEventListener('click', saveSettings);
             document.getElementById('reset-settings').addEventListener('click', resetSettings);
+            document.getElementById('export-game').addEventListener('click', showExportModal);
+            document.getElementById('import-game').addEventListener('click', showImportModal);
             
             // Volume slider
             document.getElementById('sound-volume').addEventListener('input', function() {
@@ -2616,6 +2711,253 @@
                             }, 2000);
                         }
                     }, gameSettings.gameplay.autoSaveInterval);
+                }
+            }
+            
+            // Show export modal
+            function showExportModal() {
+                // Create the export modal
+                const modal = document.createElement('div');
+                modal.className = 'import-export-modal';
+                
+                // Generate the save data
+                const saveData = generateSaveData();
+                
+                modal.innerHTML = `
+                    <div class="import-export-content">
+                        <h3><i class="fas fa-file-export"></i> Export Game Data</h3>
+                        <p>Copy the code below to save your game data:</p>
+                        <textarea id="export-code" readonly>${saveData}</textarea>
+                        <div class="copy-hint" id="copy-hint">Copied to clipboard!</div>
+                        <div class="import-export-buttons">
+                            <button class="settings-btn" id="copy-export">Copy to Clipboard</button>
+                            <button class="settings-btn" id="close-export">Close</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Select the text automatically
+                const exportCode = document.getElementById('export-code');
+                exportCode.select();
+                
+                // Copy to clipboard button
+                document.getElementById('copy-export').addEventListener('click', function() {
+                    exportCode.select();
+                    document.execCommand('copy');
+                    
+                    // Show confirmation
+                    const copyHint = document.getElementById('copy-hint');
+                    copyHint.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        copyHint.style.display = 'none';
+                    }, 2000);
+                });
+                
+                // Close button
+                document.getElementById('close-export').addEventListener('click', function() {
+                    modal.remove();
+                });
+            }
+            
+            // Show import modal
+            function showImportModal() {
+                // Create the import modal
+                const modal = document.createElement('div');
+                modal.className = 'import-export-modal';
+                
+                modal.innerHTML = `
+                    <div class="import-export-content">
+                        <h3><i class="fas fa-file-import"></i> Import Game Data</h3>
+                        <p>Paste your saved game code below:</p>
+                        <textarea id="import-code" placeholder="Paste your save code here..."></textarea>
+                        <div class="import-alert" id="import-alert">
+                            <i class="fas fa-exclamation-triangle"></i> Invalid save code. Please check and try again.
+                        </div>
+                        <div class="import-export-buttons">
+                            <button class="settings-btn" id="close-import">Cancel</button>
+                            <button class="settings-btn settings-btn-primary" id="confirm-import">Import</button>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Focus the textarea
+                setTimeout(() => {
+                    document.getElementById('import-code').focus();
+                }, 100);
+                
+                // Close button
+                document.getElementById('close-import').addEventListener('click', function() {
+                    modal.remove();
+                });
+                
+                // Import button
+                document.getElementById('confirm-import').addEventListener('click', function() {
+                    const importCode = document.getElementById('import-code').value.trim();
+                    const importAlert = document.getElementById('import-alert');
+                    
+                    if (!importCode) {
+                        importAlert.style.display = 'block';
+                        importAlert.textContent = 'Please enter a save code.';
+                        return;
+                    }
+                    
+                    try {
+                        const success = loadSaveData(importCode);
+                        
+                        if (success) {
+                            modal.remove();
+                            // Show success message
+                            const successMessage = document.createElement('div');
+                            successMessage.className = 'auto-save-indicator';
+                            successMessage.innerHTML = '<i class="fas fa-check-circle"></i> Game data imported successfully!';
+                            document.body.appendChild(successMessage);
+                            
+                            setTimeout(() => {
+                                successMessage.remove();
+                            }, 3000);
+                        } else {
+                            importAlert.style.display = 'block';
+                            importAlert.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Invalid or corrupted save code.';
+                        }
+                    } catch (e) {
+                        console.error('Error importing data:', e);
+                        importAlert.style.display = 'block';
+                        importAlert.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error importing data: ' + e.message;
+                    }
+                });
+            }
+            
+            // Generate save data
+            function generateSaveData() {
+                // Collect all game data
+                const gameData = {
+                    // Game state
+                    score: score,
+                    clickMultiplier: clickMultiplier,
+                    autoClickValue: autoClickValue,
+                    bonusClickChance: bonusClickChance,
+                    bestCps: bestCps,
+                    
+                    // Inventory
+                    blockInventory: blockInventory,
+                    
+                    // All build slots
+                    buildSlots: {},
+                    buildSlotNames: {},
+                    currentBuildSlot: currentBuildSlot,
+                    
+                    // Settings
+                    gameSettings: gameSettings,
+                    
+                    // Version for future compatibility
+                    version: "1.0",
+                    timestamp: Date.now()
+                };
+                
+                // Collect all build slots from localStorage
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('buildStructure_')) {
+                        const slotNumber = key.replace('buildStructure_', '');
+                        gameData.buildSlots[slotNumber] = JSON.parse(localStorage.getItem(key));
+                    }
+                    if (key.startsWith('buildSlotName_')) {
+                        const slotNumber = key.replace('buildSlotName_', '');
+                        gameData.buildSlotNames[slotNumber] = localStorage.getItem(key);
+                    }
+                }
+                
+                // Convert to JSON and then Base64 encode
+                const jsonString = JSON.stringify(gameData);
+                return btoa(jsonString);
+            }
+            
+            // Load save data
+            function loadSaveData(saveCode) {
+                try {
+                    // Decode from Base64 and parse the JSON
+                    const jsonString = atob(saveCode);
+                    const gameData = JSON.parse(jsonString);
+                    
+                    // Check version for compatibility (in future versions)
+                    if (!gameData.version) {
+                        console.error('Invalid save format: missing version');
+                        return false;
+                    }
+                    
+                    // Import game state
+                    score = gameData.score || 0;
+                    clickMultiplier = gameData.clickMultiplier || 1;
+                    autoClickValue = gameData.autoClickValue || 0;
+                    bonusClickChance = gameData.bonusClickChance || 0;
+                    bestCps = gameData.bestCps || 0;
+                    
+                    // Update UI
+                    scoreElement.textContent = score;
+                    bestCpsElement.textContent = bestCps.toFixed(1);
+                    
+                    // Import inventory
+                    if (gameData.blockInventory) {
+                        blockInventory = gameData.blockInventory;
+                        refreshInventory();
+                    }
+                    
+                    // Import settings
+                    if (gameData.gameSettings) {
+                        gameSettings = gameData.gameSettings;
+                        applySettingsToUI();
+                        applyVisualSettings();
+                        applyAccessibilitySettings();
+                    }
+                    
+                    // Clear all existing build slots
+                    for (let i = 0; i < localStorage.length; i++) {
+                        const key = localStorage.key(i);
+                        if (key.startsWith('buildStructure_') || key.startsWith('buildSlotName_')) {
+                            localStorage.removeItem(key);
+                        }
+                    }
+                    
+                    // Import build slots
+                    if (gameData.buildSlots) {
+                        for (const [slotNumber, buildData] of Object.entries(gameData.buildSlots)) {
+                            localStorage.setItem(`buildStructure_${slotNumber}`, JSON.stringify(buildData));
+                        }
+                    }
+                    
+                    // Import build slot names
+                    if (gameData.buildSlotNames) {
+                        for (const [slotNumber, name] of Object.entries(gameData.buildSlotNames)) {
+                            localStorage.setItem(`buildSlotName_${slotNumber}`, name);
+                        }
+                    }
+                    
+                    // Set current build slot
+                    currentBuildSlot = gameData.currentBuildSlot || 1;
+                    
+                    // Refresh build slots UI
+                    initializeBuildSlots();
+                    
+                    // Restart auto-save with new settings
+                    startAutoSave();
+                    
+                    // Re-setup auto-clickers if needed
+                    if (autoClickValue > 0) {
+                        clearInterval(autoClickerInterval);
+                        autoClickerInterval = setInterval(function() {
+                            incrementScore(clickMultiplier);
+                        }, 1000 / autoClickValue);
+                    }
+                    
+                    return true;
+                } catch (e) {
+                    console.error('Error loading save data:', e);
+                    return false;
                 }
             }
         });
