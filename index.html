@@ -156,6 +156,11 @@
         <div id="build-section" class="game-section">
             <h2 class="section-title">Block Builder</h2>
             
+            <div class="build-instructions">
+                <p><i class="fas fa-info-circle"></i> Build from the ground up! Blocks must be placed on the ground or on top of other blocks.</p>
+                <p><i class="fas fa-mouse-pointer"></i> Left-click to place a block. <i class="fas fa-hand-point-up"></i> Right-click to remove a block (only if no blocks are on top of it).</p>
+            </div>
+            
             <div class="build-interface">
                 <div class="inventory">
                     <h3>Your Blocks</h3>
@@ -280,31 +285,101 @@
                         cell.setAttribute('data-row', row);
                         cell.setAttribute('data-col', col);
                         
-                        // Add click handler for placing blocks
-                        cell.addEventListener('click', function() {
+                        // Set ground level (last row)
+                        if (row === 19) {
+                            cell.classList.add('ground');
+                        }
+                        
+                        // Hover effect to check if placement is valid
+                        cell.addEventListener('mouseover', function() {
                             if (selectedBlockType && blockInventory[selectedBlockType].count > 0) {
-                                placeBlock(this, selectedBlockType);
+                                const canPlace = canPlaceBlockAt(row, col);
+                                if (canPlace) {
+                                    this.classList.add('valid-placement');
+                                    this.classList.remove('invalid-placement');
+                                } else {
+                                    this.classList.add('invalid-placement');
+                                    this.classList.remove('valid-placement');
+                                }
                             }
+                        });
+                        
+                        cell.addEventListener('mouseout', function() {
+                            this.classList.remove('valid-placement', 'invalid-placement');
+                        });
+                        
+                        // Add click handler for placing blocks
+                        cell.addEventListener('click', function(e) {
+                            // Right click to remove
+                            if (e.button === 2) {
+                                return;
+                            }
+                            
+                            if (selectedBlockType && blockInventory[selectedBlockType].count > 0) {
+                                const row = parseInt(this.getAttribute('data-row'));
+                                const col = parseInt(this.getAttribute('data-col'));
+                                
+                                if (canPlaceBlockAt(row, col)) {
+                                    placeBlock(this, selectedBlockType);
+                                } else {
+                                    // Visual feedback that block can't be placed here
+                                    cell.classList.add('invalid-placement');
+                                    setTimeout(() => {
+                                        cell.classList.remove('invalid-placement');
+                                    }, 300);
+                                }
+                            }
+                        });
+                        
+                        // Right-click to remove blocks
+                        cell.addEventListener('contextmenu', function(e) {
+                            e.preventDefault();
+                            if (cell.classList.contains('has-block') && canRemoveBlock(cell)) {
+                                removeBlock(cell);
+                            }
+                            return false;
                         });
                         
                         gridContainer.appendChild(cell);
                     }
                 }
+                
+                // Prevent context menu on right-click within the grid
+                gridContainer.addEventListener('contextmenu', function(e) {
+                    e.preventDefault();
+                    return false;
+                });
+            }
+
+            // Check if a block can be placed at a specific location
+            function canPlaceBlockAt(row, col) {
+                // Already has a block
+                const cell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`);
+                if (cell.classList.contains('has-block')) {
+                    return false;
+                }
+                
+                // Is ground level
+                if (row === 19) {
+                    return true;
+                }
+                
+                // Check if there's a block below
+                const cellBelow = document.querySelector(`.grid-cell[data-row="${row + 1}"][data-col="${col}"]`);
+                return cellBelow && cellBelow.classList.contains('has-block');
             }
 
             function placeBlock(cell, blockType) {
                 // Don't place if there's already a block
                 if (cell.classList.contains('has-block')) {
-                    // If clicked on an existing block, remove it
-                    const existingBlockType = cell.getAttribute('data-block-type');
-                    blockInventory[existingBlockType].count++;
-                    refreshInventory();
-                    
-                    // Reset the cell
-                    cell.style.backgroundColor = '';
-                    cell.classList.remove('has-block');
-                    cell.removeAttribute('data-block-type');
-                    
+                    return;
+                }
+                
+                const row = parseInt(cell.getAttribute('data-row'));
+                const col = parseInt(cell.getAttribute('data-col'));
+                
+                // Check if we can place here (must be on ground or on another block)
+                if (!canPlaceBlockAt(row, col)) {
                     return;
                 }
                 
@@ -427,18 +502,48 @@
                 clearBuild();
                 
                 // Parse saved structure
-                buildStructure = JSON.parse(savedStructure);
+                const savedBlocks = JSON.parse(savedStructure);
                 
-                // Place blocks according to saved structure
-                buildStructure.forEach(block => {
-                    // Check if we have this block in inventory
-                    if (blockInventory[block.blockType].count > 0) {
-                        const cell = document.querySelector(`.grid-cell[data-row="${block.row}"][data-col="${block.col}"]`);
-                        if (cell) {
-                            placeBlock(cell, block.blockType);
+                // Sort blocks by row so we place from bottom to top
+                savedBlocks.sort((a, b) => b.row - a.row);
+                
+                // Place blocks according to saved structure, respecting physics
+                let placedAny = true;
+                let attempts = 0;
+                const maxAttempts = 5; // Prevent infinite loops
+                
+                while (placedAny && attempts < maxAttempts) {
+                    placedAny = false;
+                    attempts++;
+                    
+                    for (let i = 0; i < savedBlocks.length; i++) {
+                        if (savedBlocks[i].placed) continue;
+                        
+                        const block = savedBlocks[i];
+                        
+                        // Check if we have this block in inventory
+                        if (blockInventory[block.blockType].count > 0) {
+                            const row = block.row;
+                            const col = block.col;
+                            
+                            // Check if we can place it according to physics rules
+                            if (canPlaceBlockAt(row, col)) {
+                                const cell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`);
+                                if (cell) {
+                                    placeBlock(cell, block.blockType);
+                                    savedBlocks[i].placed = true;
+                                    placedAny = true;
+                                }
+                            }
                         }
                     }
-                });
+                }
+                
+                // If some blocks weren't placed, let the user know
+                const unplacedBlocks = savedBlocks.filter(block => !block.placed).length;
+                if (unplacedBlocks > 0) {
+                    alert(`Loaded build but couldn't place ${unplacedBlocks} blocks due to physics constraints.`);
+                }
             }
 
             function createParticle() {
@@ -675,6 +780,40 @@
             
             // Initialize with the build section visible
             showSection('build');
+
+            // Check if a block can be removed
+            function canRemoveBlock(cell) {
+                // Don't allow removing ground
+                if (cell.classList.contains('ground')) {
+                    return false;
+                }
+                
+                const row = parseInt(cell.getAttribute('data-row'));
+                const col = parseInt(cell.getAttribute('data-col'));
+                
+                // Check if there's a block above (can't remove if supporting another block)
+                const cellAbove = document.querySelector(`.grid-cell[data-row="${row - 1}"][data-col="${col}"]`);
+                return !(cellAbove && cellAbove.classList.contains('has-block'));
+            }
+
+            // Remove a block
+            function removeBlock(cell) {
+                const blockType = cell.getAttribute('data-block-type');
+                
+                // Return the block to inventory
+                blockInventory[blockType].count++;
+                
+                // Reset the cell
+                cell.style.backgroundColor = '';
+                cell.classList.remove('has-block');
+                cell.removeAttribute('data-block-type');
+                
+                // Update inventory display
+                refreshInventory();
+                
+                // Save the current structure
+                updateBuildStructure();
+            }
         });
     </script>
 </body>
