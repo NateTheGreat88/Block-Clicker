@@ -637,6 +637,77 @@
             display: none;
         }
 
+        /* Update Log Styles */
+        .update-log-container {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        .update-version {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color, #4682ff);
+        }
+
+        .version-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 10px;
+        }
+
+        .version-number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--accent-color, #4682ff);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .version-date {
+            color: #aaa;
+            font-style: italic;
+            font-size: 0.9rem;
+        }
+
+        .version-changes ul {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .version-changes li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .version-changes li:last-child {
+            margin-bottom: 0;
+        }
+
+        .theme-neon .update-version {
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.2);
+        }
+
+        .theme-retro .version-number {
+            font-family: 'Courier New', monospace;
+        }
+
+        .high-contrast .update-version {
+            background-color: black;
+            border: 2px solid white;
+            border-left: 4px solid yellow;
+        }
+
+        .high-contrast .version-number {
+            color: yellow;
+        }
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
@@ -645,6 +716,140 @@
         @keyframes fadeOut {
             from { opacity: 1; }
             to { opacity: 0; }
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            right: 1rem;
+            background: var(--accent-color, rgba(255, 255, 255, 0.2));
+            color: #ddd;
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .update-new-badge {
+            position: absolute;
+            right: 1rem;
+            background: #ff3e3e;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Bonus indicator animation */
+        .bonus-indicator {
+            position: fixed;
+            color: gold;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+            pointer-events: none;
+            animation: bonus-float 1s ease-out forwards;
+            z-index: 1000;
+        }
+
+        @keyframes bonus-float {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+
+        /* Build reward effect */
+        .build-reward {
+            color: #32cd32;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(50, 205, 50, 0.7);
+            animation: build-reward-float 1.5s ease-out forwards;
+        }
+
+        .build-reward i {
+            margin-right: 5px;
+        }
+
+        @keyframes build-reward-float {
+            0% { transform: translateY(0) scale(0.8); opacity: 0; }
+            20% { transform: translateY(-5px) scale(1.2); opacity: 1; }
+            80% { transform: translateY(-30px) scale(1); opacity: 1; }
+            100% { transform: translateY(-40px) scale(0.8); opacity: 0; }
+        }
+        
+        /* Tutorial tip */
+        .tutorial-tip {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: rgba(70, 130, 255, 0.95);
+            border-radius: 8px;
+            padding: 15px;
+            display: flex;
+            max-width: 350px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            color: white;
+            z-index: 1000;
+            animation: tipfadein 0.5s ease-out;
+        }
+        
+        .tutorial-tip i {
+            font-size: 24px;
+            margin-right: 15px;
+            color: yellow;
+            align-self: center;
+        }
+        
+        .tip-content {
+            flex: 1;
+        }
+        
+        .tip-content h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.1rem;
+        }
+        
+        .tip-content p {
+            margin: 0 0 10px 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .close-tip {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: background-color 0.2s;
+        }
+        
+        .close-tip:hover {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .tip-fadeout {
+            animation: tipfadeout 0.5s forwards;
+        }
+        
+        @keyframes tipfadein {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes tipfadeout {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(20px); }
         }
     </style>
 </head>
@@ -678,6 +883,10 @@
             <div class="menu-item" data-section="settings">
                 <i class="fas fa-cog"></i>
                 <span>Settings</span>
+            </div>
+            <div class="menu-item" data-section="updates">
+                <i class="fas fa-history"></i>
+                <span>Updates</span>
             </div>
         </div>
     </div>
@@ -796,6 +1005,7 @@
             <div class="build-instructions">
                 <p><i class="fas fa-info-circle"></i> Build from the ground up! Blocks must be placed on the ground or on top of other blocks.</p>
                 <p><i class="fas fa-mouse-pointer"></i> Left-click to place a block. <i class="fas fa-hand-point-up"></i> Right-click to remove a block (only if no blocks are on top of it).</p>
+                <p><i class="fas fa-coins"></i> Earn score rewards when you place blocks! More expensive blocks give higher rewards.</p>
                 <p><i class="fas fa-magic"></i> Each block type has special properties! Hover over blocks to see what they do.</p>
             </div>
             
@@ -988,6 +1198,110 @@
             </div>
         </div>
 
+        <!-- Updates Section -->
+        <div id="updates-section" class="game-section hidden">
+            <h2 class="section-title">Update Log</h2>
+            
+            <div class="update-log-container">
+                <div class="update-version">
+                    <div class="version-header">
+                        <span class="version-number">v1.3.2</span>
+                        <span class="version-date">5/12/25 (Today)</span>
+                    </div>
+                    <div class="version-changes">
+                        <ul>
+                            <li>Added new building reward system - earn score when placing blocks!</li>
+                            <li>Added import/export system for game data</li>
+                            <li>New update log system to track game changes</li>
+                            <li>Fixed bug where auto-clickers would stop working after device sleep</li>
+                            <li>Updated UI theme system with better contrast options</li>
+                            <li>Performance improvements for large block structures</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="update-version">
+                    <div class="version-header">
+                        <span class="version-number">v1.2.0</span>
+                        <span class="version-date">5/11/25 (Yesterday)</span>
+                    </div>
+                    <div class="version-changes">
+                        <ul>
+                            <li>Added high contrast mode and text size options</li>
+                            <li>New "Reduce Animations" accessibility setting</li>
+                            <li>Added the black reinforced block type</li>
+                            <li>Optimized particle system for better performance</li>
+                            <li>Fixed collision issues in strict physics mode</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="update-version">
+                    <div class="version-header">
+                        <span class="version-number">v1.1.5</span>
+                        <span class="version-date">5/5/25</span>
+                    </div>
+                    <div class="version-changes">
+                        <ul>
+                            <li>Added multiple build slot support (up to 5 slots)</li>
+                            <li>Custom naming for saved builds</li>
+                            <li>Auto-save functionality with configurable intervals</li>
+                            <li>Fixed touch controls on mobile devices</li>
+                            <li>Improved block placement mechanics</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="update-version">
+                    <div class="version-header">
+                        <span class="version-number">v1.0.4</span>
+                        <span class="version-date">4/17/25</span>
+                    </div>
+                    <div class="version-changes">
+                        <ul>
+                            <li>Added green regenerative blocks</li>
+                            <li>Added three physics difficulty levels: Normal, Relaxed, and Strict</li>
+                            <li>Fixed audio playback issues on Safari browsers</li>
+                            <li>Added bonus chance mechanic for gold blocks</li>
+                            <li>Improved build grid with better visual feedback</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="update-version">
+                    <div class="version-header">
+                        <span class="version-number">v1.0.2</span>
+                        <span class="version-date">3/28/25</span>
+                    </div>
+                    <div class="version-changes">
+                        <ul>
+                            <li>Added block tooltips with detailed information</li>
+                            <li>Implemented CPS (Clicks Per Second) tracking</li>
+                            <li>Added sound effects for gameplay actions</li>
+                            <li>New gold block with coin spawn ability</li>
+                            <li>Fixed inventory display issues</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="update-version">
+                    <div class="version-header">
+                        <span class="version-number">v1.0.0</span>
+                        <span class="version-date">3/1/25</span>
+                    </div>
+                    <div class="version-changes">
+                        <ul>
+                            <li>Initial release of Block Clicker</li>
+                            <li>Basic clicking mechanics with multipliers</li>
+                            <li>Added red and blue block types</li>
+                            <li>Simple building interface with grid system</li>
+                            <li>Basic score tracking and auto-clicker system</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Ad container -->
         <div class="ad-container">
             <!-- Google AdSense Ad Unit -->
@@ -1034,6 +1348,20 @@
             let bonusClickChance = 0;
             let autoClickerInterval;
             let selectedBlockType = null;
+            let hasShownBuildingTip = false;
+            
+            // Game version information
+            const gameVersion = {
+                current: "1.3.2",
+                releaseDate: "5/12/25",
+                isNew: function(days = 30) {
+                    // Check if this version is less than 'days' old based on releaseDate
+                    const releaseTime = new Date(this.releaseDate).getTime();
+                    const now = Date.now();
+                    const daysDiff = Math.floor((now - releaseTime) / (1000 * 60 * 60 * 24));
+                    return daysDiff < days;
+                }
+            };
             
             // Sound system
             const sounds = {
@@ -1397,6 +1725,71 @@
                 // Decrement block count in inventory (unless regenerating)
                 if (!isRegenerating) {
                     blockInventory[blockType].count--;
+                }
+                
+                // Find the original price of the block and reward the player with score based on building
+                if (!isRegenerating) {
+                    const shopItem = document.querySelector(`.shop-item[data-id="${blockType}"]`);
+                    if (shopItem) {
+                        const basePrice = parseInt(shopItem.getAttribute('data-price'));
+                        const initialPrice = Math.floor(basePrice / 1.5); // Estimate original price before markup
+                        const buildReward = Math.ceil(initialPrice * 0.3); // 30% of block's value
+                        
+                        // Add build reward to score
+                        score += buildReward;
+                        scoreElement.textContent = score;
+                        
+                        // Show building reward effect
+                        const buildRewardEffect = document.createElement('div');
+                        buildRewardEffect.className = 'score-effect build-reward';
+                        buildRewardEffect.innerHTML = `<i class="fas fa-hammer"></i> +${buildReward}`;
+                        
+                        const rect = cell.getBoundingClientRect();
+                        buildRewardEffect.style.left = rect.left + rect.width/2 + 'px';
+                        buildRewardEffect.style.top = rect.top - 10 + 'px';
+                        
+                        document.body.appendChild(buildRewardEffect);
+                        
+                        setTimeout(() => {
+                            buildRewardEffect.remove();
+                        }, 1500);
+                        
+                        // Show tutorial tip about building rewards if it's the first time
+                        if (!hasShownBuildingTip) {
+                            hasShownBuildingTip = true;
+                            const tip = document.createElement('div');
+                            tip.className = 'tutorial-tip';
+                            tip.innerHTML = `
+                                <i class="fas fa-lightbulb"></i>
+                                <div class="tip-content">
+                                    <h4>Building Rewards!</h4>
+                                    <p>You now earn score for placing blocks! More expensive blocks give higher rewards.</p>
+                                    <button class="close-tip">Got it!</button>
+                                </div>
+                            `;
+                            document.body.appendChild(tip);
+                            
+                            // Add event listener to close button
+                            tip.querySelector('.close-tip').addEventListener('click', function() {
+                                tip.classList.add('tip-fadeout');
+                                setTimeout(() => {
+                                    tip.remove();
+                                }, 500);
+                            });
+                            
+                            // Auto close after 8 seconds
+                            setTimeout(() => {
+                                if (document.body.contains(tip)) {
+                                    tip.classList.add('tip-fadeout');
+                                    setTimeout(() => {
+                                        if (document.body.contains(tip)) {
+                                            tip.remove();
+                                        }
+                                    }, 500);
+                                }
+                            }, 8000);
+                        }
+                    }
                 }
                 
                 // Update cell appearance
@@ -2121,9 +2514,33 @@
                         // Show corresponding section
                         const sectionName = this.getAttribute('data-section');
                         showSection(sectionName);
+                        
+                        // If this is the updates section, remove the new badge if it exists
+                        if (sectionName === 'updates') {
+                            const newBadge = this.querySelector('.update-new-badge');
+                            if (newBadge) {
+                                newBadge.remove();
+                            }
+                        }
                     }
                 });
             });
+            
+            // Add "New" badge to Updates menu if the version is new
+            function checkForNewUpdates() {
+                if (gameVersion.isNew(7)) { // Show badge if version is less than 7 days old
+                    const updatesMenuItem = document.querySelector('.menu-item[data-section="updates"]');
+                    if (updatesMenuItem && !updatesMenuItem.querySelector('.update-new-badge')) {
+                        const newBadge = document.createElement('div');
+                        newBadge.className = 'update-new-badge';
+                        newBadge.textContent = 'New';
+                        updatesMenuItem.appendChild(newBadge);
+                    }
+                }
+            }
+            
+            // Run new updates check on page load
+            checkForNewUpdates();
             
             function showSection(sectionName) {
                 // Hide all sections first
@@ -2855,7 +3272,7 @@
                     gameSettings: gameSettings,
                     
                     // Version for future compatibility
-                    version: "1.0",
+                    version: "1.3.2",
                     timestamp: Date.now()
                 };
                 
