@@ -10,51 +10,133 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- External CSS file -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="particles" id="particles"></div>
     
-    <div id="game-container">
-        <h1 class="game-title"><span data-text="Block Clicker">Block Clicker</span></h1>
-        
-        <div id="score-display">Score: <span id="score">0</span></div>
-        
-        <div class="stats-container">
-            <div class="stat">CPS: <span class="stat-value" id="clicks-per-second">0.0</span></div>
-            <div class="stat">Best CPS: <span class="stat-value" id="best-cps">0.0</span></div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Menu</h2>
         </div>
-        
-        <div id="clicker"></div>
+        <div class="sidebar-menu">
+            <div class="menu-item coming-soon" data-section="profile">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </div>
+            <div class="menu-item coming-soon" data-section="clans">
+                <i class="fas fa-users"></i>
+                <span>Clans</span>
+                <div class="coming-soon-badge">Coming Soon</div>
+            </div>
+            <div class="menu-item active" data-section="shop">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Shop</span>
+            </div>
+        </div>
     </div>
+    
+    <div class="main-content">
+        <div id="game-container">
+            <h1 class="game-title"><span data-text="Block Clicker">Block Clicker</span></h1>
+            
+            <div id="score-display">Score: <span id="score">0</span></div>
+            
+            <div class="stats-container">
+                <div class="stat">CPS: <span class="stat-value" id="clicks-per-second">0.0</span></div>
+                <div class="stat">Best CPS: <span class="stat-value" id="best-cps">0.0</span></div>
+            </div>
+            
+            <div id="clicker"></div>
+        </div>
 
-    <!-- Ad container above -->
-    <div class="ad-container">
-        <!-- Google AdSense Ad Unit -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-3727712535529004"
-             data-ad-slot="XXXXXXXXXX"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-    </div>
+        <!-- Shop Section -->
+        <div id="shop-section" class="game-section">
+            <h2 class="section-title">Shop</h2>
+            <div class="shop-items">
+                <div class="shop-item" data-id="click-multiplier" data-price="50" data-level="0" data-increment="1">
+                    <div class="shop-item-icon"><i class="fas fa-hand-pointer"></i></div>
+                    <div class="shop-item-info">
+                        <h3>Click Multiplier</h3>
+                        <p>Increase clicks value</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Level: <span class="level-value">0</span></span>
+                            <span class="multiplier">×<span class="multiplier-value">1</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">50</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="auto-clicker" data-price="100" data-level="0" data-increment="0.5">
+                    <div class="shop-item-icon"><i class="fas fa-robot"></i></div>
+                    <div class="shop-item-info">
+                        <h3>Auto Clicker</h3>
+                        <p>Clicks automatically</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Level: <span class="level-value">0</span></span>
+                            <span class="multiplier"><span class="multiplier-value">0</span> CPS</span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">100</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="bonus-clicks" data-price="200" data-level="0" data-increment="5">
+                    <div class="shop-item-icon"><i class="fas fa-bolt"></i></div>
+                    <div class="shop-item-info">
+                        <h3>Bonus Clicks</h3>
+                        <p>Random bonus clicks</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Level: <span class="level-value">0</span></span>
+                            <span class="multiplier">+<span class="multiplier-value">0</span>%</span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">200</span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Ad container below -->
-    <div class="ad-container">
-        <!-- Google AdSense Ad Unit -->
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-3727712535529004"
-             data-ad-slot="XXXXXXXXXX"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+        <!-- Profile Section (Coming Soon) -->
+        <div id="profile-section" class="game-section hidden">
+            <div class="coming-soon-container">
+                <i class="fas fa-user-astronaut"></i>
+                <h2>Profile Coming Soon</h2>
+                <p>We're working hard to bring you personalized profiles!</p>
+            </div>
+        </div>
+
+        <!-- Clans Section (Coming Soon) -->
+        <div id="clans-section" class="game-section hidden">
+            <div class="coming-soon-container">
+                <i class="fas fa-users-crown"></i>
+                <h2>Clans Coming Soon</h2>
+                <p>Team up with friends and compete for the top spot!</p>
+            </div>
+        </div>
+
+        <!-- Ad container -->
+        <div class="ad-container">
+            <!-- Google AdSense Ad Unit -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-3727712535529004"
+                 data-ad-slot="XXXXXXXXXX"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
     </div>
 
     <script>
@@ -64,12 +146,19 @@
             const cpsElement = document.getElementById('clicks-per-second');
             const bestCpsElement = document.getElementById('best-cps');
             const particles = document.getElementById('particles');
+            const menuItems = document.querySelectorAll('.menu-item');
+            const gameSections = document.querySelectorAll('.game-section');
+            const shopItems = document.querySelectorAll('.shop-item');
             
             let score = 0;
             let clicks = 0;
             let lastClick = Date.now();
             let clickTimes = [];
             let bestCps = 0;
+            let clickMultiplier = 1;
+            let autoClickValue = 0;
+            let bonusClickChance = 0;
+            let autoClickerInterval;
 
             // Create background particles
             for (let i = 0; i < 50; i++) {
@@ -124,10 +213,135 @@
             // Start CPS calculation
             calculateCPS();
 
+            // Sidebar navigation
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.classList.contains('coming-soon')) {
+                        // Just show the coming soon section
+                        const sectionName = this.getAttribute('data-section');
+                        showSection(sectionName);
+                        
+                        // Mark as active if it's not already
+                        if (!this.classList.contains('active')) {
+                            menuItems.forEach(mi => mi.classList.remove('active'));
+                            this.classList.add('active');
+                        }
+                    } else {
+                        // Toggle active state
+                        menuItems.forEach(mi => mi.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Show corresponding section
+                        const sectionName = this.getAttribute('data-section');
+                        showSection(sectionName);
+                    }
+                });
+            });
+            
+            function showSection(sectionName) {
+                // Hide all sections first
+                gameSections.forEach(section => {
+                    section.classList.add('hidden');
+                });
+                
+                // Show the selected section
+                document.getElementById(sectionName + '-section').classList.remove('hidden');
+            }
+
+            // Shop functionality
+            shopItems.forEach(item => {
+                const id = item.getAttribute('data-id');
+                const priceElement = item.querySelector('.price-value');
+                const levelElement = item.querySelector('.level-value');
+                const multiplierElement = item.querySelector('.multiplier-value');
+                
+                item.addEventListener('click', function() {
+                    const price = parseInt(this.getAttribute('data-price'));
+                    const level = parseInt(this.getAttribute('data-level'));
+                    const increment = parseFloat(this.getAttribute('data-increment'));
+                    
+                    if (score >= price) {
+                        // Deduct the cost
+                        score -= price;
+                        scoreElement.textContent = score;
+                        
+                        // Increase the level
+                        const newLevel = level + 1;
+                        this.setAttribute('data-level', newLevel);
+                        levelElement.textContent = newLevel;
+                        
+                        // Update the multiplier based on the item
+                        if (id === 'click-multiplier') {
+                            clickMultiplier += increment;
+                            multiplierElement.textContent = clickMultiplier;
+                        } else if (id === 'auto-clicker') {
+                            autoClickValue += increment;
+                            multiplierElement.textContent = autoClickValue.toFixed(1);
+                            
+                            // Clear existing interval and set up new one
+                            clearInterval(autoClickerInterval);
+                            if (autoClickValue > 0) {
+                                autoClickerInterval = setInterval(function() {
+                                    incrementScore(clickMultiplier);
+                                }, 1000 / autoClickValue);
+                            }
+                        } else if (id === 'bonus-clicks') {
+                            bonusClickChance += increment;
+                            multiplierElement.textContent = bonusClickChance;
+                        }
+                        
+                        // Increase the price for next purchase
+                        const newPrice = Math.floor(price * 1.5);
+                        this.setAttribute('data-price', newPrice);
+                        priceElement.textContent = newPrice;
+                        
+                        // Visual feedback
+                        item.classList.add('item-purchased');
+                        setTimeout(() => {
+                            item.classList.remove('item-purchased');
+                        }, 300);
+                    } else {
+                        // Not enough score - visual feedback
+                        item.classList.add('item-cannot-afford');
+                        setTimeout(() => {
+                            item.classList.remove('item-cannot-afford');
+                        }, 300);
+                    }
+                });
+            });
+            
+            function incrementScore(amount) {
+                // Apply the base amount
+                score += amount;
+                
+                // Check for bonus clicks if applicable
+                if (bonusClickChance > 0 && Math.random() * 100 < bonusClickChance) {
+                    const bonus = Math.ceil(amount * 2); // Double the click value as bonus
+                    score += bonus;
+                    
+                    // Visual feedback for bonus
+                    const bonusIndicator = document.createElement('div');
+                    bonusIndicator.className = 'bonus-indicator';
+                    bonusIndicator.textContent = '+' + bonus;
+                    
+                    const rect = clicker.getBoundingClientRect();
+                    bonusIndicator.style.left = rect.left + rect.width / 2 + 'px';
+                    bonusIndicator.style.top = rect.top + 'px';
+                    
+                    document.body.appendChild(bonusIndicator);
+                    
+                    setTimeout(() => {
+                        bonusIndicator.remove();
+                    }, 1000);
+                }
+                
+                scoreElement.textContent = score;
+            }
+
             // Add click effect
             clicker.addEventListener('click', function(e) {
-                score++;
-                scoreElement.textContent = score;
+                // Increment score by click multiplier
+                incrementScore(clickMultiplier);
                 
                 // Record click time for CPS calculation
                 const now = Date.now();
@@ -162,6 +376,9 @@
                     alert("You've reached " + score + " clicks! In a real implementation, this could trigger a full-screen ad.");
                 }
             });
+            
+            // Initialize with the shop section visible
+            showSection('shop');
         });
     </script>
 </body>
