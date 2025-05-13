@@ -14,6 +14,158 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- External CSS file -->
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Add these styles to the head of the document or to styles.css */
+        .build-slots {
+            margin-bottom: 15px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .build-slots-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .slot-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .build-slots-header h3 {
+            margin: 0;
+            font-size: 1rem;
+            color: #eee;
+        }
+
+        .build-slots-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .build-slot {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            padding: 8px 12px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .build-slot.active {
+            background-color: rgba(70, 130, 255, 0.5);
+            border-color: rgba(70, 130, 255, 0.8);
+            box-shadow: 0 0 12px rgba(70, 130, 255, 0.5);
+        }
+
+        .build-slot:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .build-slot.active:hover {
+            background-color: rgba(70, 130, 255, 0.6);
+        }
+
+        .slot-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        .rename-slot-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .rename-slot-content {
+            background-color: #333;
+            border-radius: 8px;
+            padding: 20px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .rename-slot-content h3 {
+            margin-top: 0;
+            color: #eee;
+        }
+
+        .rename-slot-content input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #222;
+            border: 1px solid #444;
+            color: #eee;
+            border-radius: 4px;
+        }
+
+        .rename-slot-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .rename-slot-buttons button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .rename-cancel {
+            background-color: #555;
+            color: #eee;
+        }
+
+        .rename-confirm {
+            background-color: #4682ff;
+            color: white;
+        }
+
+        .slot-delete {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 18px;
+            height: 18px;
+            background-color: #ff3333;
+            border-radius: 50%;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 10px;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+            z-index: 5;
+        }
+
+        .slot-delete:hover {
+            background-color: #ff0000;
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
     <div class="particles" id="particles"></div>
@@ -183,6 +335,24 @@
                         </button>
                     </div>
                     
+                    <!-- Build slots selection -->
+                    <div class="build-slots">
+                        <div class="build-slots-header">
+                            <h3>Build Slots</h3>
+                            <div class="slot-actions">
+                                <button id="rename-slot" class="builder-control-btn">
+                                    <i class="fas fa-pencil-alt"></i> Rename
+                                </button>
+                                <button id="add-slot" class="builder-control-btn">
+                                    <i class="fas fa-plus"></i> Add Slot
+                                </button>
+                            </div>
+                        </div>
+                        <div class="build-slots-container" id="build-slots-container">
+                            <!-- Build slots will be added here dynamically -->
+                        </div>
+                    </div>
+                    
                     <div class="build-area" id="build-area">
                         <!-- Grid for placing blocks -->
                         <div class="grid-container" id="grid-container">
@@ -242,6 +412,9 @@
             const clearBuildBtn = document.getElementById('clear-build');
             const saveBuildBtn = document.getElementById('save-build');
             const loadBuildBtn = document.getElementById('load-build');
+            const buildSlotsContainer = document.getElementById('build-slots-container');
+            const renameSlotBtn = document.getElementById('rename-slot');
+            const addSlotBtn = document.getElementById('add-slot');
             
             // Game state variables
             let score = 0;
@@ -254,6 +427,11 @@
             let bonusClickChance = 0;
             let autoClickerInterval;
             let selectedBlockType = null;
+            
+            // Build slots variables
+            let currentBuildSlot = 1;
+            let maxBuildSlots = 5;
+            let buildSlots = {};
             
             // Block effects timers and state
             let blockEffectsInterval;
@@ -333,6 +511,9 @@
             // Initialize grid
             createGrid();
             refreshInventory();
+            
+            // Initialize build slots
+            initializeBuildSlots();
             
             // Start block effects timer
             startBlockEffects();
@@ -825,6 +1006,232 @@
                 }
             }
 
+            function initializeBuildSlots() {
+                buildSlotsContainer.innerHTML = '';
+                
+                // Find all build slots in localStorage
+                let existingSlots = [];
+                for (let i = 0; i < localStorage.length; i++) {
+                    const key = localStorage.key(i);
+                    if (key.startsWith('buildStructure_')) {
+                        const slotNumber = parseInt(key.replace('buildStructure_', ''));
+                        existingSlots.push(slotNumber);
+                    }
+                }
+                
+                // If no slots exist, create a default first slot
+                if (existingSlots.length === 0) {
+                    existingSlots = [1];
+                    buildSlots[1] = [];
+                }
+                
+                // Sort slot numbers
+                existingSlots.sort((a, b) => a - b);
+                
+                // Create elements for each slot
+                existingSlots.forEach(slotNumber => {
+                    // Get data for this slot
+                    const slotData = localStorage.getItem(`buildStructure_${slotNumber}`);
+                    let slotName = localStorage.getItem(`buildSlotName_${slotNumber}`) || `Build ${slotNumber}`;
+                    
+                    // Create the slot element
+                    const slotElement = document.createElement('div');
+                    slotElement.classList.add('build-slot');
+                    slotElement.setAttribute('data-slot', slotNumber);
+                    if (slotNumber === currentBuildSlot) {
+                        slotElement.classList.add('active');
+                    }
+                    
+                    // Add slot name
+                    const nameElement = document.createElement('div');
+                    nameElement.classList.add('slot-name');
+                    nameElement.textContent = slotName;
+                    slotElement.appendChild(nameElement);
+                    
+                    // Add delete button
+                    const deleteButton = document.createElement('div');
+                    deleteButton.classList.add('slot-delete');
+                    deleteButton.innerHTML = '<i class="fas fa-times"></i>';
+                    deleteButton.title = 'Delete this build slot';
+                    
+                    // Only show delete button on hover
+                    slotElement.addEventListener('mouseenter', function() {
+                        if (existingSlots.length > 1) { // Don't allow deleting the last slot
+                            deleteButton.style.display = 'flex';
+                        }
+                    });
+                    
+                    slotElement.addEventListener('mouseleave', function() {
+                        deleteButton.style.display = 'none';
+                    });
+                    
+                    // Add click event for delete
+                    deleteButton.addEventListener('click', function(e) {
+                        e.stopPropagation(); // Prevent slot selection
+                        deleteBuildSlot(slotNumber);
+                    });
+                    
+                    slotElement.appendChild(deleteButton);
+                    
+                    // Add indicator if slot has data
+                    if (slotData) {
+                        const indicatorElement = document.createElement('div');
+                        indicatorElement.classList.add('slot-indicator');
+                        indicatorElement.innerHTML = '<i class="fas fa-check"></i>';
+                        indicatorElement.title = 'This slot contains a saved build';
+                        slotElement.appendChild(indicatorElement);
+                    }
+                    
+                    // Add click event to select slot
+                    slotElement.addEventListener('click', function() {
+                        const slotNumber = parseInt(this.getAttribute('data-slot'));
+                        selectBuildSlot(slotNumber);
+                    });
+                    
+                    buildSlotsContainer.appendChild(slotElement);
+                    
+                    // Store slot data in memory if it exists
+                    if (slotData) {
+                        buildSlots[slotNumber] = JSON.parse(slotData);
+                    } else {
+                        buildSlots[slotNumber] = [];
+                    }
+                });
+                
+                // Set current slot to the first one if it's not in the list
+                if (!existingSlots.includes(currentBuildSlot)) {
+                    currentBuildSlot = existingSlots[0];
+                }
+                
+                // Load the current slot
+                loadBuildFromSlot(currentBuildSlot);
+            }
+            
+            function selectBuildSlot(slotNumber) {
+                if (slotNumber === currentBuildSlot) return;
+                
+                // Save current build to current slot
+                updateBuildStructure();
+                buildSlots[currentBuildSlot] = buildStructure;
+                localStorage.setItem(`buildStructure_${currentBuildSlot}`, JSON.stringify(buildStructure));
+                
+                // Update UI to show new slot as active
+                document.querySelectorAll('.build-slot').forEach(slot => {
+                    slot.classList.remove('active');
+                });
+                
+                const newSlotElement = document.querySelector(`.build-slot[data-slot="${slotNumber}"]`);
+                if (newSlotElement) {
+                    newSlotElement.classList.add('active');
+                }
+                
+                // Update current slot and load its build
+                currentBuildSlot = slotNumber;
+                loadBuildFromSlot(slotNumber);
+            }
+            
+            function loadBuildFromSlot(slotNumber) {
+                // Clear the current build
+                clearBuild();
+                
+                // Load the build from the slot if it exists
+                if (buildSlots[slotNumber] && buildSlots[slotNumber].length > 0) {
+                    buildStructure = buildSlots[slotNumber];
+                    
+                    // Sort blocks by row so we place from bottom to top
+                    const blocksToPlace = [...buildStructure];
+                    blocksToPlace.sort((a, b) => b.row - a.row);
+                    
+                    // Place blocks according to saved structure, respecting physics
+                    let placedAny = true;
+                    let attempts = 0;
+                    const maxAttempts = 5; // Prevent infinite loops
+                    
+                    while (placedAny && attempts < maxAttempts) {
+                        placedAny = false;
+                        attempts++;
+                        
+                        for (let i = 0; i < blocksToPlace.length; i++) {
+                            if (blocksToPlace[i].placed) continue;
+                            
+                            const block = blocksToPlace[i];
+                            
+                            // Check if we have this block in inventory
+                            if (blockInventory[block.blockType].count > 0) {
+                                const row = block.row;
+                                const col = block.col;
+                                
+                                // Check if we can place it according to physics rules
+                                if (canPlaceBlockAt(row, col)) {
+                                    const cell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`);
+                                    if (cell) {
+                                        placeBlock(cell, block.blockType);
+                                        blocksToPlace[i].placed = true;
+                                        placedAny = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    // If some blocks weren't placed, let the user know
+                    const unplacedBlocks = blocksToPlace.filter(block => !block.placed).length;
+                    if (unplacedBlocks > 0) {
+                        alert(`Loaded build but couldn't place ${unplacedBlocks} blocks due to physics constraints.`);
+                    }
+                }
+            }
+            
+            function renameBuildSlot() {
+                // Create modal for renaming
+                const modal = document.createElement('div');
+                modal.classList.add('rename-slot-modal');
+                
+                const modalContent = document.createElement('div');
+                modalContent.classList.add('rename-slot-content');
+                
+                // Get current slot name
+                const currentSlotElement = document.querySelector(`.build-slot[data-slot="${currentBuildSlot}"]`);
+                const currentSlotName = currentSlotElement.querySelector('.slot-name').textContent;
+                
+                modalContent.innerHTML = `
+                    <h3>Rename Build Slot</h3>
+                    <p>Enter a new name for Build Slot ${currentBuildSlot}</p>
+                    <input type="text" id="slot-name-input" value="${currentSlotName}" maxlength="20" placeholder="Enter slot name...">
+                    <div class="rename-slot-buttons">
+                        <button class="rename-cancel">Cancel</button>
+                        <button class="rename-confirm">Save</button>
+                    </div>
+                `;
+                
+                modal.appendChild(modalContent);
+                document.body.appendChild(modal);
+                
+                // Focus the input
+                setTimeout(() => {
+                    document.getElementById('slot-name-input').focus();
+                }, 100);
+                
+                // Handle cancel button
+                modal.querySelector('.rename-cancel').addEventListener('click', function() {
+                    modal.remove();
+                });
+                
+                // Handle confirm button
+                modal.querySelector('.rename-confirm').addEventListener('click', function() {
+                    const newName = document.getElementById('slot-name-input').value.trim();
+                    if (newName) {
+                        // Update the slot name in localStorage
+                        localStorage.setItem(`buildSlotName_${currentBuildSlot}`, newName);
+                        
+                        // Update the UI
+                        const slotNameElement = currentSlotElement.querySelector('.slot-name');
+                        slotNameElement.textContent = newName;
+                    }
+                    modal.remove();
+                });
+            }
+
             function updateBuildStructure() {
                 buildStructure = [];
                 
@@ -840,6 +1247,9 @@
                         blockType: blockType
                     });
                 });
+                
+                // Save to current slot
+                buildSlots[currentBuildSlot] = buildStructure;
             }
 
             function clearBuild() {
@@ -859,23 +1269,35 @@
                 
                 // Clear build structure
                 buildStructure = [];
+                buildSlots[currentBuildSlot] = [];
             }
 
             function saveBuild() {
                 // Update structure before saving
                 updateBuildStructure();
                 
-                // Save to localStorage
-                localStorage.setItem('buildStructure', JSON.stringify(buildStructure));
-                alert('Build saved successfully!');
+                // Save to localStorage with the current slot
+                localStorage.setItem(`buildStructure_${currentBuildSlot}`, JSON.stringify(buildStructure));
+                
+                // Add indicator to the slot if it doesn't have one
+                const slotElement = document.querySelector(`.build-slot[data-slot="${currentBuildSlot}"]`);
+                if (!slotElement.querySelector('.slot-indicator')) {
+                    const indicatorElement = document.createElement('div');
+                    indicatorElement.classList.add('slot-indicator');
+                    indicatorElement.innerHTML = '<i class="fas fa-check"></i>';
+                    indicatorElement.title = 'This slot contains a saved build';
+                    slotElement.appendChild(indicatorElement);
+                }
+                
+                alert(`Build saved successfully to slot ${currentBuildSlot}!`);
             }
 
             function loadBuild() {
-                // Get saved structure
-                const savedStructure = localStorage.getItem('buildStructure');
+                // Get saved structure from the current slot
+                const savedStructure = localStorage.getItem(`buildStructure_${currentBuildSlot}`);
                 
                 if (!savedStructure) {
-                    alert('No saved build found.');
+                    alert(`No saved build found in slot ${currentBuildSlot}.`);
                     return;
                 }
                 
@@ -884,6 +1306,10 @@
                 
                 // Parse saved structure
                 const savedBlocks = JSON.parse(savedStructure);
+                
+                // Update buildStructure and buildSlots
+                buildStructure = savedBlocks;
+                buildSlots[currentBuildSlot] = savedBlocks;
                 
                 // Sort blocks by row so we place from bottom to top
                 savedBlocks.sort((a, b) => b.row - a.row);
@@ -1158,6 +1584,8 @@
             clearBuildBtn.addEventListener('click', clearBuild);
             saveBuildBtn.addEventListener('click', saveBuild);
             loadBuildBtn.addEventListener('click', loadBuild);
+            renameSlotBtn.addEventListener('click', renameBuildSlot);
+            addSlotBtn.addEventListener('click', addBuildSlot);
             
             // Initialize with the build section visible
             showSection('build');
@@ -1207,6 +1635,97 @@
                 
                 // Save the current structure
                 updateBuildStructure();
+            }
+
+            function addBuildSlot() {
+                // Get the highest slot number currently in use
+                const slotElements = document.querySelectorAll('.build-slot');
+                let highestSlotNumber = 0;
+                
+                slotElements.forEach(slotElement => {
+                    const slotNumber = parseInt(slotElement.getAttribute('data-slot'));
+                    if (slotNumber > highestSlotNumber) {
+                        highestSlotNumber = slotNumber;
+                    }
+                });
+                
+                // Create a new slot with the next number
+                const newSlotNumber = highestSlotNumber + 1;
+                const slotName = `Build ${newSlotNumber}`;
+                
+                // Create the slot element
+                const slotElement = document.createElement('div');
+                slotElement.classList.add('build-slot');
+                slotElement.setAttribute('data-slot', newSlotNumber);
+                
+                // Add slot name
+                const nameElement = document.createElement('div');
+                nameElement.classList.add('slot-name');
+                nameElement.textContent = slotName;
+                slotElement.appendChild(nameElement);
+                
+                // Save the default name
+                localStorage.setItem(`buildSlotName_${newSlotNumber}`, slotName);
+                
+                // Add click event to select slot
+                slotElement.addEventListener('click', function() {
+                    const slotNumber = parseInt(this.getAttribute('data-slot'));
+                    selectBuildSlot(slotNumber);
+                });
+                
+                // Initialize this slot with an empty build
+                buildSlots[newSlotNumber] = [];
+                
+                // Add to the container
+                buildSlotsContainer.appendChild(slotElement);
+                
+                // Switch to the new slot
+                selectBuildSlot(newSlotNumber);
+                
+                // Prompt user to name the new slot
+                setTimeout(() => {
+                    renameBuildSlot();
+                }, 300);
+            }
+
+            function deleteBuildSlot(slotNumber) {
+                // Confirm before deleting
+                if (!confirm(`Are you sure you want to delete this build slot?\nThis action cannot be undone.`)) {
+                    return;
+                }
+                
+                // Find another slot to switch to
+                let newSlotNumber = null;
+                const slotElements = document.querySelectorAll('.build-slot');
+                
+                for (let i = 0; i < slotElements.length; i++) {
+                    const thisSlot = parseInt(slotElements[i].getAttribute('data-slot'));
+                    if (thisSlot !== slotNumber) {
+                        newSlotNumber = thisSlot;
+                        break;
+                    }
+                }
+                
+                // If we found another slot, switch to it first
+                if (newSlotNumber !== null) {
+                    // If the slot we're deleting is the current slot, switch to another one first
+                    if (currentBuildSlot === slotNumber) {
+                        selectBuildSlot(newSlotNumber);
+                    }
+                    
+                    // Remove the slot from localStorage
+                    localStorage.removeItem(`buildStructure_${slotNumber}`);
+                    localStorage.removeItem(`buildSlotName_${slotNumber}`);
+                    
+                    // Remove the slot from memory
+                    delete buildSlots[slotNumber];
+                    
+                    // Refresh the slots UI
+                    initializeBuildSlots();
+                } else {
+                    // This is the last slot, don't delete it
+                    alert("You can't delete the last build slot.");
+                }
             }
         });
     </script>
