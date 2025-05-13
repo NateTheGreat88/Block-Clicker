@@ -751,4 +751,187 @@ body {
     .game-title {
         font-size: 1.8rem;
     }
+}
+
+/* Block Shop styling */
+.block-preview {
+    display: block;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3), 0 0 5px rgba(255, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.block-preview::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, transparent 50%);
+}
+
+/* Build Interface */
+.build-interface {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.inventory {
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.inventory h3 {
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: var(--accent-color);
+}
+
+.inventory-blocks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.inventory-block {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    cursor: pointer;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inventory-block:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+}
+
+.inventory-block.selected {
+    border: 2px solid white;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+}
+
+.inventory-count {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Builder Area */
+.builder-container {
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 15px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.builder-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.builder-control-btn {
+    background: rgba(40, 40, 40, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    font-family: 'Montserrat', sans-serif;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.builder-control-btn:hover {
+    background: rgba(60, 60, 60, 0.8);
+    border-color: var(--accent-color);
+}
+
+.builder-control-btn i {
+    font-size: 0.9rem;
+}
+
+.build-area {
+    position: relative;
+    overflow: auto;
+    width: 100%;
+    height: 400px;
+    background: rgba(10, 10, 10, 0.8);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(20, 30px);
+    grid-template-rows: repeat(20, 30px);
+    gap: 1px;
+    padding: 10px;
+}
+
+.grid-cell {
+    width: 30px;
+    height: 30px;
+    background: rgba(40, 40, 40, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.2s ease;
+}
+
+.grid-cell:hover {
+    background: rgba(60, 60, 60, 0.3);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.grid-cell.has-block {
+    border: none;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+@media (min-width: 992px) {
+    .build-interface {
+        flex-direction: row;
+    }
+    
+    .inventory {
+        width: 30%;
+    }
+    
+    .builder-container {
+        width: 70%;
+    }
+    
+    .inventory-blocks {
+        flex-direction: column;
+    }
 } 

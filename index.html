@@ -34,9 +34,13 @@
                 <span>Clans</span>
                 <div class="coming-soon-badge">Coming Soon</div>
             </div>
-            <div class="menu-item active" data-section="shop">
+            <div class="menu-item" data-section="shop">
                 <i class="fas fa-shopping-cart"></i>
                 <span>Shop</span>
+            </div>
+            <div class="menu-item active" data-section="build">
+                <i class="fas fa-cubes"></i>
+                <span>Build</span>
             </div>
         </div>
     </div>
@@ -56,16 +60,16 @@
         </div>
 
         <!-- Shop Section -->
-        <div id="shop-section" class="game-section">
-            <h2 class="section-title">Shop</h2>
+        <div id="shop-section" class="game-section hidden">
+            <h2 class="section-title">Block Shop</h2>
             <div class="shop-items">
-                <div class="shop-item" data-id="click-multiplier" data-price="50" data-level="0" data-increment="1">
-                    <div class="shop-item-icon"><i class="fas fa-hand-pointer"></i></div>
+                <div class="shop-item" data-id="red-block" data-price="50" data-level="0" data-increment="1" data-color="#ff3e3e">
+                    <div class="shop-item-icon block-preview" style="background-color: #ff3e3e;"></div>
                     <div class="shop-item-info">
-                        <h3>Click Multiplier</h3>
-                        <p>Increase clicks value</p>
+                        <h3>Red Block</h3>
+                        <p>+1 Click Value</p>
                         <div class="shop-item-stats">
-                            <span class="level">Level: <span class="level-value">0</span></span>
+                            <span class="level">Owned: <span class="level-value">0</span></span>
                             <span class="multiplier">×<span class="multiplier-value">1</span></span>
                         </div>
                     </div>
@@ -74,13 +78,13 @@
                     </div>
                 </div>
                 
-                <div class="shop-item" data-id="auto-clicker" data-price="100" data-level="0" data-increment="0.5">
-                    <div class="shop-item-icon"><i class="fas fa-robot"></i></div>
+                <div class="shop-item" data-id="blue-block" data-price="100" data-level="0" data-increment="0.5" data-color="#00eeff">
+                    <div class="shop-item-icon block-preview" style="background-color: #00eeff;"></div>
                     <div class="shop-item-info">
-                        <h3>Auto Clicker</h3>
-                        <p>Clicks automatically</p>
+                        <h3>Blue Block</h3>
+                        <p>Auto-clicks (+0.5 CPS)</p>
                         <div class="shop-item-stats">
-                            <span class="level">Level: <span class="level-value">0</span></span>
+                            <span class="level">Owned: <span class="level-value">0</span></span>
                             <span class="multiplier"><span class="multiplier-value">0</span> CPS</span>
                         </div>
                     </div>
@@ -89,18 +93,95 @@
                     </div>
                 </div>
                 
-                <div class="shop-item" data-id="bonus-clicks" data-price="200" data-level="0" data-increment="5">
-                    <div class="shop-item-icon"><i class="fas fa-bolt"></i></div>
+                <div class="shop-item" data-id="gold-block" data-price="200" data-level="0" data-increment="5" data-color="#ffd700">
+                    <div class="shop-item-icon block-preview" style="background-color: #ffd700;"></div>
                     <div class="shop-item-info">
-                        <h3>Bonus Clicks</h3>
-                        <p>Random bonus clicks</p>
+                        <h3>Gold Block</h3>
+                        <p>+5% Random Bonus Clicks</p>
                         <div class="shop-item-stats">
-                            <span class="level">Level: <span class="level-value">0</span></span>
+                            <span class="level">Owned: <span class="level-value">0</span></span>
                             <span class="multiplier">+<span class="multiplier-value">0</span>%</span>
                         </div>
                     </div>
                     <div class="shop-item-price">
                         <i class="fas fa-coins"></i> <span class="price-value">200</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="purple-block" data-price="300" data-level="0" data-increment="2" data-color="#8a2be2">
+                    <div class="shop-item-icon block-preview" style="background-color: #8a2be2;"></div>
+                    <div class="shop-item-info">
+                        <h3>Purple Block</h3>
+                        <p>Decorative powerful block</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Owned: <span class="level-value">0</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">300</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="green-block" data-price="150" data-level="0" data-increment="1.5" data-color="#32cd32">
+                    <div class="shop-item-icon block-preview" style="background-color: #32cd32;"></div>
+                    <div class="shop-item-info">
+                        <h3>Green Block</h3>
+                        <p>Eco-friendly building block</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Owned: <span class="level-value">0</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">150</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="black-block" data-price="250" data-level="0" data-increment="3" data-color="#333333">
+                    <div class="shop-item-icon block-preview" style="background-color: #333333;"></div>
+                    <div class="shop-item-info">
+                        <h3>Black Block</h3>
+                        <p>Sleek structural block</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Owned: <span class="level-value">0</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">250</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Build Section -->
+        <div id="build-section" class="game-section">
+            <h2 class="section-title">Block Builder</h2>
+            
+            <div class="build-interface">
+                <div class="inventory">
+                    <h3>Your Blocks</h3>
+                    <div class="inventory-blocks" id="inventory-blocks">
+                        <!-- Inventory blocks will be added here dynamically -->
+                    </div>
+                </div>
+                
+                <div class="builder-container">
+                    <div class="builder-controls">
+                        <button id="clear-build" class="builder-control-btn">
+                            <i class="fas fa-trash"></i> Clear
+                        </button>
+                        <button id="save-build" class="builder-control-btn">
+                            <i class="fas fa-save"></i> Save
+                        </button>
+                        <button id="load-build" class="builder-control-btn">
+                            <i class="fas fa-folder-open"></i> Load
+                        </button>
+                    </div>
+                    
+                    <div class="build-area" id="build-area">
+                        <!-- Grid for placing blocks -->
+                        <div class="grid-container" id="grid-container">
+                            <!-- Grid cells will be generated dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,7 +230,14 @@
             const menuItems = document.querySelectorAll('.menu-item');
             const gameSections = document.querySelectorAll('.game-section');
             const shopItems = document.querySelectorAll('.shop-item');
+            const inventoryBlocksContainer = document.getElementById('inventory-blocks');
+            const buildArea = document.getElementById('build-area');
+            const gridContainer = document.getElementById('grid-container');
+            const clearBuildBtn = document.getElementById('clear-build');
+            const saveBuildBtn = document.getElementById('save-build');
+            const loadBuildBtn = document.getElementById('load-build');
             
+            // Game state variables
             let score = 0;
             let clicks = 0;
             let lastClick = Date.now();
@@ -159,10 +247,198 @@
             let autoClickValue = 0;
             let bonusClickChance = 0;
             let autoClickerInterval;
-
+            let selectedBlockType = null;
+            
+            // Inventory of blocks
+            let blockInventory = {
+                "red-block": { count: 0, color: "#ff3e3e", name: "Red Block" },
+                "blue-block": { count: 0, color: "#00eeff", name: "Blue Block" },
+                "gold-block": { count: 0, color: "#ffd700", name: "Gold Block" },
+                "purple-block": { count: 0, color: "#8a2be2", name: "Purple Block" },
+                "green-block": { count: 0, color: "#32cd32", name: "Green Block" },
+                "black-block": { count: 0, color: "#333333", name: "Black Block" }
+            };
+            
+            // Structure for saving/loading builds
+            let buildStructure = [];
+            
             // Create background particles
             for (let i = 0; i < 50; i++) {
                 createParticle();
+            }
+
+            // Initialize grid
+            createGrid();
+            refreshInventory();
+
+            function createGrid() {
+                gridContainer.innerHTML = '';
+                for (let row = 0; row < 20; row++) {
+                    for (let col = 0; col < 20; col++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('grid-cell');
+                        cell.setAttribute('data-row', row);
+                        cell.setAttribute('data-col', col);
+                        
+                        // Add click handler for placing blocks
+                        cell.addEventListener('click', function() {
+                            if (selectedBlockType && blockInventory[selectedBlockType].count > 0) {
+                                placeBlock(this, selectedBlockType);
+                            }
+                        });
+                        
+                        gridContainer.appendChild(cell);
+                    }
+                }
+            }
+
+            function placeBlock(cell, blockType) {
+                // Don't place if there's already a block
+                if (cell.classList.contains('has-block')) {
+                    // If clicked on an existing block, remove it
+                    const existingBlockType = cell.getAttribute('data-block-type');
+                    blockInventory[existingBlockType].count++;
+                    refreshInventory();
+                    
+                    // Reset the cell
+                    cell.style.backgroundColor = '';
+                    cell.classList.remove('has-block');
+                    cell.removeAttribute('data-block-type');
+                    
+                    return;
+                }
+                
+                // Decrement block count in inventory
+                blockInventory[blockType].count--;
+                
+                // Update cell appearance
+                cell.style.backgroundColor = blockInventory[blockType].color;
+                cell.classList.add('has-block');
+                cell.setAttribute('data-block-type', blockType);
+                
+                // Update inventory display
+                refreshInventory();
+                
+                // Save the current structure
+                updateBuildStructure();
+            }
+
+            function refreshInventory() {
+                // Clear current inventory display
+                inventoryBlocksContainer.innerHTML = '';
+                
+                // Add blocks to inventory display
+                for (let blockType in blockInventory) {
+                    if (blockInventory[blockType].count > 0) {
+                        const blockElement = document.createElement('div');
+                        blockElement.classList.add('inventory-block');
+                        blockElement.style.backgroundColor = blockInventory[blockType].color;
+                        blockElement.setAttribute('data-block-type', blockType);
+                        
+                        // Add count badge
+                        const countElement = document.createElement('div');
+                        countElement.classList.add('inventory-count');
+                        countElement.textContent = blockInventory[blockType].count;
+                        blockElement.appendChild(countElement);
+                        
+                        // Handle selection
+                        blockElement.addEventListener('click', function() {
+                            // Deselect all other blocks
+                            document.querySelectorAll('.inventory-block').forEach(block => {
+                                block.classList.remove('selected');
+                            });
+                            
+                            // Select this block
+                            this.classList.add('selected');
+                            selectedBlockType = this.getAttribute('data-block-type');
+                        });
+                        
+                        inventoryBlocksContainer.appendChild(blockElement);
+                    }
+                }
+                
+                // If there are no blocks, show a message
+                if (inventoryBlocksContainer.children.length === 0) {
+                    const emptyMessage = document.createElement('p');
+                    emptyMessage.textContent = "No blocks in inventory. Buy some in the Shop!";
+                    emptyMessage.style.color = "rgba(255, 255, 255, 0.5)";
+                    emptyMessage.style.fontSize = "0.9rem";
+                    emptyMessage.style.textAlign = "center";
+                    emptyMessage.style.padding = "1rem 0";
+                    inventoryBlocksContainer.appendChild(emptyMessage);
+                }
+            }
+
+            function updateBuildStructure() {
+                buildStructure = [];
+                
+                // Iterate through all cells and record blocks
+                document.querySelectorAll('.grid-cell.has-block').forEach(cell => {
+                    const row = parseInt(cell.getAttribute('data-row'));
+                    const col = parseInt(cell.getAttribute('data-col'));
+                    const blockType = cell.getAttribute('data-block-type');
+                    
+                    buildStructure.push({
+                        row: row,
+                        col: col,
+                        blockType: blockType
+                    });
+                });
+            }
+
+            function clearBuild() {
+                // Return all blocks to inventory
+                document.querySelectorAll('.grid-cell.has-block').forEach(cell => {
+                    const blockType = cell.getAttribute('data-block-type');
+                    blockInventory[blockType].count++;
+                    
+                    // Reset the cell
+                    cell.style.backgroundColor = '';
+                    cell.classList.remove('has-block');
+                    cell.removeAttribute('data-block-type');
+                });
+                
+                // Update inventory display
+                refreshInventory();
+                
+                // Clear build structure
+                buildStructure = [];
+            }
+
+            function saveBuild() {
+                // Update structure before saving
+                updateBuildStructure();
+                
+                // Save to localStorage
+                localStorage.setItem('buildStructure', JSON.stringify(buildStructure));
+                alert('Build saved successfully!');
+            }
+
+            function loadBuild() {
+                // Get saved structure
+                const savedStructure = localStorage.getItem('buildStructure');
+                
+                if (!savedStructure) {
+                    alert('No saved build found.');
+                    return;
+                }
+                
+                // Clear current build
+                clearBuild();
+                
+                // Parse saved structure
+                buildStructure = JSON.parse(savedStructure);
+                
+                // Place blocks according to saved structure
+                buildStructure.forEach(block => {
+                    // Check if we have this block in inventory
+                    if (blockInventory[block.blockType].count > 0) {
+                        const cell = document.querySelector(`.grid-cell[data-row="${block.row}"][data-col="${block.col}"]`);
+                        if (cell) {
+                            placeBlock(cell, block.blockType);
+                        }
+                    }
+                });
             }
 
             function createParticle() {
@@ -270,11 +546,14 @@
                         this.setAttribute('data-level', newLevel);
                         levelElement.textContent = newLevel;
                         
+                        // Add to block inventory
+                        blockInventory[id].count++;
+                        
                         // Update the multiplier based on the item
-                        if (id === 'click-multiplier') {
+                        if (id === 'red-block') {
                             clickMultiplier += increment;
                             multiplierElement.textContent = clickMultiplier;
-                        } else if (id === 'auto-clicker') {
+                        } else if (id === 'blue-block') {
                             autoClickValue += increment;
                             multiplierElement.textContent = autoClickValue.toFixed(1);
                             
@@ -285,7 +564,7 @@
                                     incrementScore(clickMultiplier);
                                 }, 1000 / autoClickValue);
                             }
-                        } else if (id === 'bonus-clicks') {
+                        } else if (id === 'gold-block') {
                             bonusClickChance += increment;
                             multiplierElement.textContent = bonusClickChance;
                         }
@@ -300,6 +579,9 @@
                         setTimeout(() => {
                             item.classList.remove('item-purchased');
                         }, 300);
+                        
+                        // Update inventory display
+                        refreshInventory();
                     } else {
                         // Not enough score - visual feedback
                         item.classList.add('item-cannot-afford');
@@ -386,8 +668,13 @@
                 }
             });
             
-            // Initialize with the shop section visible
-            showSection('shop');
+            // Builder control buttons
+            clearBuildBtn.addEventListener('click', clearBuild);
+            saveBuildBtn.addEventListener('click', saveBuild);
+            loadBuildBtn.addEventListener('click', loadBuild);
+            
+            // Initialize with the build section visible
+            showSection('build');
         });
     </script>
 </body>
