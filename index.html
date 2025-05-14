@@ -853,6 +853,207 @@
             from { opacity: 1; transform: translateY(0); }
             to { opacity: 0; transform: translateY(20px); }
         }
+
+        /* Achievements Styles */
+        .achievements-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .achievements-summary {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .achievement-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .achievement-stat {
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            color: #aaa;
+            margin-right: 8px;
+        }
+
+        .stat-value {
+            color: var(--accent-color, #4682ff);
+            font-weight: bold;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .achievement-card {
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-card.locked {
+            filter: grayscale(100%);
+            opacity: 0.7;
+        }
+
+        .achievement-card.locked .achievement-name,
+        .achievement-card.locked .achievement-description {
+            filter: blur(3px);
+        }
+
+        .achievement-card.locked::after {
+            content: "🔒";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            z-index: 2;
+        }
+
+        .achievement-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 12px;
+        }
+
+        .achievement-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--accent-color, #4682ff);
+            font-size: 1.2rem;
+        }
+
+        .achievement-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #eee;
+        }
+
+        .achievement-description {
+            color: #bbb;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .achievement-progress-container {
+            height: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .achievement-progress {
+            height: 100%;
+            background-color: var(--accent-color, #4682ff);
+            width: 0%; /* Will be set dynamically */
+            transition: width 0.5s ease;
+        }
+
+        .achievement-completed {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent-color, #4682ff);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .achievement-card.unlocked .achievement-completed {
+            opacity: 1;
+        }
+
+        .achievement-notification {
+            position: fixed;
+            bottom: 30px;
+            right: -300px;
+            width: 280px;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            border-left: 4px solid var(--accent-color, #4682ff);
+            z-index: 1000;
+            animation: achievementSlideIn 0.5s forwards, achievementSlideOut 0.5s 4.5s forwards;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .achievement-notification-icon {
+            font-size: 2rem;
+            color: var(--accent-color, #4682ff);
+        }
+
+        .achievement-notification-content h4 {
+            margin: 0 0 5px 0;
+            font-size: 1rem;
+        }
+
+        .achievement-notification-content p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: #bbb;
+        }
+
+        @keyframes achievementSlideIn {
+            from { right: -300px; }
+            to { right: 30px; }
+        }
+
+        @keyframes achievementSlideOut {
+            from { right: 30px; opacity: 1; }
+            to { right: -300px; opacity: 0; }
+        }
+
+        /* Themes compatibility */
+        .theme-neon .achievement-icon {
+            text-shadow: 0 0 10px var(--accent-color, #ff00ff);
+        }
+
+        .theme-retro .achievement-card {
+            border: 2px dashed var(--accent-color, #ff6347);
+        }
+
+        .high-contrast .achievement-card {
+            background-color: black;
+            border: 2px solid white;
+        }
+
+        .high-contrast .achievement-icon {
+            background-color: white;
+            color: black;
+        }
     </style>
 </head>
 <body>
@@ -889,6 +1090,10 @@
             <div class="menu-item" data-section="updates">
                 <i class="fas fa-history"></i>
                 <span>Updates</span>
+            </div>
+            <div class="menu-item" data-section="achievements">
+                <i class="fas fa-trophy"></i>
+                <span>Achievements</span>
             </div>
         </div>
     </div>
@@ -1304,6 +1509,30 @@
             </div>
         </div>
 
+        <!-- Achievements Section -->
+        <div id="achievements-section" class="game-section hidden">
+            <h2 class="section-title">Achievements</h2>
+            
+            <div class="achievements-container">
+                <div class="achievements-summary">
+                    <div class="achievement-stats">
+                        <div class="achievement-stat">
+                            <span class="stat-label">Unlocked:</span>
+                            <span class="stat-value" id="achievements-unlocked">0</span>/<span id="achievements-total">0</span>
+                        </div>
+                        <div class="achievement-stat">
+                            <span class="stat-label">Completion:</span>
+                            <span class="stat-value" id="achievements-percentage">0%</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="achievements-grid" id="achievements-grid">
+                    <!-- Achievements will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+
         <!-- Ad container -->
         <div class="ad-container">
             <!-- Google AdSense Ad Unit -->
@@ -1365,12 +1594,172 @@
                 }
             };
             
+            // Achievements system
+            let achievements = {
+                clickCount: 0,      // Total clicks
+                buildCount: 0,      // Total blocks placed
+                buyCount: 0,        // Total shop purchases
+                highestScore: 0,    // Highest score
+                totalScore: 0,      // Total score earned (cumulative)
+                redBlocks: 0,       // Blocks by type
+                blueBlocks: 0,
+                goldBlocks: 0,
+                purpleBlocks: 0,
+                greenBlocks: 0,
+                blackBlocks: 0,
+                blocksPlaced: 0,    // Total blocks placed
+                blocksRemoved: 0,   // Total blocks removed
+                unlockedAchievements: [],  // IDs of unlocked achievements
+            };
+            
+            // Achievement definitions
+            const achievementsList = [
+                // Clicking achievements
+                {
+                    id: "click_10",
+                    name: "Click Beginner",
+                    description: "Click the clicker 10 times",
+                    icon: "fa-mouse-pointer",
+                    type: "clicks",
+                    requirement: 10,
+                    progressFn: () => achievements.clickCount,
+                    unlocked: false
+                },
+                {
+                    id: "click_100",
+                    name: "Click Enthusiast",
+                    description: "Click the clicker 100 times",
+                    icon: "fa-mouse-pointer",
+                    type: "clicks",
+                    requirement: 100,
+                    progressFn: () => achievements.clickCount,
+                    unlocked: false
+                },
+                {
+                    id: "click_1000",
+                    name: "Click Maestro",
+                    description: "Click the clicker 1,000 times",
+                    icon: "fa-mouse-pointer",
+                    type: "clicks",
+                    requirement: 1000,
+                    progressFn: () => achievements.clickCount,
+                    unlocked: false
+                },
+                
+                // Score achievements
+                {
+                    id: "score_100",
+                    name: "First Fortune",
+                    description: "Reach a score of 100",
+                    icon: "fa-coins",
+                    type: "score",
+                    requirement: 100,
+                    progressFn: () => score,
+                    unlocked: false
+                },
+                {
+                    id: "score_1000",
+                    name: "Score Collector",
+                    description: "Reach a score of 1,000",
+                    icon: "fa-coins",
+                    type: "score",
+                    requirement: 1000,
+                    progressFn: () => score,
+                    unlocked: false
+                },
+                {
+                    id: "score_10000",
+                    name: "Score Hoarder",
+                    description: "Reach a score of 10,000",
+                    icon: "fa-coins",
+                    type: "score",
+                    requirement: 10000,
+                    progressFn: () => score,
+                    unlocked: false
+                },
+                
+                // Building achievements
+                {
+                    id: "build_5",
+                    name: "Block Builder",
+                    description: "Place 5 blocks in your build",
+                    icon: "fa-cubes",
+                    type: "building",
+                    requirement: 5,
+                    progressFn: () => achievements.blocksPlaced,
+                    unlocked: false
+                },
+                {
+                    id: "build_25",
+                    name: "Master Builder",
+                    description: "Place 25 blocks in your build",
+                    icon: "fa-cubes",
+                    type: "building",
+                    requirement: 25,
+                    progressFn: () => achievements.blocksPlaced,
+                    unlocked: false
+                },
+                {
+                    id: "build_100",
+                    name: "Architect",
+                    description: "Place 100 blocks in your build",
+                    icon: "fa-cubes",
+                    type: "building",
+                    requirement: 100,
+                    progressFn: () => achievements.blocksPlaced,
+                    unlocked: false
+                },
+                
+                // Block type achievements
+                {
+                    id: "all_block_types",
+                    name: "Collector",
+                    description: "Place at least one of each block type",
+                    icon: "fa-layer-group",
+                    type: "special",
+                    requirement: 6,
+                    progressFn: () => {
+                        let count = 0;
+                        if (achievements.redBlocks > 0) count++;
+                        if (achievements.blueBlocks > 0) count++;
+                        if (achievements.goldBlocks > 0) count++;
+                        if (achievements.purpleBlocks > 0) count++;
+                        if (achievements.greenBlocks > 0) count++;
+                        if (achievements.blackBlocks > 0) count++;
+                        return count;
+                    },
+                    unlocked: false
+                },
+                
+                // Special achievements
+                {
+                    id: "first_bonus",
+                    name: "Lucky Strike",
+                    description: "Get your first bonus click",
+                    icon: "fa-star",
+                    type: "special",
+                    special: true,
+                    unlocked: false
+                },
+                {
+                    id: "cps_10",
+                    name: "Speed Clicker",
+                    description: "Reach 10 clicks per second",
+                    icon: "fa-tachometer-alt",
+                    type: "special",
+                    requirement: 10,
+                    progressFn: () => bestCps,
+                    unlocked: false
+                }
+            ];
+            
             // Sound system
             const sounds = {
                 click: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'), // Empty placeholder
                 place: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'),
                 remove: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'),
-                bonus: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU')
+                bonus: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'),
+                achievement: new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU')
             };
             
             // Function to play sounds
@@ -1727,6 +2116,25 @@
                 // Decrement block count in inventory (unless regenerating)
                 if (!isRegenerating) {
                     blockInventory[blockType].count--;
+                }
+                
+                // Track block placement for achievements
+                if (!isRegenerating) {
+                    // Increment total blocks placed
+                    achievements.blocksPlaced++;
+                    
+                    // Increment the appropriate block type counter
+                    if (blockType === 'red-block') achievements.redBlocks++;
+                    else if (blockType === 'blue-block') achievements.blueBlocks++;
+                    else if (blockType === 'gold-block') achievements.goldBlocks++;
+                    else if (blockType === 'purple-block') achievements.purpleBlocks++;
+                    else if (blockType === 'green-block') achievements.greenBlocks++;
+                    else if (blockType === 'black-block') achievements.blackBlocks++;
+                    
+                    // Check achievements after placing a block
+                    checkAchievements();
+                    // Save achievement progress
+                    saveAchievements();
                 }
                 
                 // Find the original price of the block and reward the player with score based on building
@@ -2489,6 +2897,9 @@
                     if (cps > bestCps && clickTimes.length >= 5) { // Only count if we have at least 5 clicks
                         bestCps = cps;
                         bestCpsElement.textContent = bestCps.toFixed(1);
+                        
+                        // Check for CPS achievement
+                        checkAchievements();
                     }
                 } else {
                     cpsElement.textContent = '0.0';
@@ -2585,6 +2996,11 @@
                         // Add to block inventory
                         blockInventory[id].count++;
                         
+                        // Track purchase for achievements
+                        achievements.buyCount++;
+                        saveAchievements();
+                        checkAchievements();
+                        
                         // Update the multiplier based on the item
                         if (id === 'red-block') {
                             clickMultiplier += increment;
@@ -2632,10 +3048,20 @@
                 // Apply the base amount
                 score += amount;
                 
+                // Update total score for achievements
+                achievements.totalScore += amount;
+                achievements.highestScore = Math.max(achievements.highestScore, score);
+                
                 // Check for bonus clicks if applicable
                 if (bonusClickChance > 0 && Math.random() * 100 < bonusClickChance) {
                     const bonus = Math.ceil(amount * 2); // Double the click value as bonus
                     score += bonus;
+                    achievements.totalScore += bonus;
+                    
+                    // Unlock the bonus click achievement
+                    if (!achievementsList.find(a => a.id === "first_bonus").unlocked) {
+                        unlockSpecialAchievement("first_bonus");
+                    }
                     
                     // Play bonus sound
                     playSound('bonus');
@@ -2657,12 +3083,18 @@
                 }
                 
                 scoreElement.textContent = score;
+                
+                // Check score-related achievements
+                checkAchievements();
             }
 
             // Add click effect
             clicker.addEventListener('click', function(e) {
                 // Play click sound
                 playSound('click');
+                
+                // Count the click for achievements
+                achievements.clickCount++;
                 
                 // Increment score by click multiplier
                 incrementScore(clickMultiplier);
@@ -2694,6 +3126,9 @@
                 setTimeout(() => {
                     ripple.remove();
                 }, 800);
+                
+                // Check click-related achievements
+                checkAchievements();
                 
                 // Show an interstitial ad less frequently with a time-based cooldown
                 if (score % 100 === 0 && score > 0) {
@@ -2771,6 +3206,10 @@
                 
                 // Return the block to inventory
                 blockInventory[blockType].count++;
+                
+                // Track block removal for achievements
+                achievements.blocksRemoved++;
+                saveAchievements();
                 
                 // Remove any special classes
                 cell.classList.remove('energy-emitter', 'score-generator', 'coin-spawner', 
@@ -3279,6 +3718,9 @@
                     // Settings
                     gameSettings: gameSettings,
                     
+                    // Achievements
+                    achievements: achievements,
+                    
                     // Version for future compatibility
                     version: "1.3.2",
                     timestamp: Date.now()
@@ -3330,6 +3772,20 @@
                     if (gameData.blockInventory) {
                         blockInventory = gameData.blockInventory;
                         refreshInventory();
+                    }
+                    
+                    // Import achievements
+                    if (gameData.achievements) {
+                        achievements = gameData.achievements;
+                        
+                        // Update the achievements list with unlocked status
+                        achievementsList.forEach(a => {
+                            a.unlocked = achievements.unlockedAchievements.includes(a.id);
+                        });
+                        
+                        // Update achievements UI
+                        renderAchievements();
+                        updateAchievementStats();
                     }
                     
                     // Import settings
@@ -3385,6 +3841,178 @@
                     return false;
                 }
             }
+
+            // Initialize achievements
+            function initializeAchievements() {
+                // Check localStorage for saved achievements
+                const savedAchievements = localStorage.getItem('achievements');
+                if (savedAchievements) {
+                    try {
+                        achievements = JSON.parse(savedAchievements);
+                    } catch (e) {
+                        console.error('Error loading achievements', e);
+                    }
+                }
+                
+                // Mark achievements as unlocked based on loaded data
+                if (achievements.unlockedAchievements) {
+                    achievementsList.forEach(a => {
+                        if (achievements.unlockedAchievements.includes(a.id)) {
+                            a.unlocked = true;
+                        }
+                    });
+                } else {
+                    achievements.unlockedAchievements = [];
+                }
+                
+                // Populate the achievements grid
+                renderAchievements();
+                updateAchievementStats();
+            }
+            
+            // Render all achievements to the achievements grid
+            function renderAchievements() {
+                const grid = document.getElementById('achievements-grid');
+                grid.innerHTML = '';
+                
+                achievementsList.forEach(achievement => {
+                    const progress = achievement.progressFn ? 
+                        Math.min(achievement.progressFn() / achievement.requirement, 1) : 
+                        (achievement.unlocked ? 1 : 0);
+                    
+                    const card = document.createElement('div');
+                    card.className = `achievement-card ${achievement.unlocked ? 'unlocked' : 'locked'}`;
+                    card.setAttribute('data-id', achievement.id);
+                    
+                    card.innerHTML = `
+                        <div class="achievement-header">
+                            <div class="achievement-icon">
+                                <i class="fas ${achievement.icon}"></i>
+                            </div>
+                            <div class="achievement-name">${achievement.name}</div>
+                        </div>
+                        <div class="achievement-description">${achievement.description}</div>
+                        <div class="achievement-progress-container">
+                            <div class="achievement-progress" style="width: ${progress * 100}%"></div>
+                        </div>
+                        <div class="achievement-completed">Completed!</div>
+                    `;
+                    
+                    grid.appendChild(card);
+                });
+            }
+            
+            // Update the achievement statistics
+            function updateAchievementStats() {
+                const totalAchievements = achievementsList.length;
+                const unlockedCount = achievements.unlockedAchievements.length;
+                const percentage = Math.round((unlockedCount / totalAchievements) * 100);
+                
+                document.getElementById('achievements-total').textContent = totalAchievements;
+                document.getElementById('achievements-unlocked').textContent = unlockedCount;
+                document.getElementById('achievements-percentage').textContent = percentage + '%';
+            }
+            
+            // Check if any achievements have been unlocked
+            function checkAchievements() {
+                let newlyUnlocked = [];
+                
+                achievementsList.forEach(achievement => {
+                    if (!achievement.unlocked) {
+                        if (achievement.special) {
+                            // Special achievements are handled separately
+                            return;
+                        }
+                        
+                        const currentProgress = achievement.progressFn ? achievement.progressFn() : 0;
+                        
+                        if (currentProgress >= achievement.requirement) {
+                            achievement.unlocked = true;
+                            achievements.unlockedAchievements.push(achievement.id);
+                            newlyUnlocked.push(achievement);
+                        }
+                    }
+                });
+                
+                // Save achievements progress
+                saveAchievements();
+                
+                // Update UI if any achievements were unlocked
+                if (newlyUnlocked.length > 0) {
+                    renderAchievements();
+                    updateAchievementStats();
+                    
+                    // Show notification for the last unlocked achievement
+                    showAchievementNotification(newlyUnlocked[newlyUnlocked.length - 1]);
+                }
+            }
+            
+            // Unlock a special achievement
+            function unlockSpecialAchievement(id) {
+                const achievement = achievementsList.find(a => a.id === id);
+                if (achievement && !achievement.unlocked) {
+                    achievement.unlocked = true;
+                    achievements.unlockedAchievements.push(id);
+                    
+                    // Save and update UI
+                    saveAchievements();
+                    renderAchievements();
+                    updateAchievementStats();
+                    
+                    // Show notification
+                    showAchievementNotification(achievement);
+                }
+            }
+            
+            // Show achievement notification
+            function showAchievementNotification(achievement) {
+                // Play achievement sound
+                playSound('achievement');
+                
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = 'achievement-notification';
+                notification.innerHTML = `
+                    <div class="achievement-notification-icon">
+                        <i class="fas ${achievement.icon}"></i>
+                    </div>
+                    <div class="achievement-notification-content">
+                        <h4>Achievement Unlocked!</h4>
+                        <p>${achievement.name}</p>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Remove notification after animation completes
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+            }
+            
+            // Save achievements to localStorage
+            function saveAchievements() {
+                localStorage.setItem('achievements', JSON.stringify(achievements));
+            }
+            
+            // Initialize grid
+            createGrid();
+            refreshInventory();
+            
+            // Initialize build slots
+            initializeBuildSlots();
+            
+            // Load and apply saved settings
+            loadSettings();
+            
+            // Start auto-save if enabled
+            startAutoSave();
+            
+            // Start block effects timer
+            startBlockEffects();
+            
+            // Initialize achievements
+            initializeAchievements();
         });
     </script>
 </body>
