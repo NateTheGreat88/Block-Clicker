@@ -1054,6 +1054,26 @@
             background-color: white;
             color: black;
         }
+
+        /* Shop item affordability indicator */
+        .shop-item-price {
+            transition: color 0.3s ease;
+        }
+        
+        .shop-item-price.can-afford {
+            color: #32cd32; /* Bright green */
+        }
+        
+        .shop-item-price.can-afford i {
+            color: #32cd32;
+            animation: coin-pulse 1.5s infinite;
+        }
+        
+        @keyframes coin-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
@@ -3034,6 +3054,9 @@
                         
                         // Update inventory display
                         refreshInventory();
+                        
+                        // Update shop item price indicators
+                        updateShopPriceIndicators();
                     } else {
                         // Not enough score - visual feedback
                         item.classList.add('item-cannot-afford');
@@ -3084,8 +3107,25 @@
                 
                 scoreElement.textContent = score;
                 
+                // Update shop item price indicators
+                updateShopPriceIndicators();
+                
                 // Check score-related achievements
                 checkAchievements();
+            }
+            
+            // Update shop item price indicators to show which items can be afforded
+            function updateShopPriceIndicators() {
+                shopItems.forEach(item => {
+                    const price = parseInt(item.getAttribute('data-price'));
+                    const priceElement = item.querySelector('.shop-item-price');
+                    
+                    if (score >= price) {
+                        priceElement.classList.add('can-afford');
+                    } else {
+                        priceElement.classList.remove('can-afford');
+                    }
+                });
             }
 
             // Add click effect
@@ -3835,6 +3875,9 @@
                         }, 1000 / autoClickValue);
                     }
                     
+                    // Update shop price indicators based on loaded score
+                    updateShopPriceIndicators();
+                    
                     return true;
                 } catch (e) {
                     console.error('Error loading save data:', e);
@@ -4013,6 +4056,9 @@
             
             // Initialize achievements
             initializeAchievements();
+            
+            // Initialize shop price indicators
+            updateShopPriceIndicators();
         });
     </script>
 </body>
