@@ -1729,66 +1729,72 @@
                 
                 // Find the original price of the block and reward the player with score based on building
                 if (!isRegenerating) {
-                    const shopItem = document.querySelector(`.shop-item[data-id="${blockType}"]`);
-                    if (shopItem) {
-                        const basePrice = parseInt(shopItem.getAttribute('data-price'));
-                        const initialPrice = Math.floor(basePrice / 1.5); // Estimate original price before markup
-                        const buildReward = Math.ceil(initialPrice * 0.3); // 30% of block's value
-                        
-                        // Add build reward to score
-                        score += buildReward;
-                        scoreElement.textContent = score;
-                        
-                        // Show building reward effect
-                        const buildRewardEffect = document.createElement('div');
-                        buildRewardEffect.className = 'score-effect build-reward';
-                        buildRewardEffect.innerHTML = `<i class="fas fa-hammer"></i> +${buildReward}`;
-                        
-                        const rect = cell.getBoundingClientRect();
-                        buildRewardEffect.style.left = rect.left + rect.width/2 + 'px';
-                        buildRewardEffect.style.top = rect.top - 10 + 'px';
-                        
-                        document.body.appendChild(buildRewardEffect);
-                        
-                        setTimeout(() => {
-                            buildRewardEffect.remove();
-                        }, 1500);
-                        
-                        // Show tutorial tip about building rewards if it's the first time
-                        if (!hasShownBuildingTip) {
-                            hasShownBuildingTip = true;
-                            const tip = document.createElement('div');
-                            tip.className = 'tutorial-tip';
-                            tip.innerHTML = `
-                                <i class="fas fa-lightbulb"></i>
-                                <div class="tip-content">
-                                    <h4>Building Rewards!</h4>
-                                    <p>You now earn score for placing blocks! More expensive blocks give higher rewards.</p>
-                                    <button class="close-tip">Got it!</button>
-                                </div>
-                            `;
-                            document.body.appendChild(tip);
+                    try {
+                        // Get the shop item for this block type
+                        const shopItem = document.querySelector(`.shop-item[data-id="${blockType}"]`);
+                        if (shopItem) {
+                            // Get the base price and calculate reward
+                            const basePrice = parseInt(shopItem.getAttribute('data-price'));
+                            const initialPrice = Math.floor(basePrice / 1.5); // Estimate original price before markup
+                            const buildReward = Math.ceil(initialPrice * 0.3); // 30% of block's value
                             
-                            // Add event listener to close button
-                            tip.querySelector('.close-tip').addEventListener('click', function() {
-                                tip.classList.add('tip-fadeout');
-                                setTimeout(() => {
-                                    tip.remove();
-                                }, 500);
-                            });
+                            // Add build reward to score - using the increment function ensures all UI is updated
+                            incrementScore(buildReward);
                             
-                            // Auto close after 8 seconds
+                            // Show building reward effect with hammer icon
+                            const buildRewardEffect = document.createElement('div');
+                            buildRewardEffect.className = 'score-effect build-reward';
+                            buildRewardEffect.innerHTML = `<i class="fas fa-hammer"></i> +${buildReward}`;
+                            
+                            // Position the effect at the cell location
+                            const rect = cell.getBoundingClientRect();
+                            buildRewardEffect.style.left = (rect.left + rect.width/2) + 'px';
+                            buildRewardEffect.style.top = (rect.top - 10) + 'px';
+                            
+                            // Add to document and remove after animation
+                            document.body.appendChild(buildRewardEffect);
                             setTimeout(() => {
-                                if (document.body.contains(tip)) {
+                                buildRewardEffect.remove();
+                            }, 1500);
+                            
+                            // Show tutorial tip about building rewards if it's the first time
+                            if (!hasShownBuildingTip) {
+                                hasShownBuildingTip = true;
+                                const tip = document.createElement('div');
+                                tip.className = 'tutorial-tip';
+                                tip.innerHTML = `
+                                    <i class="fas fa-lightbulb"></i>
+                                    <div class="tip-content">
+                                        <h4>Building Rewards!</h4>
+                                        <p>You now earn score for placing blocks! More expensive blocks give higher rewards.</p>
+                                        <button class="close-tip">Got it!</button>
+                                    </div>
+                                `;
+                                document.body.appendChild(tip);
+                                
+                                // Add event listener to close button
+                                tip.querySelector('.close-tip').addEventListener('click', function() {
                                     tip.classList.add('tip-fadeout');
                                     setTimeout(() => {
-                                        if (document.body.contains(tip)) {
-                                            tip.remove();
-                                        }
+                                        tip.remove();
                                     }, 500);
-                                }
-                            }, 8000);
+                                });
+                                
+                                // Auto close after 8 seconds
+                                setTimeout(() => {
+                                    if (document.body.contains(tip)) {
+                                        tip.classList.add('tip-fadeout');
+                                        setTimeout(() => {
+                                            if (document.body.contains(tip)) {
+                                                tip.remove();
+                                            }
+                                        }, 500);
+                                    }
+                                }, 8000);
+                            }
                         }
+                    } catch (error) {
+                        console.error("Error applying building reward:", error);
                     }
                 }
                 
