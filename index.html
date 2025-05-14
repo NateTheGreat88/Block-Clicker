@@ -3690,50 +3690,71 @@
                 item.addEventListener('click', function() {
                     const price = parseInt(this.getAttribute('data-price'));
                     const level = parseInt(this.getAttribute('data-level'));
-                    const increment = parseFloat(this.getAttribute('data-increment'));
+                    const increment = parseFloat(this.getAttribute('data-increment') || '0');
+                    const reward = parseInt(this.getAttribute('data-reward') || '0');
                     
                     if (score >= price) {
                         // Deduct the cost
                         score -= price;
                         scoreElement.textContent = score;
                         
-                        // Increase the level
-                        const newLevel = level + 1;
-                        this.setAttribute('data-level', newLevel);
-                        levelElement.textContent = newLevel;
-                        
-                        // Add to block inventory
-                        blockInventory[id].count++;
-                        
-                        // Track purchase for achievements
-                        achievements.buyCount++;
-                        saveAchievements();
-                        checkAchievements();
-                        
-                        // Update the multiplier based on the item
-                        if (id === 'red-block') {
-                            clickMultiplier += increment;
-                            multiplierElement.textContent = clickMultiplier;
-                        } else if (id === 'blue-block') {
-                            autoClickValue += increment;
-                            multiplierElement.textContent = autoClickValue.toFixed(1);
+                        // Check if this is a blueprint purchase
+                        if (id.startsWith('blueprint-')) {
+                            // Add to owned blueprints
+                            ownedBlueprints[id] = true;
                             
-                            // Clear existing interval and set up new one
-                            clearInterval(autoClickerInterval);
-                            if (autoClickValue > 0) {
-                                autoClickerInterval = setInterval(function() {
-                                    incrementScore(clickMultiplier);
-                                }, 1000 / autoClickValue);
+                            // Update the UI
+                            this.classList.add('owned');
+                            this.setAttribute('data-level', '1');
+                            if (levelElement) levelElement.textContent = '1';
+                            
+                            // Update the blueprint selector
+                            updateBlueprintSelector();
+                            
+                            // Save owned blueprints
+                            saveBlueprints();
+                            
+                            // Show purchase confirmation
+                            alert(`Blueprint purchased! Go to the Build section to use it.`);
+                        } else {
+                            // Increase the level
+                            const newLevel = level + 1;
+                            this.setAttribute('data-level', newLevel);
+                            levelElement.textContent = newLevel;
+                            
+                            // Add to block inventory
+                            blockInventory[id].count++;
+                            
+                            // Track purchase for achievements
+                            achievements.buyCount++;
+                            saveAchievements();
+                            checkAchievements();
+                            
+                            // Update the multiplier based on the item
+                            if (id === 'red-block') {
+                                clickMultiplier += increment;
+                                multiplierElement.textContent = clickMultiplier;
+                            } else if (id === 'blue-block') {
+                                autoClickValue += increment;
+                                multiplierElement.textContent = autoClickValue.toFixed(1);
+                                
+                                // Clear existing interval and set up new one
+                                clearInterval(autoClickerInterval);
+                                if (autoClickValue > 0) {
+                                    autoClickerInterval = setInterval(function() {
+                                        incrementScore(clickMultiplier);
+                                    }, 1000 / autoClickValue);
+                                }
+                            } else if (id === 'gold-block') {
+                                bonusClickChance += increment;
+                                multiplierElement.textContent = bonusClickChance;
                             }
-                        } else if (id === 'gold-block') {
-                            bonusClickChance += increment;
-                            multiplierElement.textContent = bonusClickChance;
+                            
+                            // Increase the price for next purchase
+                            const newPrice = Math.floor(price * 1.5);
+                            this.setAttribute('data-price', newPrice);
+                            priceElement.textContent = newPrice;
                         }
-                        
-                        // Increase the price for next purchase
-                        const newPrice = Math.floor(price * 1.5);
-                        this.setAttribute('data-price', newPrice);
-                        priceElement.textContent = newPrice;
                         
                         // Visual feedback
                         item.classList.add('item-purchased');
