@@ -1074,6 +1074,500 @@
             50% { transform: scale(1.15); }
             100% { transform: scale(1); }
         }
+
+        /* Profile Page Styles */
+        .profile-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 1rem;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .profile-avatar {
+            position: relative;
+            width: 100px;
+            height: 100px;
+        }
+
+        .avatar-image {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 3px solid var(--accent-color, #4682ff);
+        }
+
+        .avatar-image i {
+            font-size: 70px;
+            color: var(--accent-color, #4682ff);
+        }
+
+        .change-avatar-btn {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--accent-color, #4682ff);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .change-avatar-btn:hover {
+            transform: scale(1.1);
+            background-color: #3569cc;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            margin: 0 0 0.5rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .edit-name-btn {
+            font-size: 1rem;
+            color: #999;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .edit-name-btn:hover {
+            color: var(--accent-color, #4682ff);
+        }
+
+        .profile-title {
+            font-size: 1.2rem;
+            color: var(--accent-color, #4682ff);
+            font-style: italic;
+        }
+
+        .profile-level {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .level-badge {
+            width: 45px;
+            height: 45px;
+            background-color: var(--accent-color, #4682ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 0 10px rgba(70, 130, 255, 0.5);
+        }
+
+        .level-progress-container {
+            width: 100px;
+            height: 6px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .level-progress {
+            height: 100%;
+            width: 25%;
+            background-color: var(--accent-color, #4682ff);
+            border-radius: 3px;
+        }
+
+        .level-text {
+            font-size: 0.8rem;
+            color: #bbb;
+        }
+
+        .profile-panels {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .profile-panel {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .panel-header i {
+            color: var(--accent-color, #4682ff);
+            font-size: 1.2rem;
+        }
+
+        .panel-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .panel-content {
+            padding: 1.5rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #bbb;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .achievement-progress-bar {
+            height: 8px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .achievement-progress {
+            height: 100%;
+            width: 35%;
+            background-color: var(--accent-color, #4682ff);
+            border-radius: 4px;
+        }
+
+        .achievement-progress-text {
+            position: absolute;
+            top: 12px;
+            right: 0;
+            font-size: 0.85rem;
+            color: #bbb;
+        }
+
+        .recent-achievements {
+            margin-top: 1.5rem;
+        }
+
+        .recent-achievements h4 {
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        .recent-achievements-list {
+            margin-bottom: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .empty-achievements {
+            text-align: center;
+            color: #888;
+            padding: 1rem;
+            font-style: italic;
+        }
+
+        .profile-btn {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .profile-btn:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-btn-primary {
+            background-color: var(--accent-color, #4682ff);
+        }
+
+        .profile-btn-primary:hover {
+            background-color: #3569cc;
+        }
+
+        .block-distribution {
+            display: flex;
+            flex-direction: column;
+            height: 200px;
+        }
+
+        .block-distribution-chart {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .distribution-bar {
+            flex: 1;
+            background-color: rgba(255, 255, 255, 0.1);
+            position: relative;
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            transition: height 0.5s ease;
+        }
+
+        .distribution-bar .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            color: #ddd;
+        }
+
+        .block-distribution-labels {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .block-label {
+            flex: 1;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .customization-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .customization-section h4 {
+            margin: 0 0 0.75rem 0;
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        .avatar-options, .color-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .avatar-option {
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+        }
+
+        .avatar-option i {
+            font-size: 30px;
+            color: #ddd;
+        }
+
+        .avatar-option:hover {
+            background-color: rgba(70, 130, 255, 0.2);
+        }
+
+        .avatar-option.selected {
+            border-color: var(--accent-color, #4682ff);
+        }
+
+        .avatar-option.selected i {
+            color: var(--accent-color, #4682ff);
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: white;
+            transform: scale(1.15);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-select {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .unlock-info {
+            font-size: 0.8rem;
+            color: #888;
+            font-style: italic;
+            margin: 0.5rem 0 0 0;
+        }
+
+        .profile-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        /* Profile modal styles */
+        .profile-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .profile-modal-content {
+            background-color: #222;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+
+        .profile-modal-header {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-modal-header h3 {
+            margin: 0;
+            color: white;
+        }
+
+        .profile-modal-close {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .profile-modal-close:hover {
+            color: white;
+        }
+
+        .profile-modal-body {
+            padding: 1.5rem;
+        }
+
+        .profile-input {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-input-hint {
+            font-size: 0.85rem;
+            color: #888;
+            margin: 0;
+        }
+
+        .profile-modal-footer {
+            padding: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-btn-cancel {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive adaptations */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+                padding: 1rem;
+            }
+            
+            .profile-panels {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .profile-level {
+                margin-top: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1085,10 +1579,9 @@
             <h2>Menu</h2>
         </div>
         <div class="sidebar-menu">
-            <div class="menu-item coming-soon" data-section="profile">
+            <div class="menu-item" data-section="profile">
                 <i class="fas fa-user"></i>
                 <span>Profile</span>
-                <div class="coming-soon-badge">Coming Soon</div>
             </div>
             <div class="menu-item coming-soon" data-section="clans">
                 <i class="fas fa-users"></i>
@@ -1285,12 +1778,204 @@
             </div>
         </div>
 
-        <!-- Profile Section (Coming Soon) -->
+        <!-- Profile Section -->
         <div id="profile-section" class="game-section hidden">
-            <div class="coming-soon-container">
-                <i class="fas fa-user-astronaut"></i>
-                <h2>Profile Coming Soon</h2>
-                <p>We're working hard to bring you personalized profiles!</p>
+            <h2 class="section-title">Player Profile</h2>
+            
+            <div class="profile-container">
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <div class="avatar-image">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <button class="change-avatar-btn">
+                            <i class="fas fa-camera"></i>
+                        </button>
+                    </div>
+                    <div class="profile-info">
+                        <h3 class="profile-name">Player <i class="fas fa-pencil-alt edit-name-btn"></i></h3>
+                        <div class="profile-title">Beginner</div>
+                    </div>
+                    <div class="profile-level">
+                        <div class="level-badge">
+                            <span class="level-number">1</span>
+                        </div>
+                        <div class="level-progress-container">
+                            <div class="level-progress"></div>
+                        </div>
+                        <div class="level-text">
+                            <span class="current-xp">0</span>/<span class="next-level-xp">1000</span> XP
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Content -->
+                <div class="profile-panels">
+                    <!-- Game Stats Panel -->
+                    <div class="profile-panel">
+                        <div class="panel-header">
+                            <i class="fas fa-chart-bar"></i>
+                            <h3>Game Statistics</h3>
+                        </div>
+                        <div class="panel-content stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-label">Total Score</div>
+                                <div class="stat-value" id="profile-total-score">0</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Total Clicks</div>
+                                <div class="stat-value" id="profile-total-clicks">0</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Best CPS</div>
+                                <div class="stat-value" id="profile-best-cps">0.0</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Blocks Placed</div>
+                                <div class="stat-value" id="profile-blocks-placed">0</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Blocks Removed</div>
+                                <div class="stat-value" id="profile-blocks-removed">0</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-label">Play Time</div>
+                                <div class="stat-value" id="profile-play-time">0h 0m</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Achievements Panel -->
+                    <div class="profile-panel">
+                        <div class="panel-header">
+                            <i class="fas fa-trophy"></i>
+                            <h3>Achievements</h3>
+                        </div>
+                        <div class="panel-content">
+                            <div class="achievement-progress-bar">
+                                <div class="achievement-progress"></div>
+                                <div class="achievement-progress-text">
+                                    <span id="profile-achievements-count">0</span>/<span id="profile-achievements-total">0</span> Achievements
+                                </div>
+                            </div>
+                            <div class="recent-achievements">
+                                <h4>Recent Achievements</h4>
+                                <div class="recent-achievements-list" id="recent-achievements-list">
+                                    <div class="empty-achievements">No achievements yet. Keep playing!</div>
+                                </div>
+                                <button class="profile-btn" id="view-all-achievements">View All Achievements</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Building Stats Panel -->
+                    <div class="profile-panel">
+                        <div class="panel-header">
+                            <i class="fas fa-cubes"></i>
+                            <h3>Building History</h3>
+                        </div>
+                        <div class="panel-content">
+                            <div class="block-distribution">
+                                <div class="block-distribution-chart" id="block-distribution-chart">
+                                    <!-- Block distribution bars will be generated here -->
+                                </div>
+                                <div class="block-distribution-labels">
+                                    <div class="block-label" style="color: #ff3e3e;">Red</div>
+                                    <div class="block-label" style="color: #00eeff;">Blue</div>
+                                    <div class="block-label" style="color: #ffd700;">Gold</div>
+                                    <div class="block-label" style="color: #8a2be2;">Purple</div>
+                                    <div class="block-label" style="color: #32cd32;">Green</div>
+                                    <div class="block-label" style="color: #333333;">Black</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Customization Panel -->
+                    <div class="profile-panel">
+                        <div class="panel-header">
+                            <i class="fas fa-paint-brush"></i>
+                            <h3>Customization</h3>
+                        </div>
+                        <div class="panel-content">
+                            <!-- Avatar Selection -->
+                            <div class="customization-section">
+                                <h4>Choose Avatar</h4>
+                                <div class="avatar-options">
+                                    <div class="avatar-option selected" data-avatar="user-circle">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                    <div class="avatar-option" data-avatar="user-astronaut">
+                                        <i class="fas fa-user-astronaut"></i>
+                                    </div>
+                                    <div class="avatar-option" data-avatar="user-ninja">
+                                        <i class="fas fa-user-ninja"></i>
+                                    </div>
+                                    <div class="avatar-option" data-avatar="user-tie">
+                                        <i class="fas fa-user-tie"></i>
+                                    </div>
+                                    <div class="avatar-option" data-avatar="user-secret">
+                                        <i class="fas fa-user-secret"></i>
+                                    </div>
+                                    <div class="avatar-option" data-avatar="user-graduate">
+                                        <i class="fas fa-user-graduate"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Color Selection -->
+                            <div class="customization-section">
+                                <h4>Theme Color</h4>
+                                <div class="color-options">
+                                    <div class="color-option selected" data-color="#4682ff" style="background-color: #4682ff;"></div>
+                                    <div class="color-option" data-color="#ff3e3e" style="background-color: #ff3e3e;"></div>
+                                    <div class="color-option" data-color="#32cd32" style="background-color: #32cd32;"></div>
+                                    <div class="color-option" data-color="#8a2be2" style="background-color: #8a2be2;"></div>
+                                    <div class="color-option" data-color="#ffd700" style="background-color: #ffd700;"></div>
+                                    <div class="color-option" data-color="#ff69b4" style="background-color: #ff69b4;"></div>
+                                </div>
+                            </div>
+                            
+                            <!-- Title Selection -->
+                            <div class="customization-section">
+                                <h4>Player Title</h4>
+                                <select id="player-title" class="profile-select">
+                                    <option value="Beginner">Beginner</option>
+                                    <option value="Block Builder">Block Builder</option>
+                                    <option value="Click Master">Click Master</option>
+                                    <option value="Architect">Architect</option>
+                                    <option value="Block Mogul">Block Mogul</option>
+                                </select>
+                                <p class="unlock-info">More titles will unlock as you level up and complete achievements!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Profile Actions -->
+                <div class="profile-actions">
+                    <button class="profile-btn" id="reset-profile">Reset Profile</button>
+                    <button class="profile-btn profile-btn-primary" id="save-profile">Save Changes</button>
+                </div>
+            </div>
+            
+            <!-- Change Name Modal -->
+            <div class="profile-modal" id="change-name-modal" style="display: none;">
+                <div class="profile-modal-content">
+                    <div class="profile-modal-header">
+                        <h3>Change Player Name</h3>
+                        <button class="profile-modal-close">&times;</button>
+                    </div>
+                    <div class="profile-modal-body">
+                        <input type="text" id="new-player-name" class="profile-input" placeholder="Enter a new name">
+                        <p class="profile-input-hint">Choose a name between 3-20 characters</p>
+                    </div>
+                    <div class="profile-modal-footer">
+                        <button class="profile-btn profile-btn-cancel">Cancel</button>
+                        <button class="profile-btn profile-btn-primary" id="save-player-name">Save</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -4059,6 +4744,578 @@
             
             // Initialize shop price indicators
             updateShopPriceIndicators();
+            
+            // Player profile functionality
+            
+            // Player profile variables
+            let bonusClicks = 0;
+            let playTime = 0;
+            let playTimeInterval;
+            
+            // Player profile data
+            let playerProfile = {
+                name: "Player",
+                avatar: "user-circle",
+                accentColor: "#4682ff",
+                title: "Beginner",
+                level: 1,
+                xp: 0,
+                xpForNextLevel: 1000,
+                lastSave: Date.now()
+            };
+            
+            // Initialize player profile
+            function initializeProfile() {
+                // Check localStorage for saved profile
+                const savedProfile = localStorage.getItem('playerProfile');
+                if (savedProfile) {
+                    try {
+                        playerProfile = JSON.parse(savedProfile);
+                    } catch (e) {
+                        console.error('Error loading player profile', e);
+                    }
+                }
+                
+                // Update UI with profile data
+                updateProfileUI();
+                
+                // Start tracking play time
+                startPlayTimeTracking();
+                
+                // Set up event listeners for profile interactions
+                setupProfileEventListeners();
+            }
+            
+            // Start tracking play time
+            function startPlayTimeTracking() {
+                // Clear any existing interval
+                if (playTimeInterval) {
+                    clearInterval(playTimeInterval);
+                }
+                
+                // Update play time every minute
+                playTimeInterval = setInterval(function() {
+                    playTime += 60; // Add 60 seconds
+                    updatePlayTimeDisplay();
+                    
+                    // Award XP for play time (1 XP per minute)
+                    awardXP(1);
+                }, 60000); // Every minute
+            }
+            
+            // Award XP to the player
+            function awardXP(amount) {
+                playerProfile.xp += amount;
+                
+                // Check for level up
+                if (playerProfile.xp >= playerProfile.xpForNextLevel) {
+                    levelUp();
+                }
+                
+                // Update UI
+                updateLevelProgress();
+                
+                // Save profile
+                saveProfile();
+            }
+            
+            // Level up the player
+            function levelUp() {
+                playerProfile.level++;
+                
+                // Calculate XP for next level (increasing by 25% each level)
+                const xpRemaining = playerProfile.xp - playerProfile.xpForNextLevel;
+                playerProfile.xpForNextLevel = Math.round(playerProfile.xpForNextLevel * 1.25);
+                playerProfile.xp = xpRemaining;
+                
+                // Award score bonus for leveling up
+                const levelBonus = playerProfile.level * 100;
+                incrementScore(levelBonus);
+                
+                // Show level up notification
+                const notification = document.createElement('div');
+                notification.className = 'achievement-notification';
+                notification.innerHTML = `
+                    <div class="achievement-notification-icon">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="achievement-notification-content">
+                        <h4>Level Up!</h4>
+                        <p>You reached level ${playerProfile.level}! +${levelBonus} score bonus</p>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Remove notification after animation completes
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+                
+                // Unlock new title at specific levels
+                if (playerProfile.level === 5) {
+                    unlockTitle("Bronze Builder");
+                } else if (playerProfile.level === 10) {
+                    unlockTitle("Silver Architect");
+                } else if (playerProfile.level === 15) {
+                    unlockTitle("Gold Constructor");
+                } else if (playerProfile.level === 20) {
+                    unlockTitle("Diamond Designer");
+                }
+                
+                // Update UI
+                updateProfileUI();
+            }
+            
+            // Unlock a new player title
+            function unlockTitle(title) {
+                // Create a new option element
+                const titleOption = document.createElement('option');
+                titleOption.value = title;
+                titleOption.textContent = title;
+                
+                // Add to the select element
+                document.getElementById('player-title').appendChild(titleOption);
+                
+                // Show notification
+                const notification = document.createElement('div');
+                notification.className = 'achievement-notification';
+                notification.innerHTML = `
+                    <div class="achievement-notification-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="achievement-notification-content">
+                        <h4>New Title Unlocked!</h4>
+                        <p>${title}</p>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                // Remove notification after animation completes
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+            }
+            
+            // Update level progress display
+            function updateLevelProgress() {
+                // Calculate progress percentage
+                const progressPercent = (playerProfile.xp / playerProfile.xpForNextLevel) * 100;
+                
+                // Update the progress bar
+                document.querySelector('.level-progress').style.width = `${progressPercent}%`;
+                
+                // Update level number
+                document.querySelector('.level-number').textContent = playerProfile.level;
+                
+                // Update XP text
+                document.querySelector('.current-xp').textContent = playerProfile.xp;
+                document.querySelector('.next-level-xp').textContent = playerProfile.xpForNextLevel;
+            }
+            
+            // Update play time display
+            function updatePlayTimeDisplay() {
+                // Calculate hours and minutes
+                const hours = Math.floor(playTime / 3600);
+                const minutes = Math.floor((playTime % 3600) / 60);
+                
+                // Update display
+                document.getElementById('profile-play-time').textContent = `${hours}h ${minutes}m`;
+            }
+            
+            // Update profile UI with current data
+            function updateProfileUI() {
+                // Set player name
+                document.querySelector('.profile-name').innerHTML = `${playerProfile.name} <i class="fas fa-pencil-alt edit-name-btn"></i>`;
+                
+                // Set avatar
+                document.querySelector('.avatar-image i').className = `fas fa-${playerProfile.avatar}`;
+                
+                // Set title
+                document.querySelector('.profile-title').textContent = playerProfile.title;
+                
+                // Set level and XP
+                document.querySelector('.level-number').textContent = playerProfile.level;
+                document.querySelector('.current-xp').textContent = playerProfile.xp;
+                document.querySelector('.next-level-xp').textContent = playerProfile.xpForNextLevel;
+                
+                // Set level progress
+                const progressPercent = (playerProfile.xp / playerProfile.xpForNextLevel) * 100;
+                document.querySelector('.level-progress').style.width = `${progressPercent}%`;
+                
+                // Set theme color
+                document.documentElement.style.setProperty('--accent-color', playerProfile.accentColor);
+                
+                // Update selected avatar
+                document.querySelectorAll('.avatar-option').forEach(option => {
+                    option.classList.remove('selected');
+                    if (option.getAttribute('data-avatar') === playerProfile.avatar) {
+                        option.classList.add('selected');
+                    }
+                });
+                
+                // Update selected color
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.classList.remove('selected');
+                    if (option.getAttribute('data-color') === playerProfile.accentColor) {
+                        option.classList.add('selected');
+                    }
+                });
+                
+                // Update selected title
+                document.getElementById('player-title').value = playerProfile.title;
+                
+                // Update game statistics
+                document.getElementById('profile-total-score').textContent = score;
+                document.getElementById('profile-total-clicks').textContent = achievements.clickCount;
+                document.getElementById('profile-best-cps').textContent = bestCps.toFixed(1);
+                document.getElementById('profile-blocks-placed').textContent = achievements.blocksPlaced;
+                document.getElementById('profile-blocks-removed').textContent = achievements.blocksRemoved;
+                updatePlayTimeDisplay();
+                
+                // Update achievements progress
+                const totalAchievements = achievementsList.length;
+                const unlockedAchievements = achievements.unlockedAchievements.length;
+                const achievementPercent = (unlockedAchievements / totalAchievements) * 100;
+                
+                document.querySelector('.achievement-progress').style.width = `${achievementPercent}%`;
+                document.getElementById('profile-achievements-count').textContent = unlockedAchievements;
+                document.getElementById('profile-achievements-total').textContent = totalAchievements;
+                
+                // Update recent achievements
+                updateRecentAchievements();
+                
+                // Update block distribution chart
+                updateBlockDistributionChart();
+            }
+            
+            // Update recent achievements display
+            function updateRecentAchievements() {
+                const recentList = document.getElementById('recent-achievements-list');
+                
+                // If no achievements yet, show empty message
+                if (achievements.unlockedAchievements.length === 0) {
+                    recentList.innerHTML = `<div class="empty-achievements">No achievements yet. Keep playing!</div>`;
+                    return;
+                }
+                
+                // Get the 3 most recent achievements
+                const recentAchievements = [];
+                for (let i = achievements.unlockedAchievements.length - 1; i >= 0 && recentAchievements.length < 3; i--) {
+                    const achievementId = achievements.unlockedAchievements[i];
+                    const achievement = achievementsList.find(a => a.id === achievementId);
+                    if (achievement) {
+                        recentAchievements.push(achievement);
+                    }
+                }
+                
+                // Create HTML for recent achievements
+                let html = '';
+                recentAchievements.forEach(achievement => {
+                    html += `
+                        <div class="recent-achievement">
+                            <div class="recent-achievement-icon">
+                                <i class="fas ${achievement.icon}"></i>
+                            </div>
+                            <div class="recent-achievement-info">
+                                <div class="recent-achievement-name">${achievement.name}</div>
+                                <div class="recent-achievement-desc">${achievement.description}</div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                recentList.innerHTML = html;
+            }
+            
+            // Update block distribution chart
+            function updateBlockDistributionChart() {
+                const chart = document.getElementById('block-distribution-chart');
+                
+                // Calculate percentages
+                const total = achievements.redBlocks + achievements.blueBlocks + achievements.goldBlocks + 
+                              achievements.purpleBlocks + achievements.greenBlocks + achievements.blackBlocks;
+                
+                // If no blocks placed yet, show empty state
+                if (total === 0) {
+                    chart.innerHTML = `<div class="empty-chart">No blocks placed yet</div>`;
+                    return;
+                }
+                
+                // Create bar for each block type
+                const redPercent = (achievements.redBlocks / total) * 100;
+                const bluePercent = (achievements.blueBlocks / total) * 100;
+                const goldPercent = (achievements.goldBlocks / total) * 100;
+                const purplePercent = (achievements.purpleBlocks / total) * 100;
+                const greenPercent = (achievements.greenBlocks / total) * 100;
+                const blackPercent = (achievements.blackBlocks / total) * 100;
+                
+                // Create HTML for the chart
+                chart.innerHTML = `
+                    <div class="distribution-bar" style="height: ${redPercent}%; background-color: rgba(255, 62, 62, 0.7);">
+                        <div class="bar-value">${achievements.redBlocks}</div>
+                    </div>
+                    <div class="distribution-bar" style="height: ${bluePercent}%; background-color: rgba(0, 238, 255, 0.7);">
+                        <div class="bar-value">${achievements.blueBlocks}</div>
+                    </div>
+                    <div class="distribution-bar" style="height: ${goldPercent}%; background-color: rgba(255, 215, 0, 0.7);">
+                        <div class="bar-value">${achievements.goldBlocks}</div>
+                    </div>
+                    <div class="distribution-bar" style="height: ${purplePercent}%; background-color: rgba(138, 43, 226, 0.7);">
+                        <div class="bar-value">${achievements.purpleBlocks}</div>
+                    </div>
+                    <div class="distribution-bar" style="height: ${greenPercent}%; background-color: rgba(50, 205, 50, 0.7);">
+                        <div class="bar-value">${achievements.greenBlocks}</div>
+                    </div>
+                    <div class="distribution-bar" style="height: ${blackPercent}%; background-color: rgba(51, 51, 51, 0.7);">
+                        <div class="bar-value">${achievements.blackBlocks}</div>
+                    </div>
+                `;
+            }
+            
+            // Set up event listeners for profile interactions
+            function setupProfileEventListeners() {
+                // Edit name button
+                document.querySelector('.edit-name-btn').addEventListener('click', function() {
+                    const modal = document.getElementById('change-name-modal');
+                    modal.style.display = 'flex';
+                    
+                    // Set current name as default
+                    document.getElementById('new-player-name').value = playerProfile.name;
+                    
+                    // Focus the input
+                    setTimeout(() => {
+                        document.getElementById('new-player-name').focus();
+                    }, 100);
+                });
+                
+                // Close modal button
+                const closeButtons = document.querySelectorAll('.profile-modal-close, .profile-btn-cancel');
+                closeButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        document.getElementById('change-name-modal').style.display = 'none';
+                    });
+                });
+                
+                // Save name button
+                document.getElementById('save-player-name').addEventListener('click', function() {
+                    const newName = document.getElementById('new-player-name').value.trim();
+                    
+                    if (newName.length >= 3 && newName.length <= 20) {
+                        playerProfile.name = newName;
+                        updateProfileUI();
+                        saveProfile();
+                        document.getElementById('change-name-modal').style.display = 'none';
+                    } else {
+                        // Show validation error
+                        document.querySelector('.profile-input-hint').style.color = '#ff3e3e';
+                    }
+                });
+                
+                // Avatar selection
+                document.querySelectorAll('.avatar-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        const avatar = this.getAttribute('data-avatar');
+                        
+                        // Update selected state
+                        document.querySelectorAll('.avatar-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                        
+                        // Update profile
+                        playerProfile.avatar = avatar;
+                        
+                        // Update UI
+                        document.querySelector('.avatar-image i').className = `fas fa-${avatar}`;
+                        
+                        // Award XP for customization
+                        awardXP(2);
+                        
+                        // Save profile
+                        saveProfile();
+                    });
+                });
+                
+                // Color options
+                document.querySelectorAll('.color-option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        const color = this.getAttribute('data-color');
+                        
+                        // Update selected state
+                        document.querySelectorAll('.color-option').forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                        
+                        // Update profile
+                        playerProfile.accentColor = color;
+                        
+                        // Update CSS variable
+                        document.documentElement.style.setProperty('--accent-color', color);
+                        
+                        // Award XP for customization
+                        awardXP(2);
+                        
+                        // Save profile
+                        saveProfile();
+                    });
+                });
+                
+                // Title selection
+                const titleSelector = document.getElementById('player-title');
+                if (titleSelector) {
+                    titleSelector.addEventListener('change', function() {
+                        playerProfile.title = this.value;
+                        
+                        // Award XP for customization
+                        awardXP(3);
+                        
+                        // Save profile
+                        saveProfile();
+                    });
+                }
+                
+                // View all achievements button
+                const viewAllAchievements = document.getElementById('view-all-achievements');
+                if (viewAllAchievements) {
+                    viewAllAchievements.addEventListener('click', function() {
+                        // Switch to achievements section
+                        showSection('achievements');
+                        
+                        // Update active menu item
+                        document.querySelectorAll('.menu-item').forEach(item => {
+                            item.classList.remove('active');
+                            if (item.getAttribute('data-section') === 'achievements') {
+                                item.classList.add('active');
+                            }
+                        });
+                    });
+                }
+                
+                // Save profile button
+                const saveProfileBtn = document.getElementById('save-profile');
+                if (saveProfileBtn) {
+                    saveProfileBtn.addEventListener('click', function() {
+                        saveProfile();
+                        
+                        // Show confirmation message
+                        const confirmationMessage = document.createElement('div');
+                        confirmationMessage.className = 'auto-save-indicator';
+                        confirmationMessage.innerHTML = '<i class="fas fa-check-circle"></i> Profile saved!';
+                        document.body.appendChild(confirmationMessage);
+                        
+                        setTimeout(() => {
+                            confirmationMessage.remove();
+                        }, 2000);
+                    });
+                }
+                
+                // Reset profile button
+                const resetProfileBtn = document.getElementById('reset-profile');
+                if (resetProfileBtn) {
+                    resetProfileBtn.addEventListener('click', function() {
+                        const confirm = window.confirm('Are you sure you want to reset your profile? This will not affect your game progress or achievements.');
+                        
+                        if (confirm) {
+                            // Reset to defaults
+                            playerProfile = {
+                                name: "Player",
+                                avatar: "user-circle",
+                                accentColor: "#4682ff",
+                                title: "Beginner",
+                                level: 1,
+                                xp: 0,
+                                xpForNextLevel: 1000,
+                                lastSave: Date.now()
+                            };
+                            
+                            // Update UI
+                            updateProfileUI();
+                            
+                            // Save changes
+                            saveProfile();
+                        }
+                    });
+                }
+            }
+            
+            // Save profile to localStorage
+            function saveProfile() {
+                // Update last save time
+                playerProfile.lastSave = Date.now();
+                
+                try {
+                    localStorage.setItem('playerProfile', JSON.stringify(playerProfile));
+                    
+                    // Show save confirmation
+                    const saveIndicator = document.createElement('div');
+                    saveIndicator.className = 'auto-save-indicator';
+                    saveIndicator.innerHTML = '<i class="fas fa-check-circle"></i> Profile saved';
+                    document.body.appendChild(saveIndicator);
+                    
+                    setTimeout(() => {
+                        saveIndicator.remove();
+                    }, 2000);
+                    
+                } catch (e) {
+                    console.error('Error saving profile:', e);
+                }
+            }
+            
+            // Modify generateSaveData to include profile data
+            const originalGenerateSaveData = generateSaveData;
+            generateSaveData = function() {
+                // Get the original save data
+                const gameData = JSON.parse(atob(originalGenerateSaveData()));
+                
+                // Add profile data
+                gameData.playerProfile = playerProfile;
+                gameData.bonusClicks = bonusClicks;
+                gameData.playTime = playTime;
+                
+                // Convert to JSON and Base64 encode
+                const jsonString = JSON.stringify(gameData);
+                return btoa(jsonString);
+            };
+            
+            // Modify loadSaveData to load profile data
+            const originalLoadSaveData = loadSaveData;
+            loadSaveData = function(saveCode) {
+                try {
+                    // Decode from Base64 and parse JSON
+                    const jsonString = atob(saveCode);
+                    const gameData = JSON.parse(jsonString);
+                    
+                    // Load profile data if available
+                    if (gameData.playerProfile) {
+                        playerProfile = gameData.playerProfile;
+                    }
+                    
+                    if (typeof gameData.bonusClicks !== 'undefined') {
+                        bonusClicks = gameData.bonusClicks;
+                    }
+                    
+                    if (typeof gameData.playTime !== 'undefined') {
+                        playTime = gameData.playTime;
+                    }
+                    
+                    // Call original function
+                    const result = originalLoadSaveData(saveCode);
+                    
+                    // Update profile UI
+                    updateProfileUI();
+                    
+                    return result;
+                } catch (e) {
+                    console.error('Error loading save data:', e);
+                    return originalLoadSaveData(saveCode);
+                }
+            };
+            
+            // Initialize player profile
+            initializeProfile();
         });
     </script>
 </body>
