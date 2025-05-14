@@ -1569,6 +1569,479 @@
                 margin-top: 1rem;
             }
         }
+
+        /* Leaderboard Styles */
+        .leaderboards-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .leaderboard-tabs {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .leaderboard-tab {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ddd;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .leaderboard-tab:hover {
+            background: rgba(70, 130, 255, 0.2);
+            border-color: rgba(70, 130, 255, 0.5);
+        }
+        
+        .leaderboard-tab.active {
+            background: var(--accent-color, #4682ff);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 0 10px rgba(70, 130, 255, 0.5);
+        }
+        
+        .leaderboard-content {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .leaderboard-header {
+            display: grid;
+            grid-template-columns: 80px 1fr 150px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .leaderboard-entry {
+            display: grid;
+            grid-template-columns: 80px 1fr 150px;
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.2s ease;
+        }
+        
+        .leaderboard-entry:last-child {
+            border-bottom: none;
+        }
+        
+        .leaderboard-entry:hover {
+            background: rgba(70, 130, 255, 0.1);
+        }
+        
+        .rank-column {
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .top-rank {
+            font-size: 1.2rem;
+            color: gold;
+        }
+        
+        .player-column {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .player-avatar {
+            width: 30px;
+            height: 30px;
+            background: rgba(70, 130, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color, #4682ff);
+        }
+        
+        .player-name {
+            font-weight: 500;
+        }
+        
+        .player-title {
+            font-size: 0.8rem;
+            color: #999;
+            margin-left: 5px;
+        }
+        
+        .score-column {
+            font-weight: bold;
+            color: var(--accent-color, #4682ff);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+        
+        .your-rank-section {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .your-rank-header {
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .your-rank-content {
+            padding: 15px;
+            display: grid;
+            grid-template-columns: 80px 1fr 150px;
+        }
+        
+        .your-entry {
+            background: rgba(70, 130, 255, 0.1);
+            border-left: 4px solid var(--accent-color, #4682ff);
+        }
+        
+        .leaderboard-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .leaderboard-btn {
+            background: rgba(70, 130, 255, 0.2);
+            border: 1px solid rgba(70, 130, 255, 0.3);
+            color: var(--accent-color, #4682ff);
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .leaderboard-btn:hover {
+            background: rgba(70, 130, 255, 0.3);
+        }
+        
+        .leaderboard-loading {
+            padding: 30px;
+            text-align: center;
+            color: #aaa;
+        }
+        
+        .leaderboard-info {
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+            margin-top: 15px;
+        }
+        
+        .submit-score-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .submit-score-content {
+            background-color: #222;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+        }
+        
+        .submit-score-header {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .submit-score-header h3 {
+            margin: 0;
+            color: white;
+        }
+        
+        .submit-score-close {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        
+        .submit-score-close:hover {
+            color: white;
+        }
+        
+        .submit-score-body {
+            padding: 1.5rem;
+        }
+        
+        .submit-score-stats {
+            margin-bottom: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .submit-score-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .submit-score-stat:last-child {
+            margin-bottom: 0;
+        }
+        
+        .stat-name {
+            color: #aaa;
+        }
+        
+        .stat-value {
+            color: var(--accent-color, #4682ff);
+            font-weight: bold;
+        }
+        
+        .submit-score-footer {
+            padding: 1rem;
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .empty-leaderboard {
+            padding: 30px;
+            text-align: center;
+            color: #aaa;
+            font-style: italic;
+        }
+        
+        /* Theme compatibility */
+        .theme-neon .leaderboard-tab.active {
+            box-shadow: 0 0 15px var(--accent-color, #ff00ff);
+        }
+        
+        .theme-retro .leaderboard-header {
+            border-bottom: 2px dashed var(--accent-color, #ff6347);
+        }
+        
+        .high-contrast .leaderboard-content,
+        .high-contrast .your-rank-section {
+            background: black;
+            border: 2px solid white;
+        }
+        
+        .high-contrast .leaderboard-tab.active {
+            background: yellow;
+            color: black;
+        }
+
+        .neon .player-rank {
+            border-color: #0ff;
+            box-shadow: 0 0 5px #0ff;
+        }
+
+        /* Submit Score Modal Styles */
+        .submit-score-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .submit-score-content {
+            background-color: #222;
+            width: 400px;
+            max-width: 90%;
+            border-radius: 8px;
+            border: 2px solid #444;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .submit-score-header {
+            background-color: #333;
+            color: #fff;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #444;
+        }
+
+        .submit-score-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .submit-score-close {
+            background: none;
+            border: none;
+            color: #999;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .submit-score-close:hover {
+            color: #fff;
+        }
+
+        .submit-score-body {
+            padding: 20px;
+        }
+
+        .submit-score-stats {
+            background-color: #2a2a2a;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .submit-score-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #444;
+        }
+
+        .submit-score-stat:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .stat-name {
+            color: #aaa;
+        }
+
+        .stat-value {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .submit-score-hint {
+            color: #999;
+            font-size: 0.9rem;
+            margin: 10px 0 0 0;
+            line-height: 1.4;
+        }
+
+        .submit-score-footer {
+            padding: 15px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            background-color: #2a2a2a;
+            border-top: 1px solid #444;
+        }
+
+        /* Theme compatibility */
+        .neon .submit-score-content {
+            border-color: #0ff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .neon .submit-score-header,
+        .neon .submit-score-footer {
+            background-color: #112;
+        }
+
+        .retro .submit-score-content {
+            border-color: #a97;
+            box-shadow: none;
+            background-color: #efe8d9;
+        }
+
+        .retro .submit-score-header,
+        .retro .submit-score-footer {
+            background-color: #a97;
+            color: #efe8d9;
+        }
+
+        .retro .submit-score-stats {
+            background-color: #ded6c7;
+        }
+
+        .retro .submit-score-stat {
+            border-bottom-color: #cbc3b4;
+        }
+
+        .retro .stat-name {
+            color: #665;
+        }
+
+        .retro .stat-value {
+            color: #443;
+        }
+
+        .high-contrast .submit-score-content {
+            border-color: yellow;
+            background-color: black;
+        }
+
+        .high-contrast .submit-score-header,
+        .high-contrast .submit-score-footer {
+            background-color: black;
+            border-color: yellow;
+        }
+
+        .high-contrast .submit-score-stats {
+            background-color: black;
+            border: 1px solid yellow;
+        }
+
+        .high-contrast .submit-score-stat {
+            border-bottom-color: yellow;
+        }
+
+        .high-contrast .stat-name,
+        .high-contrast .stat-value,
+        .high-contrast .submit-score-hint {
+            color: white;
+        }
+
+        /* Ad Container Section */
+        .ad-container {
+            margin-top: 20px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -1608,6 +2081,10 @@
             <div class="menu-item" data-section="achievements">
                 <i class="fas fa-trophy"></i>
                 <span>Achievements</span>
+            </div>
+            <div class="menu-item" data-section="leaderboards">
+                <i class="fas fa-medal"></i>
+                <span>Leaderboards</span>
             </div>
         </div>
     </div>
@@ -1983,6 +2460,47 @@
             </div>
         </div>
 
+        <!-- Submit Score Modal -->
+        <div class="submit-score-modal" id="submit-score-modal" style="display: none;">
+            <div class="submit-score-content">
+                <div class="submit-score-header">
+                    <h3>Submit Score to Leaderboard</h3>
+                    <button class="submit-score-close">&times;</button>
+                </div>
+                <div class="submit-score-body">
+                    <div class="submit-score-stats">
+                        <div class="submit-score-stat">
+                            <div class="stat-name">Your Name:</div>
+                            <div class="stat-value" id="submit-player-name">Player</div>
+                        </div>
+                        <div class="submit-score-stat">
+                            <div class="stat-name">Current Score:</div>
+                            <div class="stat-value" id="submit-current-score">0</div>
+                        </div>
+                        <div class="submit-score-stat">
+                            <div class="stat-name">Best CPS:</div>
+                            <div class="stat-value" id="submit-best-cps">0.0</div>
+                        </div>
+                        <div class="submit-score-stat">
+                            <div class="stat-name">Blocks Placed:</div>
+                            <div class="stat-value" id="submit-blocks-placed">0</div>
+                        </div>
+                        <div class="submit-score-stat">
+                            <div class="stat-name">Achievements:</div>
+                            <div class="stat-value" id="submit-achievements">0/0</div>
+                        </div>
+                    </div>
+                    <p class="submit-score-hint">
+                        <i class="fas fa-info-circle"></i> Your score will be submitted to the leaderboard. This will update your position across all leaderboard categories.
+                    </p>
+                </div>
+                <div class="submit-score-footer">
+                    <button class="profile-btn profile-btn-cancel" id="cancel-submit">Cancel</button>
+                    <button class="profile-btn profile-btn-primary" id="confirm-submit">Submit Score</button>
+                </div>
+            </div>
+        </div>
+
         <!-- Clans Section (Coming Soon) -->
         <div id="clans-section" class="game-section hidden">
             <div class="coming-soon-container">
@@ -2239,6 +2757,50 @@
                 <div class="achievements-grid" id="achievements-grid">
                     <!-- Achievements will be added here dynamically -->
                 </div>
+            </div>
+        </div>
+
+        <!-- Leaderboards Section -->
+        <div id="leaderboards-section" class="game-section hidden">
+            <h2 class="section-title">Leaderboards</h2>
+            
+            <div class="leaderboards-container">
+                <div class="leaderboard-tabs">
+                    <button class="leaderboard-tab active" data-board="highest-score">Highest Score</button>
+                    <button class="leaderboard-tab" data-board="best-cps">Best CPS</button>
+                    <button class="leaderboard-tab" data-board="blocks-placed">Most Blocks</button>
+                    <button class="leaderboard-tab" data-board="most-achievements">Most Achievements</button>
+                </div>
+                
+                <div class="leaderboard-content">
+                    <div class="leaderboard-header">
+                        <div class="rank-column">Rank</div>
+                        <div class="player-column">Player</div>
+                        <div class="score-column">Score</div>
+                    </div>
+                    
+                    <div class="leaderboard-table" id="leaderboard-table">
+                        <!-- Leaderboard entries will be populated here -->
+                        <div class="leaderboard-loading">
+                            <i class="fas fa-spinner fa-spin"></i> Loading leaderboard data...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="your-rank-section">
+                    <div class="your-rank-header">Your Position</div>
+                    <div class="your-rank-content" id="your-rank-content">
+                        <!-- Player's rank will be shown here -->
+                    </div>
+                    <div class="leaderboard-actions">
+                        <button id="submit-score-btn" class="leaderboard-btn">Submit Score</button>
+                        <button id="refresh-leaderboard-btn" class="leaderboard-btn">Refresh Leaderboard</button>
+                    </div>
+                </div>
+                
+                <p class="leaderboard-info">
+                    <i class="fas fa-info-circle"></i> Leaderboards are updated whenever you submit your score. Compete with others to reach the top!
+                </p>
             </div>
         </div>
 
@@ -5341,7 +5903,360 @@
             
             // Initialize player profile
             initializeProfile();
-        });
-    </script>
+
+            function initializeMinigames() {
+                // Initialize minigame buttons
+                document.querySelectorAll('.play-game-btn').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        const gameId = e.target.getAttribute('data-game');
+                        startMinigame(gameId);
+                    });
+                });
+
+                // More minigame initialization here
+            }
+
+            // Leaderboard Functions
+            function initializeLeaderboards() {
+                // Add click event to leaderboard tabs
+                document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const category = tab.getAttribute('data-category');
+                        showLeaderboard(category);
+                    });
+                });
+
+                // Handle submit button click
+                document.getElementById('submit-score-btn').addEventListener('click', () => {
+                    openSubmitScoreModal();
+                });
+
+                // Handle refresh button click
+                document.getElementById('refresh-leaderboard').addEventListener('click', () => {
+                    const activeTab = document.querySelector('.leaderboard-tab.active');
+                    if (activeTab) {
+                        showLeaderboard(activeTab.getAttribute('data-category'), true);
+                    }
+                });
+
+                // Handle submit score modal close button
+                document.querySelector('.submit-score-close').addEventListener('click', () => {
+                    closeSubmitScoreModal();
+                });
+
+                // Handle cancel submit button
+                document.getElementById('cancel-submit').addEventListener('click', () => {
+                    closeSubmitScoreModal();
+                });
+
+                // Handle confirm submit button
+                document.getElementById('confirm-submit').addEventListener('click', () => {
+                    submitScore();
+                });
+
+                // Load initial leaderboard data
+                populateSimulatedLeaderboards();
+                showLeaderboard('highest-score');
+            }
+
+            function populateSimulatedLeaderboards() {
+                // Create simulated leaderboard data if it doesn't exist
+                if (!localStorage.getItem('leaderboards')) {
+                    const simulatedNames = [
+                        'BlockMaster', 'ClickerPro', 'CubeBuilder', 'PixelArtist', 
+                        'BrickLord', 'BlockArchitect', 'SpeedClicker', 'CubeCrafter',
+                        'MasterBuilder', 'BlockWizard', 'ClickerKing', 'PixelPro',
+                        'LegendaryClicker', 'CubeMaster', 'BuilderSupreme', 'BlockGenius'
+                    ];
+                    
+                    // Create random scores for each category
+                    const leaderboards = {
+                        'highest-score': [],
+                        'best-cps': [],
+                        'most-blocks': [],
+                        'most-achievements': []
+                    };
+                    
+                    // Generate 15 random entries for each category
+                    for (let i = 0; i < 15; i++) {
+                        const randomName = simulatedNames[Math.floor(Math.random() * simulatedNames.length)];
+                        
+                        leaderboards['highest-score'].push({
+                            name: randomName + Math.floor(Math.random() * 100),
+                            score: Math.floor(Math.random() * 1000000) + 10000,
+                            avatar: `https://robohash.org/${randomName}${Math.floor(Math.random() * 1000)}?set=set4&size=50x50`
+                        });
+                        
+                        leaderboards['best-cps'].push({
+                            name: randomName + Math.floor(Math.random() * 100),
+                            score: (Math.random() * 20 + 1).toFixed(1),
+                            avatar: `https://robohash.org/${randomName}${Math.floor(Math.random() * 1000)}?set=set4&size=50x50`
+                        });
+                        
+                        leaderboards['most-blocks'].push({
+                            name: randomName + Math.floor(Math.random() * 100),
+                            score: Math.floor(Math.random() * 5000) + 500,
+                            avatar: `https://robohash.org/${randomName}${Math.floor(Math.random() * 1000)}?set=set4&size=50x50`
+                        });
+                        
+                        leaderboards['most-achievements'].push({
+                            name: randomName + Math.floor(Math.random() * 100),
+                            score: Math.floor(Math.random() * 20) + 5,
+                            avatar: `https://robohash.org/${randomName}${Math.floor(Math.random() * 1000)}?set=set4&size=50x50`
+                        });
+                    }
+                    
+                    // Sort leaderboards
+                    for (const category in leaderboards) {
+                        leaderboards[category].sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+                    }
+                    
+                    localStorage.setItem('leaderboards', JSON.stringify(leaderboards));
+                }
+            }
+
+            function showLeaderboard(category, forceRefresh = false) {
+                // Update active tab
+                document.querySelectorAll('.leaderboard-tab').forEach(tab => {
+                    if (tab.getAttribute('data-category') === category) {
+                        tab.classList.add('active');
+                    } else {
+                        tab.classList.remove('active');
+                    }
+                });
+                
+                const leaderboardContent = document.getElementById('leaderboard-entries');
+                const loadingMessage = document.getElementById('leaderboard-loading');
+                const playerRankInfo = document.getElementById('player-rank-info');
+                
+                // Show loading state
+                leaderboardContent.style.display = 'none';
+                loadingMessage.style.display = 'block';
+                playerRankInfo.style.display = 'none';
+                
+                // Simulate loading time for realism
+                setTimeout(() => {
+                    // Load leaderboard data
+                    const leaderboards = JSON.parse(localStorage.getItem('leaderboards'));
+                    const entries = leaderboards[category];
+                    
+                    // Update header text based on category
+                    const headerText = document.getElementById('leaderboard-header-score');
+                    switch(category) {
+                        case 'highest-score':
+                            headerText.textContent = 'Score';
+                            break;
+                        case 'best-cps':
+                            headerText.textContent = 'CPS';
+                            break;
+                        case 'most-blocks':
+                            headerText.textContent = 'Blocks';
+                            break;
+                        case 'most-achievements':
+                            headerText.textContent = 'Count';
+                            break;
+                    }
+                    
+                    // Clear existing entries
+                    leaderboardContent.innerHTML = '';
+                    
+                    // Add each entry to the leaderboard
+                    entries.forEach((entry, index) => {
+                        const rankClass = index < 3 ? `rank-${index + 1}` : '';
+                        const entryHTML = `
+                            <div class="leaderboard-entry ${rankClass}">
+                                <div class="player-rank">${index + 1}</div>
+                                <div class="player-info">
+                                    <img src="${entry.avatar}" alt="${entry.name}" class="player-avatar">
+                                    <span class="player-name">${entry.name}</span>
+                                </div>
+                                <div class="player-score">${entry.score}</div>
+                            </div>
+                        `;
+                        leaderboardContent.innerHTML += entryHTML;
+                    });
+                    
+                    // Find player's rank
+                    const playerName = localStorage.getItem('playerName') || 'Player';
+                    let playerRank = 'Not Ranked';
+                    let playerScore = '0';
+                    
+                    for (let i = 0; i < entries.length; i++) {
+                        if (entries[i].name === playerName) {
+                            playerRank = i + 1;
+                            playerScore = entries[i].score;
+                            break;
+                        }
+                    }
+                    
+                    // Update player rank info
+                    document.getElementById('player-current-rank').textContent = playerRank;
+                    document.getElementById('player-current-score').textContent = playerScore;
+                    
+                    // Hide loading, show content
+                    leaderboardContent.style.display = 'block';
+                    loadingMessage.style.display = 'none';
+                    playerRankInfo.style.display = 'block';
+                    
+                }, 700); // Simulate network delay
+            }
+
+            function openSubmitScoreModal() {
+                const modal = document.getElementById('submit-score-modal');
+                const playerName = localStorage.getItem('playerName') || 'Player';
+                const score = localStorage.getItem('score') || '0';
+                const bestCPS = localStorage.getItem('bestCPS') || '0.0';
+                const blocksPlaced = localStorage.getItem('totalBlocksPlaced') || '0';
+                
+                // Count achievements
+                const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
+                const unlockedAchievements = achievements.filter(a => a.unlocked).length;
+                const totalAchievements = achievements.length;
+                
+                // Update modal values
+                document.getElementById('submit-player-name').textContent = playerName;
+                document.getElementById('submit-current-score').textContent = score;
+                document.getElementById('submit-best-cps').textContent = bestCPS;
+                document.getElementById('submit-blocks-placed').textContent = blocksPlaced;
+                document.getElementById('submit-achievements').textContent = `${unlockedAchievements}/${totalAchievements}`;
+                
+                // Show modal
+                modal.style.display = 'flex';
+            }
+
+            function closeSubmitScoreModal() {
+                document.getElementById('submit-score-modal').style.display = 'none';
+            }
+
+            function submitScore() {
+                const playerName = localStorage.getItem('playerName') || 'Player';
+                const score = parseInt(localStorage.getItem('score') || '0');
+                const bestCPS = parseFloat(localStorage.getItem('bestCPS') || '0.0');
+                const blocksPlaced = parseInt(localStorage.getItem('totalBlocksPlaced') || '0');
+                const achievements = JSON.parse(localStorage.getItem('achievements') || '[]');
+                const unlockedAchievements = achievements.filter(a => a.unlocked).length;
+                
+                // Get current leaderboards
+                const leaderboards = JSON.parse(localStorage.getItem('leaderboards'));
+                
+                // Create player avatar if it doesn't exist
+                let playerAvatar = localStorage.getItem('playerAvatar');
+                if (!playerAvatar) {
+                    playerAvatar = `https://robohash.org/${playerName}?set=set4&size=50x50`;
+                    localStorage.setItem('playerAvatar', playerAvatar);
+                }
+                
+                // Update or add player to each leaderboard
+                const categories = [
+                    { name: 'highest-score', score: score },
+                    { name: 'best-cps', score: bestCPS.toFixed(1) },
+                    { name: 'most-blocks', score: blocksPlaced },
+                    { name: 'most-achievements', score: unlockedAchievements }
+                ];
+                
+                categories.forEach(category => {
+                    // Find if player is already on leaderboard
+                    const playerIndex = leaderboards[category.name].findIndex(entry => entry.name === playerName);
+                    
+                    if (playerIndex !== -1) {
+                        // Update existing entry if new score is higher
+                        if (parseFloat(leaderboards[category.name][playerIndex].score) < parseFloat(category.score)) {
+                            leaderboards[category.name][playerIndex].score = category.score;
+                        }
+                    } else {
+                        // Add new entry
+                        leaderboards[category.name].push({
+                            name: playerName,
+                            score: category.score,
+                            avatar: playerAvatar
+                        });
+                    }
+                    
+                    // Sort leaderboard
+                    leaderboards[category.name].sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+                    
+                    // Limit to top 20
+                    if (leaderboards[category.name].length > 20) {
+                        leaderboards[category.name] = leaderboards[category.name].slice(0, 20);
+                    }
+                });
+                
+                // Save updated leaderboards
+                localStorage.setItem('leaderboards', JSON.stringify(leaderboards));
+                
+                // Close modal
+                closeSubmitScoreModal();
+                
+                // Show notification
+                showNotification('Score submitted to leaderboard!');
+                
+                // Refresh current leaderboard
+                const activeTab = document.querySelector('.leaderboard-tab.active');
+                if (activeTab) {
+                    showLeaderboard(activeTab.getAttribute('data-category'));
+                }
+            }
+
+            // Game Initialization Functions
+            function initializeGame() {
+                console.log("Game initialized");
+                // Main game initialization logic would go here
+                // This function would typically set up the main game mechanics
+            }
+
+            function initializeUpgrades() {
+                console.log("Upgrades initialized");
+                // Set up the upgrade system
+                // This function would handle the shop and upgrade mechanics
+            }
+
+            function initializeAchievements() {
+                console.log("Achievements initialized");
+                // Set up the achievements system
+                // This function would handle tracking and unlocking achievements
+            }
+
+            function showNotification(message, type = 'info') {
+                console.log(`Notification: ${message} (${type})`);
+                // Display a notification to the user
+                // This function would create and show a notification element
+            }
+
+            function toggleTheme() {
+                console.log("Theme toggled");
+                // Toggle between different visual themes
+                // This function would change the game's appearance
+            }
+
+            function updateThemeToggleIcon(theme) {
+                console.log(`Theme icon updated to: ${theme}`);
+                // Update the theme toggle button icon based on current theme
+                // This function would change the icon on the theme toggle button
+            }
+
+            // Initialize everything when the DOM is loaded
+            document.addEventListener('DOMContentLoaded', function() {
+                // Initialize the game systems
+                initializeGame();
+                initializeUpgrades();
+                initializeAchievements();
+                initializeMinigames();
+                initializeLeaderboards();
+                
+                // Set up theme toggle
+                const themeToggle = document.getElementById('theme-toggle');
+                themeToggle.addEventListener('click', toggleTheme);
+                
+                // Load saved theme
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) {
+                    document.body.className = savedTheme;
+                    updateThemeToggleIcon(savedTheme);
+                }
+            });
+
+          });
+      </script>
+// ... existing code ...
 </body>
 </html> 
