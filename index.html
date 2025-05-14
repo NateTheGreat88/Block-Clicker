@@ -1429,6 +1429,7 @@
             cursor: pointer;
             transition: transform 0.2s ease;
             border: 2px solid rgba(255, 255, 255, 0.2);
+            position: relative;
         }
 
         .color-option:hover {
@@ -1928,13 +1929,16 @@
                             <div class="customization-section">
                                 <h4>Theme Color</h4>
                                 <div class="color-options">
-                                    <div class="color-option selected" data-color="#4682ff" style="background-color: #4682ff;"></div>
+                                    <div class="color-option selected" data-color="#4682ff" style="background-color: #4682ff;" title="Default theme">
+                                        <i class="fas fa-home" style="color: white; font-size: 12px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);"></i>
+                                    </div>
                                     <div class="color-option" data-color="#ff3e3e" style="background-color: #ff3e3e;"></div>
                                     <div class="color-option" data-color="#32cd32" style="background-color: #32cd32;"></div>
                                     <div class="color-option" data-color="#8a2be2" style="background-color: #8a2be2;"></div>
                                     <div class="color-option" data-color="#ffd700" style="background-color: #ffd700;"></div>
                                     <div class="color-option" data-color="#ff69b4" style="background-color: #ff69b4;"></div>
                                 </div>
+                                <p class="color-hint" style="font-size: 0.8rem; color: #888; margin-top: 0.5rem; font-style: italic;">The first option (blue) is the default theme.</p>
                             </div>
                             
                             <!-- Title Selection -->
