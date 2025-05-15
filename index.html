@@ -2473,6 +2473,76 @@
                         <i class="fas fa-coins"></i> <span class="price-value">250</span>
                     </div>
                 </div>
+                
+                <div class="shop-item" data-id="rainbow-block" data-price="500" data-level="0" data-increment="5" data-color="#ff00ff" style="background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);">
+                    <div class="shop-item-icon block-preview" style="background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);"></div>
+                    <div class="shop-item-info">
+                        <h3>Rainbow Block</h3>
+                        <p>Randomly activates effects of all blocks</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Owned: <span class="level-value">0</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">500</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="crystal-block" data-price="750" data-level="0" data-increment="7" data-color="#88ffff">
+                    <div class="shop-item-icon block-preview" style="background-color: #88ffff; box-shadow: 0 0 10px #88ffff;"></div>
+                    <div class="shop-item-info">
+                        <h3>Crystal Block</h3>
+                        <p>Amplifies neighboring blocks by 2x</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Owned: <span class="level-value">0</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">750</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="obsidian-block" data-price="1000" data-level="0" data-increment="10" data-color="#1a001a">
+                    <div class="shop-item-icon block-preview" style="background-color: #1a001a; box-shadow: 0 0 5px #ff00ff;"></div>
+                    <div class="shop-item-info">
+                        <h3>Obsidian Block</h3>
+                        <p>Indestructible, supports 3x blocks, +15% score</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Owned: <span class="level-value">0</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">1000</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="reactor-block" data-price="2000" data-level="0" data-increment="15" data-color="#00ff00">
+                    <div class="shop-item-icon block-preview" style="background-color: #00ff00; box-shadow: 0 0 15px rgba(0,255,0,0.7);"></div>
+                    <div class="shop-item-info">
+                        <h3>Reactor Block</h3>
+                        <p>Generates 5 score/sec, chain reaction with other reactors</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Owned: <span class="level-value">0</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">2000</span>
+                    </div>
+                </div>
+                
+                <div class="shop-item" data-id="quantum-block" data-price="5000" data-level="0" data-increment="25" data-color="#0000ff">
+                    <div class="shop-item-icon block-preview" style="background-color: #0000ff; box-shadow: 0 0 20px rgba(0,0,255,0.8);"></div>
+                    <div class="shop-item-info">
+                        <h3>Quantum Block</h3>
+                        <p>Exists in multiple states, 3x all block effects within radius</p>
+                        <div class="shop-item-stats">
+                            <span class="level">Owned: <span class="level-value">0</span></span>
+                        </div>
+                    </div>
+                    <div class="shop-item-price">
+                        <i class="fas fa-coins"></i> <span class="price-value">5000</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -3232,6 +3302,11 @@
                 purpleBlocks: 0,
                 greenBlocks: 0,
                 blackBlocks: 0,
+                rainbowBlocks: 0,   // New block types
+                crystalBlocks: 0,
+                obsidianBlocks: 0,
+                reactorBlocks: 0,
+                quantumBlocks: 0,
                 blocksPlaced: 0,    // Total blocks placed
                 blocksRemoved: 0,   // Total blocks removed
                 unlockedAchievements: [],  // IDs of unlocked achievements
@@ -3488,6 +3563,48 @@
                     description: "Super strong - can support twice as many blocks on top",
                     effect: "reinforced",
                     factor: 2
+                },
+                "rainbow-block": { 
+                    name: "Rainbow Block", 
+                    color: "linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)", 
+                    description: "Randomly activates effects of all blocks periodically",
+                    effect: "random-activator",
+                    interval: 8000,
+                    chance: 0.25
+                },
+                "crystal-block": { 
+                    name: "Crystal Block", 
+                    color: "#88ffff", 
+                    description: "Amplifies neighboring blocks' effects by 2x",
+                    effect: "amplifier",
+                    factor: 2,
+                    radius: 2
+                },
+                "obsidian-block": { 
+                    name: "Obsidian Block", 
+                    color: "#1a001a", 
+                    description: "Indestructible, supports 3x blocks, +15% score",
+                    effect: "unbreakable",
+                    factor: 3,
+                    scoreBonus: 0.15
+                },
+                "reactor-block": { 
+                    name: "Reactor Block", 
+                    color: "#00ff00", 
+                    description: "Generates 5 score per second, chain reaction with other reactors",
+                    effect: "reactor",
+                    interval: 1000,
+                    value: 5,
+                    chainMultiplier: 1.5
+                },
+                "quantum-block": { 
+                    name: "Quantum Block", 
+                    color: "#0000ff", 
+                    description: "Exists in multiple states, 3x all block effects within radius",
+                    effect: "quantum-field",
+                    factor: 3,
+                    radius: 4,
+                    interval: 3000
                 }
             };
             
@@ -3498,7 +3615,12 @@
                 "gold-block": { count: 0, color: "#ffd700", name: "Gold Block" },
                 "purple-block": { count: 0, color: "#8a2be2", name: "Purple Block" },
                 "green-block": { count: 0, color: "#32cd32", name: "Green Block" },
-                "black-block": { count: 0, color: "#333333", name: "Black Block" }
+                "black-block": { count: 0, color: "#333333", name: "Black Block" },
+                "rainbow-block": { count: 0, color: "linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)", name: "Rainbow Block" },
+                "crystal-block": { count: 0, color: "#88ffff", name: "Crystal Block" },
+                "obsidian-block": { count: 0, color: "#1a001a", name: "Obsidian Block" },
+                "reactor-block": { count: 0, color: "#00ff00", name: "Reactor Block" },
+                "quantum-block": { count: 0, color: "#0000ff", name: "Quantum Block" }
             };
             
             // Structure for saving/loading builds
@@ -3755,6 +3877,11 @@
                     else if (blockType === 'purple-block') achievements.purpleBlocks++;
                     else if (blockType === 'green-block') achievements.greenBlocks++;
                     else if (blockType === 'black-block') achievements.blackBlocks++;
+                    else if (blockType === 'rainbow-block') achievements.rainbowBlocks++;
+                    else if (blockType === 'crystal-block') achievements.crystalBlocks++;
+                    else if (blockType === 'obsidian-block') achievements.obsidianBlocks++;
+                    else if (blockType === 'reactor-block') achievements.reactorBlocks++;
+                    else if (blockType === 'quantum-block') achievements.quantumBlocks++;
                     
                     // Check achievements after placing a block
                     checkAchievements();
@@ -3853,6 +3980,27 @@
                     cell.classList.add('regenerative');
                 } else if (blockType === 'black-block') {
                     cell.classList.add('reinforced');
+                } else if (blockType === 'rainbow-block') {
+                    cell.classList.add('rainbow-effect');
+                    cell.style.animation = 'rainbow-pulse 6s infinite';
+                } else if (blockType === 'crystal-block') {
+                    cell.classList.add('crystal-amplifier');
+                    cell.style.boxShadow = '0 0 15px #88ffff';
+                    // Add enhanced glow to blocks in radius
+                    highlightBlocksInRadius(row, col, blockProperties[blockType].radius);
+                } else if (blockType === 'obsidian-block') {
+                    cell.classList.add('unbreakable');
+                    cell.style.boxShadow = '0 0 10px #ff00ff';
+                } else if (blockType === 'reactor-block') {
+                    cell.classList.add('reactor');
+                    cell.style.animation = 'reactor-pulse 3s infinite';
+                    // Find other reactors to establish chain reactions
+                    findReactorChain(row, col);
+                } else if (blockType === 'quantum-block') {
+                    cell.classList.add('quantum-field');
+                    cell.style.animation = 'quantum-flicker 2s infinite';
+                    // Add effect to all blocks in radius
+                    applyQuantumEffect(row, col, blockProperties[blockType].radius);
                 }
                 
                 // If it's a block with an effect, add it to active effects
@@ -3920,6 +4068,26 @@
                 } else if (blockType === 'black-block') {
                     effect.innerHTML = '<i class="fas fa-shield-alt"></i>';
                     effect.style.color = '#aaaaaa';
+                } else if (blockType === 'rainbow-block') {
+                    effect.innerHTML = '<i class="fas fa-magic"></i>';
+                    effect.style.color = '#ff00ff';
+                    effect.style.animation = 'rainbow-color-change 2s infinite';
+                } else if (blockType === 'crystal-block') {
+                    effect.innerHTML = '<i class="fas fa-gem"></i>';
+                    effect.style.color = '#88ffff';
+                    effect.style.textShadow = '0 0 10px #00ffff';
+                } else if (blockType === 'obsidian-block') {
+                    effect.innerHTML = '<i class="fas fa-meteor"></i>';
+                    effect.style.color = '#ff00ff';
+                } else if (blockType === 'reactor-block') {
+                    effect.innerHTML = '<i class="fas fa-atom"></i>';
+                    effect.style.color = '#00ff00';
+                    effect.style.animation = 'pulse 1s infinite';
+                } else if (blockType === 'quantum-block') {
+                    effect.innerHTML = '<i class="fas fa-wave-square"></i>';
+                    effect.style.color = '#0000ff';
+                    effect.style.filter = 'blur(2px)';
+                    effect.style.animation = 'quantum-pulse 0.5s infinite';
                 }
                 
                 // Position over the cell
@@ -3933,6 +4101,139 @@
                 setTimeout(() => {
                     effect.remove();
                 }, 1000);
+            }
+            
+            // Helper function to highlight blocks in a radius (for crystal block)
+            function highlightBlocksInRadius(centerRow, centerCol, radius) {
+                for (let r = centerRow - radius; r <= centerRow + radius; r++) {
+                    for (let c = centerCol - radius; c <= centerCol + radius; c++) {
+                        // Skip if out of bounds
+                        if (r < 0 || r >= 20 || c < 0 || c >= 20) continue;
+                        
+                        // Calculate distance
+                        const distance = Math.sqrt(Math.pow(r - centerRow, 2) + Math.pow(c - centerCol, 2));
+                        
+                        // If within radius
+                        if (distance <= radius) {
+                            const cell = document.querySelector(`.grid-cell[data-row="${r}"][data-col="${c}"]`);
+                            if (cell && cell.classList.contains('has-block')) {
+                                cell.classList.add('crystal-boosted');
+                                
+                                // Add visual effect based on distance
+                                const intensity = 1 - (distance / radius);
+                                const glow = Math.floor(intensity * 10);
+                                cell.style.boxShadow = `0 0 ${glow}px rgba(136, 255, 255, ${intensity.toFixed(2)})`;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            // Helper function to find and connect reactor blocks
+            function findReactorChain(centerRow, centerCol) {
+                const reactors = [];
+                
+                // Find all reactor blocks
+                const allReactors = document.querySelectorAll('.grid-cell.has-block.reactor');
+                
+                allReactors.forEach(reactor => {
+                    const row = parseInt(reactor.getAttribute('data-row'));
+                    const col = parseInt(reactor.getAttribute('data-col'));
+                    
+                    // Skip the center reactor we just placed
+                    if (row === centerRow && col === centerCol) return;
+                    
+                    reactors.push({element: reactor, row, col});
+                });
+                
+                // If we have other reactors, create chain effect
+                if (reactors.length > 0) {
+                    // Create connecting lines between reactors
+                    reactors.forEach(reactor => {
+                        createReactorConnection(centerRow, centerCol, reactor.row, reactor.col);
+                    });
+                }
+            }
+            
+            // Create visual connection between reactors
+            function createReactorConnection(row1, col1, row2, col2) {
+                const cell1 = document.querySelector(`.grid-cell[data-row="${row1}"][data-col="${col1}"]`);
+                const cell2 = document.querySelector(`.grid-cell[data-row="${row2}"][data-col="${col2}"]`);
+                
+                if (!cell1 || !cell2) return;
+                
+                const rect1 = cell1.getBoundingClientRect();
+                const rect2 = cell2.getBoundingClientRect();
+                
+                const x1 = rect1.left + rect1.width / 2;
+                const y1 = rect1.top + rect1.height / 2;
+                const x2 = rect2.left + rect2.width / 2;
+                const y2 = rect2.top + rect2.height / 2;
+                
+                // Calculate distance
+                const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+                
+                // Create line element
+                const line = document.createElement('div');
+                line.className = 'reactor-connection';
+                
+                // Position and rotate
+                const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+                
+                line.style.width = `${distance}px`;
+                line.style.left = `${x1}px`;
+                line.style.top = `${y1}px`;
+                line.style.transform = `rotate(${angle}deg)`;
+                
+                document.body.appendChild(line);
+                
+                // Add fade-in effect
+                setTimeout(() => {
+                    line.style.opacity = '1';
+                }, 10);
+                
+                // Store the connection for later cleanup
+                if (!window.reactorConnections) window.reactorConnections = [];
+                window.reactorConnections.push(line);
+            }
+            
+            // Apply quantum effect to blocks in radius
+            function applyQuantumEffect(centerRow, centerCol, radius) {
+                for (let r = centerRow - radius; r <= centerRow + radius; r++) {
+                    for (let c = centerCol - radius; c <= centerCol + radius; c++) {
+                        // Skip if out of bounds
+                        if (r < 0 || r >= 20 || c < 0 || c >= 20) continue;
+                        
+                        // Calculate distance
+                        const distance = Math.sqrt(Math.pow(r - centerRow, 2) + Math.pow(c - centerCol, 2));
+                        
+                        // If within radius
+                        if (distance <= radius) {
+                            const cell = document.querySelector(`.grid-cell[data-row="${r}"][data-col="${c}"]`);
+                            if (cell && cell.classList.contains('has-block')) {
+                                cell.classList.add('quantum-boosted');
+                                
+                                // Add visual quantum effect
+                                const quantumEffect = document.createElement('div');
+                                quantumEffect.className = 'quantum-effect';
+                                
+                                // Position over the cell
+                                const rect = cell.getBoundingClientRect();
+                                quantumEffect.style.left = rect.left + 'px';
+                                quantumEffect.style.top = rect.top + 'px';
+                                quantumEffect.style.width = rect.width + 'px';
+                                quantumEffect.style.height = rect.height + 'px';
+                                
+                                document.body.appendChild(quantumEffect);
+                                
+                                // Remove after random delay to create quantum effect
+                                setTimeout(() => {
+                                    quantumEffect.remove();
+                                }, 2000 + Math.random() * 3000);
+                            }
+                        }
+                    }
+                }
             }
             
             // Start the block effects system
@@ -4062,7 +4363,14 @@
                     if (blockInventory[blockType].count > 0) {
                         const blockElement = document.createElement('div');
                         blockElement.classList.add('inventory-block');
-                        blockElement.style.backgroundColor = blockInventory[blockType].color;
+                        
+                        // Special handling for rainbow block which needs a gradient
+                        if (blockType === 'rainbow-block') {
+                            blockElement.style.background = 'linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)';
+                        } else {
+                            blockElement.style.backgroundColor = blockInventory[blockType].color;
+                        }
+                        
                         blockElement.setAttribute('data-block-type', blockType);
                         
                         // Add special indicator based on block type
@@ -4081,6 +4389,16 @@
                             blockIcon.innerHTML = '<i class="fas fa-seedling"></i>';
                         } else if (blockType === 'black-block') {
                             blockIcon.innerHTML = '<i class="fas fa-shield-alt"></i>';
+                        } else if (blockType === 'rainbow-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-magic"></i>';
+                        } else if (blockType === 'crystal-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-gem"></i>';
+                        } else if (blockType === 'obsidian-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-meteor"></i>';
+                        } else if (blockType === 'reactor-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-atom"></i>';
+                        } else if (blockType === 'quantum-block') {
+                            blockIcon.innerHTML = '<i class="fas fa-wave-square"></i>';
                         }
                         
                         blockElement.appendChild(blockIcon);

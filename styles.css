@@ -1195,4 +1195,159 @@ body {
     25% { opacity: 1; }
     75% { opacity: 1; }
     100% { opacity: 0; }
+}
+
+/* New block animations and effects */
+@keyframes rainbow-pulse {
+    0% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+    14% { box-shadow: 0 0 10px rgba(255, 127, 0, 0.7); }
+    28% { box-shadow: 0 0 10px rgba(255, 255, 0, 0.7); }
+    42% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.7); }
+    57% { box-shadow: 0 0 10px rgba(0, 0, 255, 0.7); }
+    71% { box-shadow: 0 0 10px rgba(75, 0, 130, 0.7); }
+    85% { box-shadow: 0 0 10px rgba(148, 0, 211, 0.7); }
+    100% { box-shadow: 0 0 10px rgba(255, 0, 0, 0.7); }
+}
+
+@keyframes rainbow-color-change {
+    0% { color: red; }
+    14% { color: orange; }
+    28% { color: yellow; }
+    42% { color: green; }
+    57% { color: blue; }
+    71% { color: indigo; }
+    85% { color: violet; }
+    100% { color: red; }
+}
+
+@keyframes reactor-pulse {
+    0% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.6); }
+    50% { box-shadow: 0 0 20px rgba(0, 255, 0, 0.9); }
+    100% { box-shadow: 0 0 5px rgba(0, 255, 0, 0.6); }
+}
+
+@keyframes quantum-flicker {
+    0% { opacity: 0.7; filter: blur(0px); }
+    25% { opacity: 0.9; filter: blur(1px); }
+    50% { opacity: 0.5; filter: blur(2px); }
+    75% { opacity: 1.0; filter: blur(0.5px); }
+    100% { opacity: 0.7; filter: blur(0px); }
+}
+
+@keyframes quantum-pulse {
+    0% { opacity: 0.2; transform: scale(0.9); }
+    50% { opacity: 0.8; transform: scale(1.1); }
+    100% { opacity: 0.2; transform: scale(0.9); }
+}
+
+/* Rainbow Block */
+.rainbow-effect {
+    background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+    animation: rainbow-pulse 6s infinite;
+    background-size: 400% 400%;
+}
+
+/* Crystal Block */
+.crystal-amplifier {
+    background-color: #88ffff !important;
+    box-shadow: 0 0 15px #88ffff;
+    position: relative;
+    overflow: visible;
+}
+
+.crystal-boosted {
+    border: 1px solid #88ffff !important;
+    position: relative;
+    z-index: 5;
+}
+
+/* Obsidian Block */
+.unbreakable {
+    background-color: #1a001a !important;
+    box-shadow: 0 0 10px #ff00ff;
+    position: relative;
+}
+
+/* Reactor Block */
+.reactor {
+    background-color: #00ff00 !important;
+    animation: reactor-pulse 3s infinite;
+    position: relative;
+}
+
+.reactor-connection {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(to right, #00ff00, #88ff88);
+    transform-origin: left center;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 10;
+    pointer-events: none;
+    box-shadow: 0 0 5px #00ff00;
+}
+
+/* Quantum Block */
+.quantum-field {
+    background-color: #0000ff !important;
+    animation: quantum-flicker 2s infinite;
+    position: relative;
+}
+
+.quantum-boosted {
+    position: relative;
+    filter: brightness(1.2);
+}
+
+.quantum-effect {
+    position: absolute;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 255, 0.1);
+    box-shadow: 0 0 5px rgba(0, 0, 255, 0.5);
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.6;
+    animation: quantum-pulse 2s infinite;
+}
+
+/* Premium shop item styling */
+.shop-item[data-id="rainbow-block"],
+.shop-item[data-id="crystal-block"],
+.shop-item[data-id="obsidian-block"],
+.shop-item[data-id="reactor-block"],
+.shop-item[data-id="quantum-block"] {
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.shop-item[data-id="quantum-block"] {
+    position: relative;
+    border: 1px solid rgba(0, 0, 255, 0.5);
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.7), rgba(0, 0, 128, 0.2));
+}
+
+.shop-item[data-id="obsidian-block"] {
+    position: relative;
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.7), rgba(26, 0, 26, 0.5));
+}
+
+.shop-item[data-id="reactor-block"] {
+    position: relative;
+    background: linear-gradient(to bottom right, rgba(0, 0, 0, 0.7), rgba(0, 50, 0, 0.3));
+}
+
+/* PREMIUM badge for expensive items */
+.shop-item[data-id="reactor-block"]::after,
+.shop-item[data-id="quantum-block"]::after {
+    content: 'PREMIUM';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #ff9900;
+    color: #000;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 3px 6px;
+    border-radius: 3px;
+    box-shadow: 0 0 5px rgba(255, 153, 0, 0.7);
 } 
