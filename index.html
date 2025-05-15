@@ -7000,7 +7000,32 @@
                         
                         this.score += points;
                         this.lines += completedRows;
-                        this.reward += Math.floor(points / 10); // 10% of points become reward
+                        
+                        // ENHANCED REWARDS - Much larger rewards than before
+                        
+                        // Base reward - 50% of points (up from 10%)
+                        let reward = Math.floor(points * 0.5);
+                        
+                        // Level bonus - Additional 10% per level
+                        const levelBonus = Math.floor(points * 0.1 * this.level);
+                        reward += levelBonus;
+                        
+                        // Combo bonus for clearing multiple rows at once
+                        if (completedRows > 1) {
+                            const comboMultiplier = completedRows * 0.5; // 1.5x for 3 rows, 2x for 4 rows
+                            reward = Math.floor(reward * comboMultiplier);
+                        }
+                        
+                        // Special bonus for tetris (4 rows at once)
+                        if (completedRows === 4) {
+                            reward += 1000; // Extra 1000 point bonus for tetris
+                        }
+                        
+                        // Add the calculated reward
+                        this.reward += reward;
+                        
+                        // Show a floating reward indicator
+                        this.showRewardIndicator(reward, completedRows);
                         
                         // Level up every 10 lines
                         const newLevel = Math.floor(this.lines / 10) + 1;
@@ -7016,6 +7041,13 @@
                                     this.movePiece(0, 1);
                                 }
                             }, this.movementSpeed);
+                            
+                            // Level up bonus!
+                            const levelUpBonus = this.level * 500;
+                            this.reward += levelUpBonus;
+                            
+                            // Show level up message with bonus
+                            this.showLevelUpBonus(levelUpBonus);
                         }
                         
                         this.updateScore();
@@ -7026,6 +7058,49 @@
                             this.claimButton.disabled = false;
                         }
                     }
+                },
+                
+                // New method to show floating reward indicators
+                showRewardIndicator: function(reward, rowsCleared) {
+                    const messages = [
+                        "",
+                        "Single!",
+                        "Double!",
+                        "Triple!",
+                        "TETRIS!"
+                    ];
+                    
+                    const indicator = document.createElement('div');
+                    indicator.classList.add('bonus-indicator');
+                    indicator.style.color = rowsCleared === 4 ? '#ffd700' : '#4682ff';
+                    indicator.style.fontSize = rowsCleared === 4 ? '2rem' : '1.5rem';
+                    
+                    indicator.innerHTML = `${messages[rowsCleared]}<br>+${reward} reward!`;
+                    indicator.style.left = `${Math.random() * 30 + 35}%`;
+                    indicator.style.top = `${Math.random() * 20 + 40}%`;
+                    indicator.style.zIndex = '100';
+                    document.body.appendChild(indicator);
+                    
+                    setTimeout(() => {
+                        indicator.remove();
+                    }, 1500);
+                },
+                
+                // New method to show level up bonus
+                showLevelUpBonus: function(bonus) {
+                    const indicator = document.createElement('div');
+                    indicator.classList.add('bonus-indicator');
+                    indicator.style.color = '#32cd32';
+                    indicator.style.fontSize = '1.8rem';
+                    indicator.innerHTML = `Level Up!<br>+${bonus} bonus reward!`;
+                    indicator.style.left = `${Math.random() * 30 + 35}%`;
+                    indicator.style.top = `${Math.random() * 20 + 40}%`;
+                    indicator.style.zIndex = '100';
+                    document.body.appendChild(indicator);
+                    
+                    setTimeout(() => {
+                        indicator.remove();
+                    }, 2000);
                 },
                 
                 updateScore: function() {
