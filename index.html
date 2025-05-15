@@ -7084,22 +7084,60 @@
             
             // Initialize the minigame when the section is accessed
             document.querySelector('.menu-item[data-section="minigame"]').addEventListener('click', function() {
-                if (!minigame.boardElement) {
-                    // Update the DOM elements (because they might not be available when the script first loads)
-                    minigame.boardElement = document.getElementById('minigame-board');
-                    minigame.nextContainer = document.getElementById('minigame-next-container');
-                    minigame.scoreElement = document.getElementById('minigame-score-value');
-                    minigame.levelElement = document.getElementById('minigame-level-value');
-                    minigame.linesElement = document.getElementById('minigame-lines-value');
-                    minigame.rewardElement = document.getElementById('minigame-reward-value');
-                    minigame.startButton = document.getElementById('minigame-start-btn');
-                    minigame.pauseButton = document.getElementById('minigame-pause-btn');
-                    minigame.claimButton = document.getElementById('minigame-claim-btn');
-                    
-                    // Initialize the minigame
-                    minigame.init();
+                // Ensure the minigame elements are properly referenced
+                minigame.boardElement = document.getElementById('minigame-board');
+                minigame.nextContainer = document.getElementById('minigame-next-container');
+                minigame.scoreElement = document.getElementById('minigame-score-value');
+                minigame.levelElement = document.getElementById('minigame-level-value');
+                minigame.linesElement = document.getElementById('minigame-lines-value');
+                minigame.rewardElement = document.getElementById('minigame-reward-value');
+                minigame.startButton = document.getElementById('minigame-start-btn');
+                minigame.pauseButton = document.getElementById('minigame-pause-btn');
+                minigame.claimButton = document.getElementById('minigame-claim-btn');
+                
+                // Initialize the minigame
+                minigame.init();
+                
+                // Debug log to check initialization
+                console.log("Minigame initialized with board element:", minigame.boardElement);
+            });
+            
+            // Add a direct event listener to the start button to handle potential initialization issues
+            document.addEventListener('click', function(e) {
+                if (e.target.id === 'minigame-start-btn' || 
+                    (e.target.parentElement && e.target.parentElement.id === 'minigame-start-btn')) {
+                    // Double-check initialization before starting game
+                    if (!minigame.boardElement || !minigame.board.length) {
+                        console.log("Re-initializing minigame before start");
+                        minigame.boardElement = document.getElementById('minigame-board');
+                        minigame.nextContainer = document.getElementById('minigame-next-container');
+                        minigame.scoreElement = document.getElementById('minigame-score-value');
+                        minigame.levelElement = document.getElementById('minigame-level-value');
+                        minigame.linesElement = document.getElementById('minigame-lines-value');
+                        minigame.rewardElement = document.getElementById('minigame-reward-value');
+                        minigame.startButton = document.getElementById('minigame-start-btn');
+                        minigame.pauseButton = document.getElementById('minigame-pause-btn');
+                        minigame.claimButton = document.getElementById('minigame-claim-btn');
+                        
+                        minigame.init();
+                    }
+                    minigame.startGame();
                 }
             });
+            
+            // Make sure incrementScore function exists for the reward claim
+            if (typeof incrementScore !== 'function') {
+                function incrementScore(amount) {
+                    // Fallback implementation if the main game's function isn't accessible
+                    console.log("Adding score:", amount);
+                    const scoreElement = document.getElementById('score');
+                    if (scoreElement) {
+                        const currentScore = parseInt(scoreElement.textContent) || 0;
+                        scoreElement.textContent = currentScore + amount;
+                        score = currentScore + amount; // Update global score variable if it exists
+                    }
+                }
+            }
         });
     </script>
 </body>
