@@ -1,0 +1,40 @@
+Prestige System Integration Guide
+============================
+
+To integrate the prestige system into your game, follow these steps:
+
+1. Make sure you have the following files in your game directory:
+   - prestige.js
+   - prestige.css
+   - prestige-section.html
+
+2. Add these lines to the <head> section of index.html (after artifacts.css):
+   <link rel="stylesheet" href="prestige.css">
+   <script src="prestige.js" defer></script>
+
+3. Add the prestige menu item to the sidebar in index.html:
+   Find the section with class="menu-item" data-section="shop" and add the prestige menu item right after it:
+   <div class="menu-item" data-section="prestige">
+       <i class="fas fa-sync-alt"></i>
+       <span>Prestige</span>
+   </div>
+
+4. Add the prestige section HTML:
+   Find the last game section in index.html and add the contents of the <section> element from prestige-section.html after it.
+
+5. Add the prestige modal:
+   Add the prestige modal HTML (the last <div> in prestige-section.html) near the end of the body, where other modals are located.
+
+6. Initialize the prestige system:
+   Find the initApplication() function in index.html and add this line after initializePrestigeSystem():
+   initializePrestigeSystem();
+
+The prestige system includes:
+- A new menu item in the sidebar
+- A prestige section with current points and upgrades
+- A confirmation modal for prestige resets
+- Four permanent upgrades that persist through resets
+- Automatic saving/loading of prestige data
+
+All the necessary JavaScript functionality is in prestige.js, and the styles are in prestige.css.
+The system will automatically calculate prestige points based on the player's progress and handle all the upgrade mechanics. 

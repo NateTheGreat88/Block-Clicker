@@ -1,0 +1,218 @@
+Block Clicker - Prestige System Changes
+
+1. Create these files in your game directory:
+   - prestige.js
+   - prestige.css
+
+2. Add these lines to the <head> section of index.html:
+   ```html
+   <!-- Prestige System -->
+   <link rel="stylesheet" href="prestige.css">
+   <script src="prestige.js" defer></script>
+   ```
+
+3. Add this menu item to the sidebar menu (after the shop item):
+   ```html
+   <div class="menu-item" data-section="prestige">
+       <i class="fas fa-sync-alt"></i>
+       <span>Prestige</span>
+   </div>
+   ```
+
+4. Add this section to the main content area (before the closing main-content div):
+   ```html
+   <!-- Prestige Section -->
+   <div id="prestige-section" class="game-section hidden">
+       <h2 class="section-title">Prestige System</h2>
+       
+       <div class="prestige-container">
+           <div class="prestige-overview">
+               <div class="prestige-stats">
+                   <div class="stat-panel">
+                       <h3><i class="fas fa-star"></i> Prestige Points</h3>
+                       <div class="stat-value" id="prestige-points">0</div>
+                       <div class="stat-description">Available to spend</div>
+                   </div>
+                   <div class="stat-panel">
+                       <h3><i class="fas fa-trophy"></i> Total Points</h3>
+                       <div class="stat-value" id="total-prestige-points">0</div>
+                       <div class="stat-description">Earned all time</div>
+                   </div>
+                   <div class="stat-panel">
+                       <h3><i class="fas fa-calculator"></i> Next Prestige</h3>
+                       <div class="stat-value" id="next-prestige-points">0</div>
+                       <div class="stat-description">Points you'll receive</div>
+                   </div>
+               </div>
+               
+               <div class="prestige-info">
+                   <p><i class="fas fa-info-circle"></i> Prestige to earn permanent upgrades! You'll receive prestige points based on your current score.</p>
+                   <button id="prestige-now" class="prestige-btn" disabled>
+                       <i class="fas fa-sync-alt"></i> Prestige Now
+                   </button>
+               </div>
+           </div>
+           
+           <div class="prestige-upgrades">
+               <h3>Permanent Upgrades</h3>
+               
+               <div class="upgrade-grid">
+                   <!-- Click Multiplier -->
+                   <div class="upgrade-card">
+                       <div class="upgrade-icon">
+                           <i class="fas fa-hand-pointer"></i>
+                       </div>
+                       <div class="upgrade-info">
+                           <h4>Click Multiplier</h4>
+                           <p>+10% click value per level</p>
+                           <div class="upgrade-progress">
+                               <span id="clickMultiplier-level">Level 0/10</span>
+                               <span id="clickMultiplier-effect">+0%</span>
+                           </div>
+                       </div>
+                       <button id="upgrade-clickMultiplier" class="upgrade-btn">
+                           <i class="fas fa-coins"></i> 1 Point
+                       </button>
+                   </div>
+                   
+                   <!-- Auto-Click Rate -->
+                   <div class="upgrade-card">
+                       <div class="upgrade-icon">
+                           <i class="fas fa-clock"></i>
+                       </div>
+                       <div class="upgrade-info">
+                           <h4>Auto-Click Rate</h4>
+                           <p>+5% auto-click speed per level</p>
+                           <div class="upgrade-progress">
+                               <span id="autoClickRate-level">Level 0/10</span>
+                               <span id="autoClickRate-effect">+0%</span>
+                           </div>
+                       </div>
+                       <button id="upgrade-autoClickRate" class="upgrade-btn">
+                           <i class="fas fa-coins"></i> 1 Point
+                       </button>
+                   </div>
+                   
+                   <!-- Block Discount -->
+                   <div class="upgrade-card">
+                       <div class="upgrade-icon">
+                           <i class="fas fa-percent"></i>
+                       </div>
+                       <div class="upgrade-info">
+                           <h4>Block Discount</h4>
+                           <p>2% cheaper blocks per level (max 80%)</p>
+                           <div class="upgrade-progress">
+                               <span id="blockDiscount-level">Level 0/40</span>
+                               <span id="blockDiscount-effect">+0%</span>
+                           </div>
+                       </div>
+                       <button id="upgrade-blockDiscount" class="upgrade-btn">
+                           <i class="fas fa-coins"></i> 1 Point
+                       </button>
+                   </div>
+                   
+                   <!-- Starting Blocks -->
+                   <div class="upgrade-card">
+                       <div class="upgrade-icon">
+                           <i class="fas fa-cube"></i>
+                       </div>
+                       <div class="upgrade-info">
+                           <h4>Starting Blocks</h4>
+                           <p>Start with 1 additional block after prestige</p>
+                           <div class="upgrade-progress">
+                               <span id="startingBlocks-level">Level 0/10</span>
+                               <span id="startingBlocks-effect">+0</span>
+                           </div>
+                       </div>
+                       <button id="upgrade-startingBlocks" class="upgrade-btn">
+                           <i class="fas fa-coins"></i> 1 Point
+                       </button>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   ```
+
+5. Add this modal HTML before the closing body tag:
+   ```html
+   <!-- Prestige Modal -->
+   <div id="prestige-modal" class="prestige-modal">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h2><i class="fas fa-sync-alt"></i> Prestige Reset</h2>
+               <span class="close-modal">&times;</span>
+           </div>
+           <div class="modal-body">
+               <div class="warning-box">
+                   <i class="fas fa-exclamation-triangle"></i>
+                   <p>Warning: Prestiging will reset your:</p>
+                   <ul>
+                       <li>Score</li>
+                       <li>Blocks</li>
+                       <li>Clicks</li>
+                   </ul>
+                   <p>But you will receive <span id="prestige-points-preview" class="prestige-points">0</span> prestige points!</p>
+               </div>
+               
+               <div class="prestige-stats">
+                   <div class="stat-row">
+                       <span>Current Score:</span>
+                       <span id="current-score-display">0</span>
+                   </div>
+                   <div class="stat-row">
+                       <span>Prestige Points to Gain:</span>
+                       <span id="points-to-gain">0</span>
+                   </div>
+                   <div class="stat-row">
+                       <span>Total Prestige Points:</span>
+                       <span id="total-prestige-points">0</span>
+                   </div>
+               </div>
+
+               <div class="confirmation-box">
+                   <label>
+                       <input type="checkbox" id="prestige-confirm">
+                       I understand that this will reset my progress
+                   </label>
+               </div>
+           </div>
+           <div class="modal-footer">
+               <button id="cancel-prestige" class="modal-btn">Cancel</button>
+               <button id="confirm-prestige" class="modal-btn modal-btn-primary" disabled>Prestige</button>
+           </div>
+       </div>
+   </div>
+   ```
+
+6. Add this initialization code to your main JavaScript (after loading the game):
+   ```javascript
+   // Initialize prestige system
+   prestigeSystem.initialize();
+   ```
+
+The prestige system adds:
+1. A new menu item for accessing the prestige system
+2. A prestige points system based on your score
+3. Four permanent upgrades that persist through resets:
+   - Click Multiplier (+10% click value per level)
+   - Auto-Click Rate (+5% auto-click speed per level)
+   - Block Discount (2% cheaper blocks per level)
+   - Starting Blocks (1 free block on prestige per level)
+4. A confirmation modal to prevent accidental resets
+5. Automatic saving and loading of prestige data
+
+To implement:
+1. Create prestige.js and prestige.css using the code provided in those files
+2. Add the script and style tags to your HTML head section
+3. Add the prestige menu item to your sidebar
+4. Add the prestige section HTML to your main content area
+5. Add the prestige modal HTML before the closing body tag
+6. Add the initialization code to your main JavaScript
+
+The system will automatically:
+- Calculate prestige points based on your score
+- Save and load prestige data
+- Apply permanent upgrades
+- Update the UI
+- Handle prestige resets 

@@ -1,0 +1,76 @@
+<!-- Add this to the sidebar menu -->
+<div class="menu-item" data-section="prestige">
+    <i class="fas fa-sync-alt"></i>
+    <span>Prestige</span>
+</div>
+
+<!-- Add this section after the other main sections -->
+<section id="prestige-section" class="game-section" style="display: none;">
+    <div class="section-header">
+        <h2>Prestige System</h2>
+        <p>Reset your progress for permanent bonuses!</p>
+    </div>
+    
+    <div class="prestige-container">
+        <div class="prestige-overview">
+            <div class="prestige-stats">
+                <h3>Current Prestige Points: <span id="current-prestige-points">0</span></h3>
+                <h3>Total Prestige Points: <span id="total-prestige-points">0</span></h3>
+                <h3>Next Prestige Points: <span id="next-prestige-points">0</span></h3>
+            </div>
+            <button id="prestige-button" class="prestige-button" disabled>Prestige Now!</button>
+        </div>
+        
+        <div class="permanent-upgrades">
+            <h3>Permanent Upgrades</h3>
+            <div class="upgrade-grid">
+                <div class="upgrade-card" id="click-power-upgrade">
+                    <h4>Click Power Boost</h4>
+                    <p>Permanently increase click power by 10%</p>
+                    <p>Current Level: <span class="upgrade-level">0</span></p>
+                    <p>Cost: <span class="upgrade-cost">1</span> PP</p>
+                    <button class="buy-upgrade-btn">Purchase</button>
+                </div>
+                
+                <div class="upgrade-card" id="auto-click-upgrade">
+                    <h4>Auto-Click Boost</h4>
+                    <p>Permanently increase auto-click rate by 10%</p>
+                    <p>Current Level: <span class="upgrade-level">0</span></p>
+                    <p>Cost: <span class="upgrade-cost">2</span> PP</p>
+                    <button class="buy-upgrade-btn">Purchase</button>
+                </div>
+                
+                <div class="upgrade-card" id="block-value-upgrade">
+                    <h4>Block Value Boost</h4>
+                    <p>Permanently increase block value by 15%</p>
+                    <p>Current Level: <span class="upgrade-level">0</span></p>
+                    <p>Cost: <span class="upgrade-cost">3</span> PP</p>
+                    <button class="buy-upgrade-btn">Purchase</button>
+                </div>
+                
+                <div class="upgrade-card" id="starting-resources-upgrade">
+                    <h4>Starting Resources</h4>
+                    <p>Start with more resources after prestige</p>
+                    <p>Current Level: <span class="upgrade-level">0</span></p>
+                    <p>Cost: <span class="upgrade-cost">5</span> PP</p>
+                    <button class="buy-upgrade-btn">Purchase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Add this modal for prestige reset confirmation -->
+<div id="prestige-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Prestige Reset</h2>
+        <p>Warning: This will reset your current progress, but you'll receive:</p>
+        <h3><span id="prestige-points-gain">0</span> Prestige Points</h3>
+        <p>Your current score: <span id="current-score">0</span></p>
+        <p>Are you sure you want to proceed?</p>
+        <div class="modal-buttons">
+            <button id="confirm-prestige" class="confirm-btn">Yes, Prestige!</button>
+            <button id="cancel-prestige" class="cancel-btn">Cancel</button>
+        </div>
+    </div>
+</div> 
