@@ -1,0 +1,122 @@
+# Artifact System Sound Effects Guide
+
+This file provides information about the sound effects needed for the artifacts system.
+
+## Required Sound Effects
+
+To fully experience the artifacts system, add the following sound effects to your game:
+
+1. **discovery.mp3**
+   - Play when: A new artifact is discovered
+   - Type: Mystical, magical, wonder-filled sound
+   - Length: 2-3 seconds
+   - Suggestion: Chime or bell ascending tones with sparkle effects
+
+2. **activate.mp3**
+   - Play when: An artifact is activated
+   - Type: Positive, energizing sound
+   - Length: 1-2 seconds
+   - Suggestion: Power-up or enhancement sound
+
+3. **deactivate.mp3**
+   - Play when: An artifact is deactivated
+   - Type: Subdued, powering down sound
+   - Length: 1 second
+   - Suggestion: Brief descending tone
+
+4. **critical.mp3**
+   - Play when: A critical hit occurs due to Fractal Prism artifact
+   - Type: Impactful, strong hit sound
+   - Length: <1 second
+   - Suggestion: Sharp hit with emphasis
+
+5. **double.mp3**
+   - Play when: A double reward occurs due to Celestial Keystone artifact
+   - Type: Celebratory, rewarding sound
+   - Length: 1-2 seconds
+   - Suggestion: Coin sound with extra sparkle
+
+## How to Implement
+
+In your index.html file, make sure you have a function to play sounds, such as:
+
+```javascript
+// Sound system
+let sounds = {};
+let isSoundMuted = false;
+
+// Initialize sounds
+function initSoundEffects() {
+    // Load the sounds
+    sounds = {
+        click: new Audio('sounds/click.mp3'),
+        purchase: new Audio('sounds/purchase.mp3'),
+        prestige: new Audio('sounds/prestige.mp3'),
+        error: new Audio('sounds/error.mp3'),
+        // Artifact sounds
+        discovery: new Audio('sounds/discovery.mp3'),
+        activate: new Audio('sounds/activate.mp3'),
+        deactivate: new Audio('sounds/deactivate.mp3'),
+        critical: new Audio('sounds/critical.mp3'),
+        double: new Audio('sounds/double.mp3')
+    };
+    
+    // Load sound state from localStorage
+    if (localStorage.getItem('blockclicker_sound') === 'muted') {
+        isSoundMuted = true;
+        updateSoundIcon();
+    }
+}
+
+// Play a sound
+function playSound(soundName) {
+    if (isSoundMuted || !sounds[soundName]) return;
+    
+    // Clone the audio to allow overlapping sounds
+    const sound = sounds[soundName].cloneNode();
+    sound.volume = 0.7;
+    sound.play();
+}
+
+// Toggle sound mute state
+function toggleSound() {
+    isSoundMuted = !isSoundMuted;
+    localStorage.setItem('blockclicker_sound', isSoundMuted ? 'muted' : 'enabled');
+    updateSoundIcon();
+    
+    // Play a test sound when unmuting
+    if (!isSoundMuted) {
+        playSound('click');
+    }
+}
+
+// Update sound icon
+function updateSoundIcon() {
+    const soundBtn = document.getElementById('sound-toggle');
+    if (!soundBtn) return;
+    
+    if (isSoundMuted) {
+        soundBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        soundBtn.classList.add('muted');
+    } else {
+        soundBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        soundBtn.classList.remove('muted');
+    }
+}
+
+// Add a sound toggle button to your UI
+// Example HTML:
+// <button id="sound-toggle" class="sound-toggle"><i class="fas fa-volume-up"></i></button>
+```
+
+Make sure to create a 'sounds' directory and add the sound files there.
+
+## Free Sound Resources
+
+You can find free sound effects at these websites:
+- FreeSound.org
+- ZapSplat.com
+- Pixabay.com/sound-effects/
+- SoundBible.com
+
+When downloading sounds, ensure they are available for commercial use or under a Creative Commons license. 

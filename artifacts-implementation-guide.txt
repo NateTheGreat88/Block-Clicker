@@ -1,0 +1,205 @@
+# Artifacts System Implementation Guide for Blockclicker
+
+## Step 1: Link the CSS and JS Files
+
+Add the following lines to your `index.html` file in the `<head>` section, before the closing `</head>` tag:
+
+```html
+<!-- Artifacts System -->
+<link rel="stylesheet" href="artifacts.css">
+```
+
+Add the following line to your `index.html` file just before the closing `</body>` tag:
+
+```html
+<!-- Artifacts System -->
+<script src="artifacts.js"></script>
+```
+
+## Step 2: Add the Artifacts Menu Item
+
+Find the sidebar menu in your `index.html` file. It should look something like this:
+
+```html
+<div class="sidebar-menu">
+    <div class="menu-item active" data-section="game">
+        <i class="fas fa-gamepad"></i>
+        <span>Game</span>
+    </div>
+    <!-- Other menu items -->
+    <div class="menu-item" data-section="prestige">
+        <i class="fas fa-star"></i>
+        <span>Prestige</span>
+    </div>
+    <!-- More menu items -->
+</div>
+```
+
+Add the artifacts menu item right after the prestige menu item:
+
+```html
+<div class="menu-item" data-section="artifacts">
+    <i class="fas fa-gem"></i>
+    <span>Artifacts</span>
+</div>
+```
+
+## Step 3: Add the Artifacts Section
+
+In the main content area of your `index.html` file, add the artifacts section. Find the existing sections like this:
+
+```html
+<div class="main-content">
+    <div id="game-section" class="game-section">
+        <!-- Game content -->
+    </div>
+    <div id="shop-section" class="game-section hidden">
+        <!-- Shop content -->
+    </div>
+    <!-- Other sections -->
+    <div id="prestige-section" class="game-section hidden">
+        <!-- Prestige content -->
+    </div>
+</div>
+```
+
+Add the artifacts section before the prestige section:
+
+```html
+<div id="artifacts-section" class="game-section hidden">
+    <h2 class="section-title">Artifacts Collection</h2>
+    
+    <div class="artifacts-container">
+        <!-- Artifacts Overview -->
+        <div class="artifacts-panel">
+            <h3>
+                <i class="fas fa-gem"></i>
+                Artifacts Overview
+            </h3>
+            <p>
+                Discover and collect powerful artifacts that provide unique bonuses to your clicking and building adventures.
+                Each artifact has special powers that can dramatically change your gameplay strategy.
+            </p>
+            
+            <div class="artifacts-stats">
+                <div class="artifact-stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-scroll"></i>
+                    </div>
+                    <div class="stat-value" id="artifacts-discovered">0/12</div>
+                    <div class="stat-label">Artifacts Discovered</div>
+                </div>
+                <div class="artifact-stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <div class="stat-value" id="artifacts-power">0%</div>
+                    <div class="stat-label">Total Power Bonus</div>
+                </div>
+                <div class="artifact-stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="stat-value" id="artifacts-rarity-bonus">0%</div>
+                    <div class="stat-label">Rarity Bonus</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Artifacts Collection Grid -->
+        <div class="artifacts-collection">
+            <!-- Artifact cards will be dynamically generated here -->
+        </div>
+        
+        <!-- Active Artifacts Panel -->
+        <div class="artifacts-active-panel">
+            <h3>
+                <i class="fas fa-fire"></i>
+                Active Artifacts
+            </h3>
+            <p>
+                You can have up to 3 artifacts active at once. Choose your combination wisely!
+            </p>
+            
+            <div class="active-artifacts-slots">
+                <!-- Active artifact slots will be dynamically generated -->
+            </div>
+        </div>
+        
+        <!-- Artifact Fusion (Coming Soon) -->
+        <div class="artifact-fusion-panel">
+            <div class="coming-soon-badge">Coming Soon</div>
+            <h3>
+                <i class="fas fa-magic"></i>
+                Artifact Fusion
+            </h3>
+            <p>
+                In a future update, you'll be able to combine artifacts to create even more powerful ones with unique properties!
+            </p>
+            <div class="fusion-icon">
+                <i class="fas fa-flask"></i>
+            </div>
+        </div>
+    </div>
+</div>
+```
+
+## Step 4: Update the initApplication Function
+
+Find the `initApplication` function in your JavaScript code. It should look something like this:
+
+```javascript
+function initApplication() {
+    // Set up event listeners
+    setupEventListeners();
+    
+    // Load saved game
+    loadGame();
+    
+    // Initialize prestige system
+    initializePrestigeSystem();
+}
+```
+
+Update it to include the initialization of the artifacts system:
+
+```javascript
+function initApplication() {
+    // Set up event listeners
+    setupEventListeners();
+    
+    // Load saved game
+    loadGame();
+    
+    // Initialize prestige system
+    initializePrestigeSystem();
+    
+    // Initialize artifacts system
+    initializeArtifactsSystem();
+}
+```
+
+## Step 5: Add Sound Effects (Optional)
+
+For the full experience, add the following sound effects to your sounds collection:
+
+1. `discovery.mp3` - A mystical discovery sound for when artifacts are found
+2. `activate.mp3` - A positive activation sound when enabling artifacts
+3. `deactivate.mp3` - A deactivation sound when disabling artifacts
+4. `critical.mp3` - An impactful sound for critical hits
+5. `double.mp3` - A celebratory sound for double rewards
+
+## That's it!
+
+With these changes in place, your Blockclicker game now has a fully functional Artifacts system! Players will be able to discover artifacts by reaching certain milestones, activate up to three artifacts at once for powerful bonuses, and see a brand new section in the game interface.
+
+## What Players Will Experience:
+
+1. A new "Artifacts" menu item in the sidebar
+2. An interface to view all discovered and locked artifacts
+3. Information about each artifact's effects
+4. The ability to activate and deactivate artifacts
+5. Special visual effects for critical hits and double rewards
+6. Notifications when new artifacts are discovered
+
+The artifacts system adds a new layer of strategy to the game, as players will need to decide which combination of artifacts best suits their playing style! 
