@@ -63,6 +63,79 @@ const ChainReactionSystem = {
                 bonus: 2.1,
                 description: 'Crystal Life!'
             }
+        },
+        'rainbow-block': {
+            'red-block': {
+                effect: 'prism',
+                bonus: 2.3,
+                description: 'Prismatic Fire!'
+            },
+            'blue-block': {
+                effect: 'rainbow-wave',
+                bonus: 2.4,
+                description: 'Rainbow Tide!'
+            },
+            'gold-block': {
+                effect: 'rainbow-fortune',
+                bonus: 2.8,
+                description: 'Rainbow Fortune!'
+            },
+            'crystal-block': {
+                effect: 'crystal-prism',
+                bonus: 3.0,
+                description: 'Crystal Rainbow!'
+            }
+        },
+        'obsidian-block': {
+            'red-block': {
+                effect: 'magma',
+                bonus: 2.5,
+                description: 'Magma Flow!'
+            },
+            'black-block': {
+                effect: 'void',
+                bonus: 2.7,
+                description: 'Void Fusion!'
+            },
+            'crystal-block': {
+                effect: 'obsidian-crystal',
+                bonus: 3.2,
+                description: 'Crystal Void!'
+            }
+        },
+        'reactor-block': {
+            'red-block': {
+                effect: 'meltdown',
+                bonus: 2.6,
+                description: 'Core Meltdown!'
+            },
+            'blue-block': {
+                effect: 'coolant',
+                bonus: 2.4,
+                description: 'Reactor Cooling!'
+            },
+            'crystal-block': {
+                effect: 'crystal-reactor',
+                bonus: 3.5,
+                description: 'Crystal Reactor!'
+            }
+        },
+        'quantum-block': {
+            'crystal-block': {
+                effect: 'quantum-crystal',
+                bonus: 4.0,
+                description: 'Quantum Crystal!'
+            },
+            'reactor-block': {
+                effect: 'quantum-reactor',
+                bonus: 3.8,
+                description: 'Quantum Reactor!'
+            },
+            'rainbow-block': {
+                effect: 'quantum-rainbow',
+                bonus: 3.6,
+                description: 'Quantum Rainbow!'
+            }
         }
     },
 
@@ -106,6 +179,44 @@ const ChainReactionSystem = {
                 100% { transform: scale(1.5); opacity: 0; }
             }
 
+            @keyframes prism {
+                0% { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); filter: hue-rotate(0deg); }
+                50% { clip-path: circle(50%); filter: hue-rotate(180deg); }
+                100% { clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); filter: hue-rotate(360deg); }
+            }
+
+            @keyframes rainbow-wave {
+                0% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
+                50% { transform: scale(1.5) rotate(180deg); filter: hue-rotate(180deg); }
+                100% { transform: scale(1) rotate(360deg); filter: hue-rotate(360deg); }
+            }
+
+            @keyframes magma {
+                0% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); background-position: 0% 0%; }
+                50% { clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%); background-position: 100% 100%; }
+                100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); background-position: 0% 0%; }
+            }
+
+            @keyframes void {
+                0% { transform: scale(1); filter: brightness(1); }
+                50% { transform: scale(1.5); filter: brightness(0); }
+                100% { transform: scale(2); filter: brightness(1); }
+            }
+
+            @keyframes meltdown {
+                0% { transform: scale(1); filter: brightness(1) blur(0px); }
+                50% { transform: scale(1.3); filter: brightness(2) blur(4px); }
+                100% { transform: scale(1.5); filter: brightness(1) blur(0px); }
+            }
+
+            @keyframes quantum-crystal {
+                0% { transform: scale(1) rotate(0deg); opacity: 1; filter: blur(0px); }
+                25% { transform: scale(1.5) rotate(90deg); opacity: 0.5; filter: blur(2px); }
+                50% { transform: scale(0.8) rotate(180deg); opacity: 1; filter: blur(0px); }
+                75% { transform: scale(1.2) rotate(270deg); opacity: 0.7; filter: blur(1px); }
+                100% { transform: scale(1) rotate(360deg); opacity: 1; filter: blur(0px); }
+            }
+
             .chain-reaction {
                 position: absolute;
                 pointer-events: none;
@@ -140,6 +251,30 @@ const ChainReactionSystem = {
             @keyframes float-up {
                 0% { transform: translateY(0); opacity: 1; }
                 100% { transform: translateY(-30px); opacity: 0; }
+            }
+
+            .quantum-effect {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 10;
+                mix-blend-mode: screen;
+            }
+
+            .quantum-echo {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background: inherit;
+                filter: blur(2px);
+                opacity: 0.5;
+                animation: quantum-echo 1s infinite alternate;
+            }
+
+            @keyframes quantum-echo {
+                0% { transform: translate(-2px, -2px); }
+                100% { transform: translate(2px, 2px); }
             }
         `;
         document.head.appendChild(styles);
@@ -218,6 +353,36 @@ const ChainReactionSystem = {
             case 'growth':
                 effect.style.background = 'radial-gradient(circle, #32cd32, #000000)';
                 break;
+            case 'prism':
+                effect.style.background = 'linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet)';
+                break;
+            case 'rainbow-wave':
+                effect.style.background = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
+                effect.style.backgroundSize = '200% 100%';
+                effect.style.animation = 'rainbow-wave 2s linear infinite';
+                break;
+            case 'magma':
+                effect.style.background = 'linear-gradient(45deg, #ff3300, #ff0000, #cc0000)';
+                effect.style.backgroundSize = '200% 200%';
+                break;
+            case 'void':
+                effect.style.background = 'radial-gradient(circle, #000000, #1a001a)';
+                effect.style.boxShadow = 'inset 0 0 20px #ff00ff';
+                break;
+            case 'meltdown':
+                effect.style.background = 'radial-gradient(circle, #ff0000, #ff3300)';
+                effect.style.boxShadow = '0 0 20px #ff0000';
+                break;
+            case 'quantum-crystal':
+                effect.style.background = 'linear-gradient(135deg, #88ffff, #0000ff)';
+                // Add quantum echoes
+                for (let i = 0; i < 3; i++) {
+                    const echo = document.createElement('div');
+                    echo.className = 'quantum-echo';
+                    echo.style.animationDelay = `${i * 0.2}s`;
+                    effect.appendChild(echo);
+                }
+                break;
         }
 
         // Create text element
@@ -241,6 +406,35 @@ const ChainReactionSystem = {
 
         // Play reaction sound
         playSound('bonus');
+
+        // Special effects for quantum reactions
+        if (reaction.effect.startsWith('quantum')) {
+            this.createQuantumEffect(cell1);
+            this.createQuantumEffect(cell2);
+        }
+    },
+
+    // New method for quantum effects
+    createQuantumEffect(cell) {
+        const quantumEffect = document.createElement('div');
+        quantumEffect.className = 'quantum-effect';
+        
+        // Create multiple quantum particles
+        for (let i = 0; i < 5; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'quantum-particle';
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particle.style.animationDelay = `${Math.random() * 0.5}s`;
+            quantumEffect.appendChild(particle);
+        }
+        
+        cell.appendChild(quantumEffect);
+        
+        // Remove after animation
+        setTimeout(() => {
+            quantumEffect.remove();
+        }, 2000);
     }
 };
 
