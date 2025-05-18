@@ -23,6 +23,7 @@
     <script src="prestige.js" defer></script>
     <script src="artifacts.js" defer></script>
     <script src="combo.js" defer></script>
+    <script src="chain-reactions.js" defer></script>
     <style>
         /* Add these styles to the head of the document or to styles.css */
         .build-slots {
@@ -3896,6 +3897,14 @@
                     saveAchievements();
                 }
                 
+                // Update cell appearance
+                cell.style.backgroundColor = blockInventory[blockType].color;
+                cell.classList.add('has-block');
+                cell.setAttribute('data-block-type', blockType);
+                
+                // Check for chain reactions and apply bonus
+                const reactionBonus = ChainReactionSystem.checkReactions(cell, blockType);
+                
                 // Find the original price of the block and reward the player with score based on building
                 if (!isRegenerating) {
                     try {
@@ -3905,9 +3914,14 @@
                             // Get the base price and calculate reward
                             const basePrice = parseInt(shopItem.getAttribute('data-price'));
                             const initialPrice = Math.floor(basePrice / 1.5); // Estimate original price before markup
-                            const buildReward = Math.ceil(initialPrice * 0.3); // 30% of block's value
+                            let buildReward = Math.ceil(initialPrice * 0.3); // 30% of block's value
                             
-                            // Add build reward to score - using the increment function ensures all UI is updated
+                            // Apply chain reaction bonus if any
+                            if (reactionBonus > 0) {
+                                buildReward = Math.ceil(buildReward * reactionBonus);
+                            }
+                            
+                            // Add build reward to score
                             incrementScore(buildReward);
                             
                             // Show building reward effect with hammer icon
@@ -3925,99 +3939,10 @@
                             setTimeout(() => {
                                 buildRewardEffect.remove();
                             }, 1500);
-                            
-                            // Show tutorial tip about building rewards if it's the first time
-                            if (!hasShownBuildingTip) {
-                                hasShownBuildingTip = true;
-                                const tip = document.createElement('div');
-                                tip.className = 'tutorial-tip';
-                                tip.innerHTML = `
-                                    <i class="fas fa-lightbulb"></i>
-                                    <div class="tip-content">
-                                        <h4>Building Rewards!</h4>
-                                        <p>You now earn score for placing blocks! More expensive blocks give higher rewards.</p>
-                                        <button class="close-tip">Got it!</button>
-                                    </div>
-                                `;
-                                document.body.appendChild(tip);
-                                
-                                // Add event listener to close button
-                                tip.querySelector('.close-tip').addEventListener('click', function() {
-                                    tip.classList.add('tip-fadeout');
-                                    setTimeout(() => {
-                                        tip.remove();
-                                    }, 500);
-                                });
-                                
-                                // Auto close after 8 seconds
-                                setTimeout(() => {
-                                    if (document.body.contains(tip)) {
-                                        tip.classList.add('tip-fadeout');
-                                        setTimeout(() => {
-                                            if (document.body.contains(tip)) {
-                                                tip.remove();
-                                            }
-                                        }, 500);
-                                    }
-                                }, 8000);
-                            }
                         }
                     } catch (error) {
                         console.error("Error applying building reward:", error);
                     }
-                }
-                
-                // Update cell appearance
-                cell.style.backgroundColor = blockInventory[blockType].color;
-                cell.classList.add('has-block');
-                cell.setAttribute('data-block-type', blockType);
-                
-                // Add special visual effects based on block type
-                if (blockType === 'red-block') {
-                    cell.classList.add('energy-emitter');
-                } else if (blockType === 'blue-block') {
-                    cell.classList.add('score-generator');
-                } else if (blockType === 'gold-block') {
-                    cell.classList.add('coin-spawner');
-                } else if (blockType === 'purple-block') {
-                    cell.classList.add('multiplier');
-                    // Add glow to adjacent blocks
-                    highlightAdjacentBlocks(row, col);
-                } else if (blockType === 'green-block') {
-                    cell.classList.add('regenerative');
-                } else if (blockType === 'black-block') {
-                    cell.classList.add('reinforced');
-                } else if (blockType === 'rainbow-block') {
-                    cell.classList.add('rainbow-effect');
-                    cell.style.animation = 'rainbow-pulse 6s infinite';
-                } else if (blockType === 'crystal-block') {
-                    cell.classList.add('crystal-amplifier');
-                    cell.style.boxShadow = '0 0 15px #88ffff';
-                    // Add enhanced glow to blocks in radius
-                    highlightBlocksInRadius(row, col, blockProperties[blockType].radius);
-                } else if (blockType === 'obsidian-block') {
-                    cell.classList.add('unbreakable');
-                    cell.style.boxShadow = '0 0 10px #ff00ff';
-                } else if (blockType === 'reactor-block') {
-                    cell.classList.add('reactor');
-                    cell.style.animation = 'reactor-pulse 3s infinite';
-                    // Find other reactors to establish chain reactions
-                    findReactorChain(row, col);
-                } else if (blockType === 'quantum-block') {
-                    cell.classList.add('quantum-field');
-                    cell.style.animation = 'quantum-flicker 2s infinite';
-                    // Add effect to all blocks in radius
-                    applyQuantumEffect(row, col, blockProperties[blockType].radius);
-                }
-                
-                // If it's a block with an effect, add it to active effects
-                if (blockProperties[blockType].effect) {
-                    activeEffects.push({
-                        type: blockType,
-                        row: row,
-                        col: col,
-                        lastActivated: 0
-                    });
                 }
                 
                 // Update inventory display
