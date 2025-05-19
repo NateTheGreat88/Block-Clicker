@@ -150,7 +150,7 @@ const PrestigeSystem = {
                             Prestige Now
                             <span class="points-preview">+0 Points</span>
                         </button>
-                        <p class="prestige-requirement">Reach 10,000 score to prestige</p>
+                        <p class="prestige-requirement">Reach 1,000,000 score to prestige</p>
                     </div>
                 </div>
                 <div class="prestige-upgrades" id="prestige-upgrades">
@@ -497,8 +497,8 @@ const PrestigeSystem = {
 
     // Calculate prestige points based on current score
     calculatePrestigePoints(score) {
-        // Base formula: sqrt(score / 10000)
-        return Math.floor(Math.sqrt(score / 10000));
+        // Base formula: sqrt(score / 1000000)
+        return Math.floor(Math.sqrt(score / 1000000));
     },
 
     // Calculate upgrade cost
@@ -707,14 +707,14 @@ const PrestigeSystem = {
         const pointsPreview = this.calculatePrestigePoints(window.score);
         prestigeButton.querySelector('.points-preview').textContent = `+${pointsPreview} Points`;
         
-        if (window.score >= 10000) {
+        if (window.score >= 1000000) {
             prestigeButton.disabled = false;
             document.querySelector('.prestige-requirement').style.display = 'none';
         } else {
             prestigeButton.disabled = true;
             document.querySelector('.prestige-requirement').style.display = 'block';
             document.querySelector('.prestige-requirement').textContent = 
-                `Reach ${(10000 - window.score).toLocaleString()} more score to prestige`;
+                `Reach ${(1000000 - window.score).toLocaleString()} more score to prestige`;
         }
 
         // Update upgrade buttons
