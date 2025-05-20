@@ -500,7 +500,9 @@ const PrestigeSystem = {
         // Ensure score is a valid number
         const numericScore = parseInt(score) || 0;
         // Base formula: sqrt(score / 1000000)
-        return Math.floor(Math.sqrt(Math.max(0, numericScore) / 1000000));
+        const points = Math.floor(Math.sqrt(Math.max(0, numericScore) / 1000000));
+        console.log('Calculating prestige points:', { numericScore, points }); // Debug log
+        return points;
     },
 
     // Calculate upgrade cost
@@ -555,7 +557,9 @@ const PrestigeSystem = {
 
     // Show prestige confirmation dialog
     showPrestigeConfirmation() {
-        const points = this.calculatePrestigePoints(window.score);
+        // Get current score from the score element
+        const currentScore = parseInt(document.getElementById('score').textContent) || 0;
+        const points = this.calculatePrestigePoints(currentScore);
         const dialog = document.createElement('div');
         dialog.className = 'prestige-confirmation';
         dialog.innerHTML = `
@@ -678,30 +682,44 @@ const PrestigeSystem = {
     // Reset game progress
     resetGameProgress() {
         // Reset score
-        window.score = 0;
         document.getElementById('score').textContent = '0';
-
-        // Reset other game variables
-        window.clickMultiplier = 1;
-        window.autoClickValue = 0;
-        window.bonusClickChance = 0;
-
-        // Clear inventory
-        for (const blockType in window.blockInventory) {
-            window.blockInventory[blockType].count = 0;
+        if (typeof window.score !== 'undefined') {
+            window.score = 0;
         }
 
-        // Refresh inventory display
-        window.refreshInventory();
+        // Reset other game variables
+        if (typeof window.clickMultiplier !== 'undefined') {
+            window.clickMultiplier = 1;
+        }
+        if (typeof window.autoClickValue !== 'undefined') {
+            window.autoClickValue = 0;
+        }
+        if (typeof window.bonusClickChance !== 'undefined') {
+            window.bonusClickChance = 0;
+        }
+
+        // Clear inventory
+        if (typeof window.blockInventory !== 'undefined') {
+            for (const blockType in window.blockInventory) {
+                window.blockInventory[blockType].count = 0;
+            }
+            // Refresh inventory display
+            if (typeof window.refreshInventory === 'function') {
+                window.refreshInventory();
+            }
+        }
 
         // Clear build area
-        window.clearBuild();
+        if (typeof window.clearBuild === 'function') {
+            window.clearBuild();
+        }
     },
 
     // Update prestige display
     updatePrestigeDisplay() {
         // Get current score from the score element
         const currentScore = parseInt(document.getElementById('score').textContent) || 0;
+        console.log('Current score:', currentScore); // Debug log
 
         // Update points display
         document.getElementById('prestige-points').textContent = this.prestigePoints;
@@ -720,8 +738,9 @@ const PrestigeSystem = {
         } else {
             prestigeButton.disabled = true;
             document.querySelector('.prestige-requirement').style.display = 'block';
+            const remaining = Math.max(0, 1000000 - currentScore);
             document.querySelector('.prestige-requirement').textContent = 
-                `Reach ${(1000000 - currentScore).toLocaleString()} more score to prestige`;
+                `Reach ${remaining.toLocaleString()} more score to prestige`;
         }
 
         // Update upgrade buttons
