@@ -497,8 +497,10 @@ const PrestigeSystem = {
 
     // Calculate prestige points based on current score
     calculatePrestigePoints(score) {
+        // Ensure score is a valid number
+        const numericScore = parseInt(score) || 0;
         // Base formula: sqrt(score / 1000000)
-        return Math.floor(Math.sqrt(score / 1000000));
+        return Math.floor(Math.sqrt(Math.max(0, numericScore) / 1000000));
     },
 
     // Calculate upgrade cost
@@ -579,12 +581,15 @@ const PrestigeSystem = {
 
     // Perform prestige
     performPrestige() {
+        // Get current score from the score element
+        const currentScore = parseInt(document.getElementById('score').textContent) || 0;
+        
         // Calculate prestige points
-        const points = this.calculatePrestigePoints(window.score);
+        const points = this.calculatePrestigePoints(currentScore);
         this.prestigePoints += points;
         this.totalPrestigePoints += points;
         this.prestigeLevel++;
-        this.lastPrestigeScore = window.score;
+        this.lastPrestigeScore = currentScore;
 
         // Save prestige data
         this.savePrestigeData();
@@ -595,7 +600,6 @@ const PrestigeSystem = {
         // Apply starting bonus if available
         const startingBonus = this.upgrades['starting-bonus'].effect(this.upgrades['starting-bonus'].level);
         if (startingBonus > 0) {
-            window.score = startingBonus;
             document.getElementById('score').textContent = startingBonus;
         }
 
@@ -696,6 +700,9 @@ const PrestigeSystem = {
 
     // Update prestige display
     updatePrestigeDisplay() {
+        // Get current score from the score element
+        const currentScore = parseInt(document.getElementById('score').textContent) || 0;
+
         // Update points display
         document.getElementById('prestige-points').textContent = this.prestigePoints;
         document.getElementById('prestige-level').textContent = this.prestigeLevel;
@@ -704,17 +711,17 @@ const PrestigeSystem = {
 
         // Update prestige button
         const prestigeButton = document.getElementById('prestige-button');
-        const pointsPreview = this.calculatePrestigePoints(window.score);
+        const pointsPreview = this.calculatePrestigePoints(currentScore);
         prestigeButton.querySelector('.points-preview').textContent = `+${pointsPreview} Points`;
         
-        if (window.score >= 1000000) {
+        if (currentScore >= 1000000) {
             prestigeButton.disabled = false;
             document.querySelector('.prestige-requirement').style.display = 'none';
         } else {
             prestigeButton.disabled = true;
             document.querySelector('.prestige-requirement').style.display = 'block';
             document.querySelector('.prestige-requirement').textContent = 
-                `Reach ${(1000000 - window.score).toLocaleString()} more score to prestige`;
+                `Reach ${(1000000 - currentScore).toLocaleString()} more score to prestige`;
         }
 
         // Update upgrade buttons
