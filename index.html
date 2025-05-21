@@ -7467,7 +7467,42 @@
 
             // Initialize artifacts system
             initializeArtifactsSystem();
+
+            // Secret Night Mode Easter Egg (fix: attach to .game-title span)
+            const gameTitleSpan = document.querySelector('.game-title span');
+            let nightModeClicks = 0;
+            let nightModeActivated = false;
+            gameTitleSpan.addEventListener('click', function() {
+                if (nightModeActivated) return;
+                nightModeClicks++;
+                if (nightModeClicks === 7) {
+                    document.body.classList.add('night-mode');
+                    nightModeActivated = true;
+                    showNightModeToast();
+                }
+            });
+
+            function showNightModeToast() {
+                const toast = document.createElement('div');
+                toast.textContent = '🌙 Night Mode Activated! Enjoy the glow!';
+                toast.style.position = 'fixed';
+                toast.style.bottom = '30px';
+                toast.style.left = '50%';
+                toast.style.transform = 'translateX(-50%)';
+                toast.style.background = 'rgba(10,10,30,0.95)';
+                toast.style.color = '#00fff7';
+                toast.style.padding = '16px 32px';
+                toast.style.borderRadius = '12px';
+                toast.style.fontSize = '1.2rem';
+                toast.style.boxShadow = '0 0 24px #00fff7, 0 0 48px #ff00ea';
+                toast.style.zIndex = '9999';
+                toast.style.textAlign = 'center';
+                toast.style.letterSpacing = '1px';
+                document.body.appendChild(toast);
+                setTimeout(() => { toast.remove(); }, 3500);
+            }
         });
     </script>
+    <canvas id="confetti-canvas" style="position:fixed;pointer-events:none;top:0;left:0;width:100vw;height:100vh;z-index:99999;display:none;"></canvas>
 </body>
 </html> 
