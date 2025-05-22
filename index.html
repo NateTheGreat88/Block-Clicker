@@ -7504,5 +7504,15 @@
         });
     </script>
     <canvas id="confetti-canvas" style="position:fixed;pointer-events:none;top:0;left:0;width:100vw;height:100vh;z-index:99999;display:none;"></canvas>
+    <button id="test-confetti-btn" style="position:fixed;top:20px;right:20px;z-index:100000;background:#222;color:#fff;padding:10px 18px;border-radius:8px;border:none;box-shadow:0 2px 8px #000;cursor:pointer;">Test Confetti</button>
+    <script>
+    document.getElementById('test-confetti-btn').onclick = function() {
+      if (typeof launchConfetti === 'function') {
+        launchConfetti();
+      } else {
+        alert('Confetti function not found!');
+      }
+    };
+    </script>
 </body>
 </html> 
